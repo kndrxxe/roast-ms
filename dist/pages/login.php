@@ -67,7 +67,7 @@ if (isset($_SESSION['username'])) {
         <form action="/roast-ms/dist/api/login" method="post">
           <div class="input-group mb-2">
             <div class="form-floating">
-              <input id="username" type="text" name="username" onkeypress="return noSpace(event)" class="form-control" value="" placeholder="" required />
+              <input id="username" type="text" name="username" value="<?php echo isset($_SESSION['entered_username']) ? htmlspecialchars($_SESSION['entered_username']) : ''; ?>" onkeypress="return noSpace(event)" class="form-control" value="" placeholder="" required />
               <label for="username">Username</label>
             </div>
             <div class="input-group-text"><span class="bi bi-envelope"></span></div>
@@ -168,12 +168,12 @@ if (isset($_SESSION['username'])) {
       }
 
       if (isset($_SESSION['invalidpassword'])) {
-        echo "toastr.error('" . $_SESSION['invalidpassword'] . "', 'Login Failed');";
+        echo "toastr.error('" . $_SESSION['invalidpassword'] . "', 'Incorrect Password');";
         unset($_SESSION['invalidpassword']);
       }
 
       if (isset($_SESSION['usernotfound'])) {
-        echo "toastr.error('" . $_SESSION['usernotfound'] . "', 'Login Failed');";
+        echo "toastr.error('" . $_SESSION['usernotfound'] . "', 'Login Error');";
         unset($_SESSION['usernotfound']);
       }
       ?>

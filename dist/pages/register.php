@@ -29,6 +29,9 @@ session_start();
   <!--end::Required Plugin(AdminLTE)-->
   <!-- JQuery JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <!-- Toastr CSS & JS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -44,7 +47,8 @@ session_start();
         <form action="/roast-ms/dist/api/create_user" method="post">
           <div class="input-group mb-2">
             <div class="form-floating">
-              <input id="name" type="text" name="name" onkeypress="return noNumber(event)" class="form-control" placeholder="" required />
+              <input id="name" type="text" name="name" value="<?php echo isset($_SESSION['entered_name']) ? htmlspecialchars($_SESSION['entered_name']) : ''; ?>" onkeypress="return noNumber(event)" class="form-control"
+                placeholder="" required />
               <label for="name">Full Name</label>
             </div>
             <div class="input-group-text"><span class="bi bi-person"></span></div>
@@ -52,6 +56,7 @@ session_start();
           <div class="input-group mb-2">
             <div class="form-floating">
               <select class="form-select" id="role" name="role">
+              <option value="">Select from options</option>
               </select>
               <label for="role">Role</label>
             </div>
@@ -59,7 +64,7 @@ session_start();
           </div>
           <div class="input-group mb-2">
             <div class="form-floating">
-              <input id="username" name="username" type="text" onkeypress="return noSpace(event)" class="form-control"
+              <input id="username" name="username" value="<?php echo isset($_SESSION['entered_username']) ? htmlspecialchars($_SESSION['entered_username']) : ''; ?>" type="text" onkeypress="return noSpace(event)" class="form-control"
                 placeholder="" required />
               <label for="username">Username</label>
             </div>
@@ -67,14 +72,15 @@ session_start();
           </div>
           <div class="input-group mb-2">
             <div class="form-floating">
-              <input id="password" name="password" type="password" onkeypress="return noSpace(event)" class="form-control" placeholder="" required />
+              <input id="password" name="password" type="password" onkeypress="return noSpace(event)"
+                class="form-control" placeholder="" required />
               <label for="password">Password</label>
             </div>
             <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
           </div>
           <!--begin::Row-->
           <div class="form-check my-2">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="showPassword()"/>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="showPassword()" />
             <label class="form-check-label" for="flexCheckDefault">Show Password</label>
           </div>
           <!-- /.col -->
@@ -127,6 +133,35 @@ session_start();
           },
         });
       }
+    });
+  </script>
+    <script>
+    $(document).ready(function () {
+      toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: true,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "5000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+      };
+
+      <?php
+
+      if (isset($_SESSION['userexists'])) {
+        echo "toastr.error('" . $_SESSION['userexists'] . "', 'Registration Failed');";
+        unset($_SESSION['userexists']);
+      }
+      ?>
     });
   </script>
   <script src="/roast-ms/dist/js/script.js"></script>
