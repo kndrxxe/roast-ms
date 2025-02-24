@@ -1,3 +1,8 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/roast-ms/dist/api/auth.php';
+checkRole(['Accountant']); // Only Accountant can access
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <!--begin::Head-->
@@ -99,7 +104,7 @@
                   class="user-image rounded-circle shadow"
                   alt="User"
                 />
-                <span class="d-none d-md-inline">UName</span>
+                <span class="d-none d-md-inline"><?php echo getUsername(); ?></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
@@ -110,8 +115,8 @@
                     alt="User"
                   />
                   <p>
-                    User
-                    <small>Employee / HR</small>
+                    <?php echo getFullname(); ?>
+                    <small><?php echo getRole(); ?></small>
                   </p>
                 </li>
                 <!--end::User Image-->
@@ -129,7 +134,7 @@
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                  <a href="/roast-ms/dist/api/logout" class="btn btn-default btn-flat float-end">Log out</a>
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -168,7 +173,7 @@
               <img width="50" src="/roast-ms/dist/assets/img/default-150x150.png" class="rounded-circle shadow ms-1 me-2" alt="User Image">
             </div>
             <div class="info">
-              <a class="d-block nav-link text-light brand-text text-decoration-none overflow-hidden text-nowrap lh-1 fs-5 fw-bold">WELCOME<br><span class="fw-light fs-7">JUAN A. DELA CRUZ</span></a>
+              <a class="d-block nav-link text-light brand-text text-decoration-none overflow-hidden text-nowrap lh-1 fs-5 fw-bold">WELCOME<br><span class="fw-light fs-7"><?php echo getFullname(); ?></span></a>
             </div>
           </div>
           <hr class="text-secondary my-2">

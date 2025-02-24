@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/roast-ms/dist/api/auth.php';
-checkRole(['Administrator']); // Only Administrator can access
+checkRole(['Manager']); // Only Manager can access
 ?>
 
 <!DOCTYPE html>

@@ -9,13 +9,13 @@ if (isset($_SESSION['username'])) {
             header("Location: /roast-ms/dist/pages/admin/dashboard.php");
             break;
         case 'Manager':
-            header("Location: /roast-ms/dist/pages/manager/manager_dashboard.php");
+            header("Location: /roast-ms/dist/pages/manager/dashboard.php");
             break;
         case 'Accountant':
-            header("Location: /roast-ms/dist/pages/accountant/accountant_dashboard.php");
+            header("Location: /roast-ms/dist/pages/accountant/dashboard.php");
             break;
-        case 'Staff':
-            header("Location: /roast-ms/dist/pages/barista/barista_dashboard.php");
+        case 'Barista':
+            header("Location: /roast-ms/dist/pages/barista/dashboard.php");
             break;
     }
     exit;
@@ -44,13 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     header("Location: /roast-ms/dist/pages/admin/dashboard.php");
                     break;
                 case 'Manager':
-                    header("Location: /roast-ms/dist/pages/manager/manager_dashboard.php");
+                    header("Location: /roast-ms/dist/pages/manager/dashboard.php");
                     break;
                 case 'Accountant':
-                    header("Location: /roast-ms/dist/pages/accountant/accountant_dashboard.php");
+                    header("Location: /roast-ms/dist/pages/accountant/dashboard.php");
                     break;
-                case 'Staff':
-                    header("Location: /roast-ms/dist/pages/barista/barista_dashboard.php");
+                case 'Barista':
+                    header("Location: /roast-ms/dist/pages/barista/dashboard.php");
                     break;
             }
             exit;
