@@ -1,0 +1,25 @@
+# Enable Rewrite Engine
+RewriteEngine On
+# Redirect HTTP to HTTPS (if SSL is enabled)
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove .php extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [NC,L]
+
+# Redirect old URLs with .html or .php to clean URLs
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/([^.]+)\.(php) [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+<Files "config.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Prevent directory listing
+Options -Indexes
+
+ErrorDocument 403 /roast-ms/error-pages/403.php
+ErrorDocument 404 /roast-ms/error-pages/404.php

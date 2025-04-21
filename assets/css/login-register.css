@@ -1,0 +1,66 @@
+body {
+  background: url("../images/axl-rose-bg.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  backdrop-filter: brightness(75%) blur(2px) grayscale(100%);
+}
+
+.form-check-input[type="checkbox"] {
+  border-color: #212529 none;
+}
+
+.form-check-input[type="checkbox"]:focus {
+  border-color: #212529;
+  box-shadow: none;
+}
+
+.form-check-input:checked[type="checkbox"] {
+  background-color: #212529;
+  border-color: #212529;
+  box-shadow: none;
+}
+
+button[type="submit"] {
+  background-color: #212529;
+  border: 1px solid #212529;
+  color: #fff;
+}
+
+button[type="submit"]:hover {
+  background-color: #fff;
+  color: #212529;
+  border: 1px solid #212529;
+}
+
+.form-control input[type="text"]:focus {
+  box-shadow: none;
+  border: 1px solid #212529;
+}
+
+.form-control .form-select:focus {
+  box-shadow: none;
+  border: 1px solid #212529;
+}
+
+.form-control input[type="password"]:focus {
+  box-shadow: none;
+  border: 1px solid #212529;
+}
+.form-control:focus {
+  border: 1px solid #212529;
+}
+
+.link-dark {
+  font-weight: light;
+  transition: all 0.5s;
+}
+
+.link-dark:hover {
+  font-weight: bold;
+  transition: all 0.5s;
+}
+.form-control {
+  padding: 1rem 0.75rem;
+}

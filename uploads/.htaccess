@@ -1,0 +1,3 @@
+<FilesMatch "\.(php|php5|sh|cgi|pl|exe)$">
+    Deny from all
+</FilesMatch>
