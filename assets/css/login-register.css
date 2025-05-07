@@ -74,15 +74,15 @@ button[type="submit"]:hover {
   display: none;
 }
 .star-rating label {
-  font-size: 3.5rem;
+  font-size: 4rem;
   color: #ccc;
   cursor: pointer;
   margin: -20px 0 -20px 0;
 }
 .star-rating input[type="radio"]:checked ~ label {
-  color: gold;
+  color: #212529;
 }
 .star-rating label:hover,
 .star-rating label:hover ~ label {
-  color: gold;
+  color: #212529;
 }

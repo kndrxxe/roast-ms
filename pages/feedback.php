@@ -8,7 +8,7 @@ require_once "../config.php"; // Secure database connection
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ROAST-MS | Sign In</title>
+    <title>Feedback | ROAST-MS</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="ROAST-MS" />
@@ -51,6 +51,20 @@ require_once "../config.php"; // Secure database connection
             </div>
             <div class="card-body login-card-body rounded-5">
                 <form action="" method="post" class="needs-validation" novalidate id="feedbackForm">
+                <div class="mb-3">
+                        <label class="form-label fw-bold">Your Rating</label>
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="rating" value="5" required><label
+                                for="star5">&#9733;</label>
+                            <input type="radio" id="star4" name="rating" value="4"><label for="star4">&#9733;</label>
+                            <input type="radio" id="star3" name="rating" value="3"><label for="star3">&#9733;</label>
+                            <input type="radio" id="star2" name="rating" value="2"><label for="star2">&#9733;</label>
+                            <input type="radio" id="star1" name="rating" value="1"><label for="star1">&#9733;</label>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please select your rating.
+                        </div>
+                    </div>
                     <div class="input-group mb-2">
                         <input id="name" type="text" name="name" onkeypress="return noNumber(event)"
                             class="form-control form-control-sm rounded-4" value="" placeholder="Name" required />
@@ -68,20 +82,6 @@ require_once "../config.php"; // Secure database connection
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Rating</label>
-                        <div class="star-rating">
-                            <input type="radio" id="star5" name="rating" value="5" required><label
-                                for="star5">&#9733;</label>
-                            <input type="radio" id="star4" name="rating" value="4"><label for="star4">&#9733;</label>
-                            <input type="radio" id="star3" name="rating" value="3"><label for="star3">&#9733;</label>
-                            <input type="radio" id="star2" name="rating" value="2"><label for="star2">&#9733;</label>
-                            <input type="radio" id="star1" name="rating" value="1"><label for="star1">&#9733;</label>
-                        </div>
-                        <div class="invalid-feedback">
-                            Please select your rating.
-                        </div>
-                    </div>
                     <div class="input-group mb-2">
                         <textarea id="comment" type="text" name="comment" class="form-control form-control-sm rounded-4"
                             value="" placeholder="Comment" required rows="2"></textarea>
