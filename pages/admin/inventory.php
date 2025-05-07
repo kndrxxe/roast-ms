@@ -9,7 +9,7 @@ checkRole(['Administrator']); // Only Administrator can access
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Dashboard | ROAST-MS</title>
+  <title>Inventory Management | ROAST-MS</title>
   <!--begin::Primary Meta Tags-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="title" content="ROAST-MS" />
@@ -161,7 +161,7 @@ checkRole(['Administrator']); // Only Administrator can access
           <!--begin::Sidebar Menu-->
           <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-              <a class="nav-link active">
+              <a href="dashboard.php" class="nav-link">
                 <i class="nav-icon bi bi-speedometer"></i>
                 <p>Dashboard</p>
               </a>
@@ -188,7 +188,7 @@ checkRole(['Administrator']); // Only Administrator can access
             </li>
             <li class="nav-header">INVENTORY</li>
             <li class="nav-item">
-              <a href="inventory.php" class="nav-link">
+              <a  class="nav-link active">
                 <i class="nav-icon bi bi-list-check"></i>
                 <p>Inventory Management</p>
               </a>
@@ -216,12 +216,12 @@ checkRole(['Administrator']); // Only Administrator can access
           <!--begin::Row-->
           <div class="row">
             <div class="col-sm-6">
-              <h3 class="mb-0 fw-bold">Dashboard</h3>
+              <h3 class="mb-0 fw-bold">Inventory Management</h3>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-end">
                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item active" aria-current="page">Inventory Management</li>
               </ol>
             </div>
           </div>
@@ -230,133 +230,7 @@ checkRole(['Administrator']); // Only Administrator can access
         <!--end::Container-->
       </div>
       <div class="app-content">
-        <!--begin::Container-->
         <div class="container-fluid">
-          <!-- Info boxes -->
-          <div class="row">
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-primary shadow-sm">
-                  <i class="bi bi-currency-dollar"></i>
-                </span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Total Sales</span>
-                  <span class="info-box-number">0</span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-danger shadow-sm">
-                  <i class="bi bi-person-badge"></i>
-                </span>
-                <div class="info-box-content">
-                  <span class="info-box-text">No. of Employees</span>
-                  <span class="info-box-number">0</span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
-            <!-- fix for small devices only -->
-            <!-- <div class="clearfix hidden-md-up"></div> -->
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-success shadow-sm">
-                  <i class="bi bi-person-fill-check"></i>
-                </span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Attendance Status</span>
-                  <span class="info-box-number">0</span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-warning shadow-sm">
-                  <i class="bi bi-list-check"></i>
-                </span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Inventory Status</span>
-                  <span class="info-box-number">0</span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
-          </div>
-          <!-- /.row -->
-          <!--begin::Row-->
-          <div class="row g-2">
-            <div class="col-md-7">
-              <div class="card mb-3">
-                <div class="card-header">
-                  <h5 class="card-title">Sales Trends Over Time</h5>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                      <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                      <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                    </button>
-                    <!--<button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
-                      <i class="bi bi-x-lg"></i>
-                    </button>-->
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                  <!--begin::Row-->
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div id="sales-chart"></div>
-                      </di>
-                      <!-- /.col -->
-                    </div>
-                    <!--end::Row-->
-                  </div>
-                  <!-- ./card-body -->
-                </div>
-                <!-- /.card -->
-              </div>
-              <!-- /.col -->
-            </div>
-            <div class="col-md-5">
-              <div class="card mb-3">
-                <div class="card-header">
-                  <h5 class="card-title">Top Selling Products</h5>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                      <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                      <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                    </button>
-                    <!--<button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
-                      <i class="bi bi-x-lg"></i>
-                    </button>-->
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                  <!--begin::Row-->
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div id="top-chart"></div>
-                    </div>
-                    <!-- /.col -->
-                  </div>
-                  <!--end::Row-->
-                </div>
-                <!-- ./card-body -->
-              </div>
-              <!-- /.card -->
-            </div>
-          </div>
         </div>
         <!--end::Container-->
       </div>

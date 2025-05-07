@@ -64,3 +64,25 @@ button[type="submit"]:hover {
 .form-control {
   padding: 1rem 0.75rem;
 }
+.star-rating {
+  direction: rtl;
+  display: flex;
+  justify-content: center;
+
+}
+.star-rating input[type="radio"] {
+  display: none;
+}
+.star-rating label {
+  font-size: 3.5rem;
+  color: #ccc;
+  cursor: pointer;
+  margin: -20px 0 -20px 0;
+}
+.star-rating input[type="radio"]:checked ~ label {
+  color: gold;
+}
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: gold;
+}

@@ -81,7 +81,7 @@ document.getElementById("loginButton").addEventListener("click", function (event
   // If valid, disable button and show loader
   btn.disabled = true;
   loader.classList.remove("d-none");
-  buttonText.textContent = "Logging in ...";
+  buttonText.textContent = "Signing in ...";
 
   // Submit the form after a slight delay
   setTimeout(() => {
