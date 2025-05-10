@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2025 at 04:37 PM
+-- Generation Time: May 10, 2025 at 07:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,43 @@ SET time_zone = "+00:00";
 --
 -- Database: `roast-ms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dtr_logs`
+--
+
+CREATE TABLE `dtr_logs` (
+  `id` int(11) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `time_in` datetime DEFAULT NULL,
+  `time_out` datetime DEFAULT NULL,
+  `total_hours` decimal(5,2) DEFAULT NULL,
+  `date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `rating` tinyint(4) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `comment` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `rating`, `name`, `email`, `comment`, `created_at`) VALUES
+(1, 4, 'Kendrix Brosas', 'brosaskndrx05@gmail.com', 'Hello World', '2025-05-08 15:05:54');
 
 -- --------------------------------------------------------
 
@@ -64,11 +101,23 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `user_id`, `name`, `username`, `password`, `role`, `created_at`) VALUES
 (1, '49e349af-d80e-45a8-8336-ce45deafcfc9', 'Administrator', 'admin', '$2y$10$qi29r7qJZSfmD5P/hw3HtuVdaUWmhi1Y8ZM3mu6cJFruMin6Mw.o.', 'Administrator', '2025-02-25 03:41:34'),
-(2, '97e360af-b535-4ab1-974d-968e2056179b', 'Manager', 'manager', '$2y$10$.c3aVFs/.dpn4BsozGJAnO7dYXWkbAI0CrPecS/XuhV2Pa9jDDEPi', 'Manager', '2025-02-25 03:42:52');
+(2, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', 'barista', '$2y$10$.c3aVFs/.dpn4BsozGJAnO7dYXWkbAI0CrPecS/XuhV2Pa9jDDEPi', 'Barista', '2025-02-25 03:42:52');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `dtr_logs`
+--
+ALTER TABLE `dtr_logs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `roles`
@@ -87,6 +136,18 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `dtr_logs`
+--
+ALTER TABLE `dtr_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `roles`
