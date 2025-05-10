@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/roast-ms/api/auth.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/roast-ms/auth.php';
 checkRole(['Administrator']); // Only Administrator can access
 ?>
 
@@ -20,7 +20,34 @@ checkRole(['Administrator']); // Only Administrator can access
   <link rel="stylesheet" href="/roast-ms/assets/css/adminlte.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.min.css">
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      new DataTable('#myTable', {
+        dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'>f>>
+                rt
+                <'d-flex justify-content-between align-items-center mt-3'ip>
+                `,
+        language: {
+          emptyTable: "No appointments available",
+        },
+        columnDefs: [
+          { targets: [0, 1, 2, 3] }
+        ]
+      });
+    });
+  </script>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
@@ -58,7 +85,7 @@ checkRole(['Administrator']); // Only Administrator can access
           </li>
           <li class="user-footer">
             <a href="#" class="btn btn-default btn-flat">Profile</a>
-            <a href="/roast-ms/api/logout" class="btn btn-default btn-flat float-end">Log out</a>
+            <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
         </li>
@@ -151,13 +178,13 @@ checkRole(['Administrator']); // Only Administrator can access
         <div class="container-fluid">
           <div class="table-responsive">
             <div class="data_table">
-              <table id="myTable" class="table table-hover table-bordered">
+              <table id="myTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
-                  <tr>
+                  <tr class="fs-6 text-center">
                     <th>Name</th>
                     <th>Email</th>
                     <th>Rating</th>
-                    <th>Comments</th>
+                    <th>Comment</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -166,10 +193,10 @@ checkRole(['Administrator']); // Only Administrator can access
                   $result = $conn->query("SELECT * FROM feedback");
                   while ($row = $result->fetch_assoc()):
                     ?>
-                    <tr>
+                    <tr class="text-center">
                       <td><?= htmlspecialchars($row['name']) ?></td>
                       <td><?= htmlspecialchars($row['email']) ?></td>
-                      <td><?= str_repeat('★', $row['rating']) ?></td>
+                      <td style="color: #FFD700;"><?= str_repeat(' ★ ', $row['rating']) ?></td>
                       <td><?= htmlspecialchars($row['comment']) ?></td>
                     </tr>
                   <?php endwhile; ?>
@@ -190,7 +217,7 @@ checkRole(['Administrator']); // Only Administrator can access
   </div>
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"

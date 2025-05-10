@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/roast-ms/auth.php';
-checkRole(['Administrator']); // Only Administrator can access
+checkRole(['Barista']);
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@ checkRole(['Administrator']); // Only Administrator can access
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Inventory Management | ROAST-MS</title>
+  <title>Dashboard | ROAST-MS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="title" content="ROAST-MS" />
   <meta name="author" content="Author" />
@@ -58,7 +58,7 @@ checkRole(['Administrator']); // Only Administrator can access
           </li>
           <li class="user-footer">
             <a href="#" class="btn btn-default btn-flat">Profile</a>
-            <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
+            <a href="/roast-ms/logout.php" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
         </li>
@@ -88,7 +88,7 @@ checkRole(['Administrator']); // Only Administrator can access
         <nav class="mt-3">
           <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-              <a href="dashboard.php" class="nav-link">
+              <a class="nav-link active">
                 <i class="nav-icon bi bi-speedometer"></i>
                 <p>Dashboard</p>
               </a>
@@ -100,33 +100,6 @@ checkRole(['Administrator']); // Only Administrator can access
                 <p>DTR & Payroll</p>
               </a>
             </li>
-            <li class="nav-header">SALES AND ANALYTICS</li>
-            <li class="nav-item">
-              <a href="salestracking.php" class="nav-link">
-                <i class="nav-icon bi bi-clipboard-data"></i>
-                <p>Sales Tracking and Forecasting</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="feedback.php" class="nav-link">
-                <i class="nav-icon bi bi-chat-left-quote"></i>
-                <p>Customer Feedback</p>
-              </a>
-            </li>
-            <li class="nav-header">INVENTORY</li>
-            <li class="nav-item">
-              <a class="nav-link active">
-                <i class="nav-icon bi bi-list-check"></i>
-                <p>Inventory Management</p>
-              </a>
-            </li>
-            <li class="nav-header">USERS</li>
-            <li class="nav-item">
-              <a href="usermanagement.php" class="nav-link">
-                <i class="nav-icon bi bi-person-gear"></i>
-                <p>User Management</p>
-              </a>
-            </li>
           </ul>
         </nav>
       </div>
@@ -136,12 +109,12 @@ checkRole(['Administrator']); // Only Administrator can access
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-6">
-              <h3 class="mb-0 fw-bold">Inventory Management</h3>
+              <h3 class="mb-0 fw-bold">Dashboard</h3>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-end">
                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Inventory Management</li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
               </ol>
             </div>
           </div>
@@ -149,6 +122,64 @@ checkRole(['Administrator']); // Only Administrator can access
       </div>
       <div class="app-content">
         <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="info-box">
+                <span class="info-box-icon text-bg-primary shadow-sm">
+                  <i class="bi bi-calendar"></i>
+                </span>
+                <div class="info-box-content text-truncate">
+                  <span class="info-box-text">Today's Attendance Status</span>
+                  <span class="info-box-number">0</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="info-box">
+                <span class="info-box-icon text-bg-danger shadow-sm">
+                  <i class="bi bi-clock"></i>
+                </span>
+                <div class="info-box-content text-truncate">
+                  <span class="info-box-text">Total HoursThis Week</span>
+                  <span class="info-box-number">0</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="info-box">
+                <span class="info-box-icon text-bg-success shadow-sm">
+                  <i class="bi bi-person-fill-check"></i>
+                </span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Shifts Completed (This Month)</span>
+                  <span class="info-box-number">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-md-12">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <h5 class="card-title">Attendance Over Time</h5>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                      <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                      <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div id="sales-chart"></div>
+                      </di>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -162,7 +193,7 @@ checkRole(['Administrator']); // Only Administrator can access
   </div>
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"

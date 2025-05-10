@@ -1,5 +1,5 @@
 <?php
-require_once '../../database/config.php';
+require_once '../config.php';
 
 $query = "SELECT role_name FROM roles";
 $result = $conn->query($query);

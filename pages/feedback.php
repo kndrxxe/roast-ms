@@ -59,7 +59,6 @@ require_once "../config.php"; // Secure database connection
                             Please enter your name.
                         </div>
                     </div>
-
                     <div class="input-group mb-2">
                         <input id="email" type="text" name="email" onkeypress="return noSpace(event)"
                             class="form-control form-control-sm rounded-4" value="" placeholder="Email Address"
@@ -68,7 +67,6 @@ require_once "../config.php"; // Secure database connection
                             Please enter your email.
                         </div>
                     </div>
-
                     <div class="input-group mb-2">
                         <textarea id="comment" type="text" name="comment" class="form-control form-control-sm rounded-4"
                             value="" placeholder="Comment" required rows="2"></textarea>
@@ -91,9 +89,6 @@ require_once "../config.php"; // Secure database connection
     </div>
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
         integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
@@ -165,22 +160,19 @@ require_once "../config.php"; // Secure database connection
     <script>
         document.getElementById("submitfeedbackButton").addEventListener("click", function (event) {
             event.preventDefault(); // Prevent default form submission
-
             let btn = this;
             let loader = document.getElementById("loader");
             let buttonText = document.getElementById("buttonText");
             let form = document.querySelector(".needs-validation"); // Ensure the form has this class
-
             // Check form validity
             if (!form.checkValidity()) {
                 form.classList.add("was-validated"); // Apply Bootstrap validation styles
                 return; // Stop submission if invalid
             }
-
             // If valid, disable button and show loader
             btn.disabled = true;
             loader.classList.remove("d-none");
-            buttonText.textContent = "Submitting Feedback ...";
+            buttonText.textContent = "Submitting ...";
 
             // Submit the form after a slight delay
             setTimeout(() => {

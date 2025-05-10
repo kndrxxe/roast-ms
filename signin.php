@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../config.php"; // Secure database connection
+require_once "config.php"; // Secure database connection
 
 // Redirect logged-in users to their respective dashboard
 if (isset($_SESSION['username'])) {
@@ -10,9 +10,6 @@ if (isset($_SESSION['username'])) {
             break;
         case 'Manager':
             header("Location: /roast-ms/pages/manager/dashboard.php");
-            break;
-        case 'Accountant':
-            header("Location: /roast-ms/pages/accountant/dashboard.php");
             break;
         case 'Barista':
             header("Location: /roast-ms/pages/barista/dashboard.php");
@@ -39,6 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['username'] = $user['username'];
             $_SESSION['name'] = $user['name']; // Store full name
             $_SESSION['role'] = $user['role'];
+            $_SESSION['uid'] = $user['user_id'];
+
 
             // Redirect users based on role
             switch ($user['role']) {
@@ -55,11 +54,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit;
         } else {
             $_SESSION['invalidpassword'] = "The password you entered is incorrect. Please try again.";
-            header("Location: /roast-ms/pages/login");
+            header("Location: /roast-ms/login.php");
         }
     } else {
         $_SESSION['usernotfound'] = "User not Found";
-        header("Location: /roast-ms/pages/login");
+        header("Location: /roast-ms/login.php");
     }
 
     $stmt->close();

@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/roast-ms/auth.php';
-checkRole(['Administrator']); // Only Administrator can access
+checkRole(['Barista']); // Only Administrator can access
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@ checkRole(['Administrator']); // Only Administrator can access
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Inventory Management | ROAST-MS</title>
+  <title>DTR & Payroll | ROAST-MS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="title" content="ROAST-MS" />
   <meta name="author" content="Author" />
@@ -21,6 +21,43 @@ checkRole(['Administrator']); // Only Administrator can access
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.min.css">
+  <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      new DataTable('#dtrTable', {
+        dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
+                rt
+                <'d-flex justify-content-between align-items-center mt-3'ip>
+                `,
+        columnDefs: [
+          { targets: [0, 1, 2, 3] }
+        ]
+      });
+
+      new DataTable('#payrollSummaryTable', {
+        dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
+                rt
+                <'d-flex justify-content-between align-items-center mt-3'ip>
+                `,
+        columnDefs: [
+          { targets: [0, 1, 2, 3] }
+        ]
+      });
+    });
+  </script>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
@@ -58,7 +95,7 @@ checkRole(['Administrator']); // Only Administrator can access
           </li>
           <li class="user-footer">
             <a href="#" class="btn btn-default btn-flat">Profile</a>
-            <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
+            <a href="/roast-ms/logout.php" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
         </li>
@@ -95,36 +132,9 @@ checkRole(['Administrator']); // Only Administrator can access
             </li>
             <li class="nav-header">PAYROLL AND ATTENDANCE</li>
             <li class="nav-item">
-              <a href="dtr.php" class="nav-link">
+              <a class="nav-link active">
                 <i class="nav-icon bi bi-calendar3"></i>
                 <p>DTR & Payroll</p>
-              </a>
-            </li>
-            <li class="nav-header">SALES AND ANALYTICS</li>
-            <li class="nav-item">
-              <a href="salestracking.php" class="nav-link">
-                <i class="nav-icon bi bi-clipboard-data"></i>
-                <p>Sales Tracking and Forecasting</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="feedback.php" class="nav-link">
-                <i class="nav-icon bi bi-chat-left-quote"></i>
-                <p>Customer Feedback</p>
-              </a>
-            </li>
-            <li class="nav-header">INVENTORY</li>
-            <li class="nav-item">
-              <a class="nav-link active">
-                <i class="nav-icon bi bi-list-check"></i>
-                <p>Inventory Management</p>
-              </a>
-            </li>
-            <li class="nav-header">USERS</li>
-            <li class="nav-item">
-              <a href="usermanagement.php" class="nav-link">
-                <i class="nav-icon bi bi-person-gear"></i>
-                <p>User Management</p>
               </a>
             </li>
           </ul>
@@ -136,12 +146,12 @@ checkRole(['Administrator']); // Only Administrator can access
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-6">
-              <h3 class="mb-0 fw-bold">Inventory Management</h3>
+              <h3 class="mb-0 fw-bold">DTR & Payroll</h3>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-end">
                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Inventory Management</li>
+                <li class="breadcrumb-item active" aria-current="page">DTR & Payroll</li>
               </ol>
             </div>
           </div>
@@ -149,6 +159,75 @@ checkRole(['Administrator']); // Only Administrator can access
       </div>
       <div class="app-content">
         <div class="container-fluid">
+          <div class="table-responsive">
+            <div class="data_table">
+              <div class="d-flex justify-content-between">
+                <h4 class="mb-3 fw-bold">Daily Time Record</h4>
+                <div class="clock-in-out">
+                  <form method="POST" action=" ">
+                    <button type="submit" name="time_in" class="btn btn-success">Time In</button>
+                    <button type="submit" name="time_out" class="btn btn-danger">Time Out</button>
+                  </form>
+                </div>
+              </div>
+              <table id="dtrTable" class="table table-hover table-bordered" style="width:100%">
+                <thead>
+                  <tr class="fs-6 text-center">
+                    <th>Date</th>
+                    <th>Time In</th>
+                    <th>Time Out</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $result = $conn->query("SELECT * FROM roles");
+                  while ($row = $result->fetch_assoc()):
+                    ?>
+                    <tr class="text-center">
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  <?php endwhile; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <hr>
+          <div class="table-responsive">
+            <div class="data_table">
+              <h4 class="mb-3 fw-bold">Payroll Summary</h4>
+              <table id="payrollSummaryTable" class="table table-hover table-bordered" style="width:100%">
+                <thead>
+                  <tr class="fs-6 text-center">
+                    <th>Payroll Period (Start–End Date)</th>
+                    <th>Total Days Worked</th>
+                    <th>Total Hours</th>
+                    <th>Gross Pay</th>
+                    <th>Net Pay</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $result = $conn->query("SELECT * FROM roles");
+                  while ($row = $result->fetch_assoc()):
+                    ?>
+                    <tr class="text-center">
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  <?php endwhile; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -162,7 +241,7 @@ checkRole(['Administrator']); // Only Administrator can access
   </div>
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
@@ -187,6 +266,23 @@ checkRole(['Administrator']); // Only Administrator can access
           },
         });
       }
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('.clock-in-out form').submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+          type: 'POST',
+          url: '/roast-ms/pages/barista/api/clock-in-out.php',
+          data: $(this).serialize(),
+          success: function (response) {
+            alert("Success");  // Show success or error message
+            
+          }
+        });
+      });
     });
   </script>
 

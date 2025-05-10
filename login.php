@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../config.php"; // Secure database connection
+require_once "config.php"; // Secure database connection
 // Redirect logged-in users to their respective dashboard
 if (isset($_SESSION['username'])) {
   switch ($_SESSION['role']) {
@@ -8,13 +8,10 @@ if (isset($_SESSION['username'])) {
       header("Location: /roast-ms/pages/admin/dashboard.php");
       break;
     case 'Manager':
-      header("Location: /roast-ms/pages/manager/manager_dashboard.php");
+      header("Location: /roast-ms/pages/manager/dashboard.php");
       break;
-    case 'Accountant':
-      header("Location: /roast-ms/pages/accountant/accountant_dashboard.php");
-      break;
-    case 'Staff':
-      header("Location: /roast-ms/pages/barista/barista_dashboard.php");
+    case 'Barista':
+      header("Location: /roast-ms/pages/barista/dashboard.php");
       break;
   }
   exit;
@@ -34,11 +31,11 @@ if (isset($_SESSION['username'])) {
     integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg=" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/adminlte.css" />
-  <link rel="stylesheet" href="../assets/css/login-register.css" />
-  <link rel="stylesheet" href="../assets/css/validate.css" />
-  <link rel="icon" href="../assets/images/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="/roast-ms/assets/css/style.css" />
+  <link rel="stylesheet" href="/roast-ms/assets/css/adminlte.css" />
+  <link rel="stylesheet" href="/roast-ms/assets/css/login-register.css" />
+  <link rel="stylesheet" href="/roast-ms/assets/css/validate.css" />
+  <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -55,7 +52,7 @@ if (isset($_SESSION['username'])) {
         <h1 class="mt-0 text-center"><b>Sign In</b></h1>
       </div>
       <div class="card-body login-card-body rounded-5">
-        <form action="/roast-ms/api/login" method="post" class="needs-validation" novalidate>
+        <form action="/roast-ms/signin" method="post" class="needs-validation" novalidate>
           <div class="input-group mb-3">
             <input id="username" type="text" name="username"
               value="<?php echo isset($_SESSION['entered_username']) ? htmlspecialchars($_SESSION['entered_username']) : ''; ?>"
@@ -89,9 +86,6 @@ if (isset($_SESSION['username'])) {
   </div>
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>

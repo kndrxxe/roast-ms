@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../database/config.php';
+require_once '../config.php';
 
 function generateUUID() {
     return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',

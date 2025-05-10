@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/roast-ms/api/auth.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/roast-ms/auth.php';
 checkRole(['Administrator']);
 ?>
 
@@ -58,7 +58,7 @@ checkRole(['Administrator']);
           </li>
           <li class="user-footer">
             <a href="#" class="btn btn-default btn-flat">Profile</a>
-            <a href="/roast-ms/api/logout" class="btn btn-default btn-flat float-end">Log out</a>
+            <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
         </li>

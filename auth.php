@@ -1,8 +1,9 @@
 <?php
 session_start();
+require_once "config.php"; // Secure database connection
 
 if (!isset($_SESSION['username']) || !isset($_SESSION['role'])) {
-    header("Location: /roast-ms/index"); // Redirect to login
+    header("Location: /roast-ms/login.php"); // Redirect to login
     exit;
 }
 
@@ -10,7 +11,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['role'])) {
 function checkRole($allowed_roles) {
     if (!in_array($_SESSION['role'], $allowed_roles)) {
         $_SESSION['usernotfound'] = "You are not allowed to login";
-        header("Location: /roast-ms/pages/login");
+        header("Location: /roast-ms/login.php");
     exit;
     }
 }
@@ -23,5 +24,8 @@ function getFullname() {
 }
 function getRole() {
     return isset($_SESSION['role']) ? $_SESSION['role'] : 'Guest Role';
+}
+function userID() {
+    return isset($_SESSION['uid']) ? $_SESSION['uid'] : 'Guest UID';
 }
 ?>
