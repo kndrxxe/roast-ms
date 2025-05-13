@@ -21,6 +21,34 @@ checkRole(['Administrator']); // Only Administrator can access
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+  <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      new DataTable('#dtrTable', {
+        dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
+                rt
+                <'d-flex justify-content-between align-items-center mt-3'ip>
+                `,
+        columnDefs: [
+          { targets: [0, 1, 2, 3] }
+        ]
+      });
+    });
+  </script>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
@@ -149,6 +177,142 @@ checkRole(['Administrator']); // Only Administrator can access
       </div>
       <div class="app-content">
         <div class="container-fluid">
+          <div class="d-flex align-items-center justify-content-end mb-2">
+            <button type="button" class="btn btn-md btn-dark fw-bold" data-bs-toggle="modal"
+              data-bs-target="#addUserModal"><i class="bi bi-plus-circle">
+              </i> Add User
+            </button>
+          </div>
+          <div class="table-responsive">
+            <div class="data_table">
+              <table id="dtrTable" class="table table-hover table-bordered" style="width:100%">
+                <thead>
+                  <tr class="fs-6 text-center">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Date Created</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $result = $conn->prepare("SELECT * FROM users");
+                  $result->execute();
+                  $data = $result->get_result();
+                  while ($row = $data->fetch_assoc()):
+                    ?>
+                    <tr class="text-center">
+                      <td><?= htmlspecialchars($row['id']) ?></td>
+                      <td><?= htmlspecialchars($row['name']) ?></td>
+                      <td><?= htmlspecialchars($row['username']) ?></td>
+                      <td><?= htmlspecialchars($row['role']) ?></td>
+                      <td><?= htmlspecialchars($row['created_at']) ?></td>
+                      <td class="text-center">
+                        <div class="btn-group me-2">
+                          <button type="button" class="btn btn-danger btn-md deletebtn px-2"><i class="bi bi-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  <?php endwhile; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- ADD User Modal -->
+          <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/roast-ms/pages/admin/api/create_user" method="POST" class="needs-validation" novalidate>
+                  <div class="modal-body">
+                    <div class="form-floating mb-3">
+                      <input id="updateService" type="text" name="name" maxlength="100"
+                        class="form-control form-control-md rounded-3" placeholder="Name" required
+                        onkeypress="return noNumber(event)" />
+                      <label for="name">
+                        Name
+                      </label>
+                      <div class="invalid-feedback">
+                        Please enter the name.
+                      </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input id="username" type="text" name="username"
+                        value="<?php echo isset($_SESSION['entered_username']) ? htmlspecialchars($_SESSION['entered_username']) : ''; ?>"
+                        onkeypress="return noSpace(event)" class="form-control form-control-md rounded-3 mt-2" value=""
+                        placeholder="Username" required />
+                      <label for="username">
+                        Username
+                      </label>
+                      <div class="invalid-feedback">
+                        Please enter your username.
+                      </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input id="password" type="password" name="password" onkeypress="return noSpace(event)"
+                        class="form-control form-control-md rounded-3 mt-2" placeholder="Password" required />
+                      <label for="password">
+                        Password
+                      </label>
+                      <div class="invalid-feedback">
+                        Please enter your password.
+                      </div>
+                    </div>
+                    <div class="form-floating">
+                      <select class="form-select rounded-3" name="role" id="role" required>
+                        <option value="" selected disabled>Select Role</option>
+                        <option value="Barista">Barista</option>
+                        <option value="Manager">Manager</option>
+                      </select>
+                      <label for="role">
+                        Role
+                      </label>
+                      <div class="invalid-feedback">
+                        Please select a role.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark">Add User</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- DELETE Modal -->
+          <div class="modal fade" id="deletemodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModal">
+                    <i class="bi bi-exclamation-triangle-fill text-dark" width="24" height="24"></i>
+                    Confirm Deletion
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/roast-ms/pages/admin/api/deleteuser" method="post">
+                  <div class="modal-body">
+                    <input type="hidden" name="delete_id" id="delete_id">
+                    <p class="lead">Are you sure you want to delete this item? This action cannot be
+                      undone.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="deletedata" class="btn btn-danger">
+                      Delete</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -162,13 +326,14 @@ checkRole(['Administrator']); // Only Administrator can access
   </div>
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/adminlte.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script>
     const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
     const Default = {
@@ -194,6 +359,59 @@ checkRole(['Administrator']); // Only Administrator can access
     integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/main.js"></script>
   <script src="/roast-ms/assets/js/script.js"></script>
+  <script>
+    $(document).ready(function () {
+      toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: true,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "5000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+      };
+
+      <?php
+      if (isset($_SESSION['registrationfailed'])) {
+        echo "toastr.error('" . $_SESSION['registrationfailed'] . "', 'Error');";
+        unset($_SESSION['registrationfailed']);
+      }
+      if (isset($_SESSION['registrationsuccess'])) {
+        echo "toastr.success('" . $_SESSION['registrationsuccess'] . "', 'Success');";
+        unset($_SESSION['registrationsuccess']);
+      }
+      if (isset($_SESSION['deleteerror'])) {
+        echo "toastr.error('" . $_SESSION['deleteerror'] . "', 'Error');";
+        unset($_SESSION['deleteerror']);
+      }
+      if (isset($_SESSION['deletesuccess'])) {
+        echo "toastr.success('" . $_SESSION['deletesuccess'] . "', 'Success');";
+        unset($_SESSION['deletesuccess']);
+      }
+      ?>
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $(document).on('click', '.deletebtn', function () {
+        $('#deletemodal').modal('show');
+        $tr = $(this).closest('tr');
+        var data = $tr.children("td").map(function () {
+          return $(this).text().trim();
+        }).get();
+        console.log(data);
+        $('#delete_id').val(data[0]);
+      });
+    });
+  </script>
 </body>
 
 </html>

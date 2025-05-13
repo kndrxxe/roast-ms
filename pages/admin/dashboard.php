@@ -21,6 +21,9 @@ checkRole(['Administrator']);
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
@@ -157,7 +160,7 @@ checkRole(['Administrator']);
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Total Sales</span>
-                  <span class="info-box-number">0</span>
+                  <span class="info-box-number total_sales">Loading...</span>
                 </div>
               </div>
             </div>
@@ -168,7 +171,14 @@ checkRole(['Administrator']);
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">No. of Employees</span>
-                  <span class="info-box-number">0</span>
+                  <span class="info-box-number total_employees"><?php
+                  $query = "SELECT id FROM users WHERE role='Barista'";
+                  $stmt = $conn->prepare($query);
+                  $stmt->execute();
+                  $result = $stmt->get_result();
+                  $row = $result->num_rows;
+                  echo $row;
+                  ?></span>
                 </div>
               </div>
             </div>
@@ -179,7 +189,23 @@ checkRole(['Administrator']);
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Attendance Status</span>
-                  <span class="info-box-number">0</span>
+                  <span class="info-box-number attendance_status">
+                    <?php
+                    $query = "SELECT COUNT(*) AS present_today FROM dtr_logs WHERE date = CURDATE() AND time_in IS NOT NULL";
+                    $stmt = $conn->prepare($query);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($row = $result->fetch_assoc()) {
+                      echo $row['present_today'];
+                    } else {
+                      echo '0'; // Default to 0 if no result
+                    }
+
+                    $stmt->close();
+                    $conn->close();
+                    ?>
+                  </span>
                 </div>
               </div>
             </div>
@@ -190,7 +216,7 @@ checkRole(['Administrator']);
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Inventory Status</span>
-                  <span class="info-box-number">0</span>
+                  <span class="info-box-number inventory_status">Loading...</span>
                 </div>
               </div>
             </div>
@@ -258,6 +284,9 @@ checkRole(['Administrator']);
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/adminlte.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
     const Default = {
@@ -278,7 +307,6 @@ checkRole(['Administrator']);
       }
     });
   </script>
-
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
     integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/main.js"></script>

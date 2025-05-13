@@ -21,6 +21,9 @@ checkRole(['Barista']);
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
@@ -130,7 +133,7 @@ checkRole(['Barista']);
                 </span>
                 <div class="info-box-content text-truncate">
                   <span class="info-box-text">Today's Attendance Status</span>
-                  <span class="info-box-number">0</span>
+                  <span class="info-box-number attendance-status">Loading...</span>
                 </div>
               </div>
             </div>
@@ -140,8 +143,8 @@ checkRole(['Barista']);
                   <i class="bi bi-clock"></i>
                 </span>
                 <div class="info-box-content text-truncate">
-                  <span class="info-box-text">Total HoursThis Week</span>
-                  <span class="info-box-number">0</span>
+                  <span class="info-box-text">Total Hours (This Week)</span>
+                  <span class="info-box-number total-hours-week">Loading...</span>
                 </div>
               </div>
             </div>
@@ -152,7 +155,7 @@ checkRole(['Barista']);
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Shifts Completed (This Month)</span>
-                  <span class="info-box-number">0</span>
+                  <span class="info-box-number shifts-completed">Loading...</span>
                 </div>
               </div>
             </div>
@@ -172,8 +175,7 @@ checkRole(['Barista']);
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-12">
-                      <div id="sales-chart"></div>
-                      </di>
+                      <div id="attendance-chart"></div>
                     </div>
                   </div>
                 </div>
@@ -225,6 +227,93 @@ checkRole(['Barista']);
     integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/main.js"></script>
   <script src="/roast-ms/assets/js/script.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Fetch dashboard data
+      $.ajax({
+        url: '/roast-ms/pages/barista/api/dashboard-data.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+          if (data.error) {
+            alert(data.error);
+            return;
+          }
+
+          // Update the DOM with fetched data
+          $('.attendance-status').text(data.attendance_status);
+          $('.total-hours-week').text(data.total_hours_week);
+          $('.shifts-completed').text(data.shifts_completed);
+        },
+        error: function (xhr, status, error) {
+          console.error('Error fetching dashboard data:', error);
+        },
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      // Fetch attendance data
+      $.ajax({
+        url: '/roast-ms/pages/barista/api/attendance-data.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+          if (data.error) {
+            alert(data.error);
+            return;
+          }
+
+          // Configure the chart with fetched data
+          const attendance_chart_options = {
+            series: [
+              {
+                name: "Attendance",
+                data: data.attendance, // 1 for Present, 0 for Absent
+              },
+            ],
+            chart: {
+              height: 250,
+              type: "line", // Line chart for attendance trends
+              toolbar: {
+                show: true,
+              },
+            },
+            xaxis: {
+              type: "datetime",
+              categories: data.dates, // Dates from the API
+            },
+            tooltip: {
+              x: {
+                format: "yyyy-MM-dd",
+              },
+              y: {
+                formatter: function (value) {
+                  return value === 1 ? "Present" : "Absent"; // Show "Present" or "Absent"
+                },
+              },
+            },
+            stroke: {
+              curve: "smooth",
+            },
+            dataLabels: {
+              enabled: true,
+            },
+          };
+
+          // Render the chart
+          const attendance_chart = new ApexCharts(
+            document.querySelector("#attendance-chart"),
+            attendance_chart_options
+          );
+          attendance_chart.render();
+        },
+        error: function (xhr, status, error) {
+          console.error("Error fetching attendance data:", error);
+        },
+      });
+    });
+  </script>
 </body>
 
 </html>

@@ -25,6 +25,7 @@ checkRole(['Barista']); // Only Administrator can access
     integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
     integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
@@ -163,12 +164,10 @@ checkRole(['Barista']); // Only Administrator can access
             <div class="data_table">
               <div class="d-flex justify-content-between">
                 <h4 class="mb-3 fw-bold">Daily Time Record</h4>
-                <div class="clock-in-out">
-                  <form method="POST" action=" ">
-                    <button type="submit" name="time_in" class="btn btn-success">Time In</button>
-                    <button type="submit" name="time_out" class="btn btn-danger">Time Out</button>
-                  </form>
-                </div>
+                <form class="clock-in-out" method="POST" action="/roast-ms/pages/barista/api/clock-in-out">
+                  <button type="submit" name="time_in" class="btn btn-success">Time In</button>
+                  <button type="submit" name="time_out" class="btn btn-danger">Time Out</button>
+                </form>
               </div>
               <table id="dtrTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
@@ -176,19 +175,23 @@ checkRole(['Barista']); // Only Administrator can access
                     <th>Date</th>
                     <th>Time In</th>
                     <th>Time Out</th>
-                    <th>Status</th>
+                    <th>Total Hours</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-                  $result = $conn->query("SELECT * FROM roles");
-                  while ($row = $result->fetch_assoc()):
+                  $user_id = $_SESSION['uid'];
+                  $result = $conn->prepare("SELECT * FROM dtr_logs WHERE user_id = ? ORDER BY date DESC");
+                  $result->bind_param("i", $user_id);
+                  $result->execute();
+                  $data = $result->get_result();
+                  while ($row = $data->fetch_assoc()):
                     ?>
                     <tr class="text-center">
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td><?= htmlspecialchars($row['date']) ?></td>
+                      <td><?= htmlspecialchars($row['time_in']) ?></td>
+                      <td><?= htmlspecialchars($row['time_out']) ?></td>
+                      <td><?= htmlspecialchars($row['total_hours']) ?></td>
                     </tr>
                   <?php endwhile; ?>
                 </tbody>
@@ -248,6 +251,7 @@ checkRole(['Barista']); // Only Administrator can access
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/adminlte.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script>
     const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
     const Default = {
@@ -268,28 +272,46 @@ checkRole(['Barista']); // Only Administrator can access
       }
     });
   </script>
-  <script>
-    $(document).ready(function () {
-      $('.clock-in-out form').submit(function (e) {
-        e.preventDefault();
-
-        $.ajax({
-          type: 'POST',
-          url: '/roast-ms/pages/barista/api/clock-in-out.php',
-          data: $(this).serialize(),
-          success: function (response) {
-            alert("Success");  // Show success or error message
-            
-          }
-        });
-      });
-    });
-  </script>
-
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
     integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/main.js"></script>
   <script src="/roast-ms/assets/js/script.js"></script>
+  <script>
+    $(document).ready(function () {
+      toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: true,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "5000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+      };
+
+      <?php
+      if (isset($_SESSION['time_error'])) {
+        echo "toastr.error('" . $_SESSION['time_error'] . "', 'Error');";
+        unset($_SESSION['time_error']);
+      }
+      if (isset($_SESSION['timed_in'])) {
+        echo "toastr.success('" . $_SESSION['timed_in'] . "', 'Success');";
+        unset($_SESSION['timed_in']);
+      }
+      if (isset($_SESSION['timed_out'])) {
+        echo "toastr.success('" . $_SESSION['timed_out'] . "', 'Success');";
+        unset($_SESSION['timed_out']);
+      }
+      ?>
+    });
+  </script>
 </body>
 
 </html>
