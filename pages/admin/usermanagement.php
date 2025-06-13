@@ -18,6 +18,7 @@ checkRole(['Administrator']); // Only Administrator can access
     integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
   <link rel="stylesheet" href="/roast-ms/assets/css/style.css" />
   <link rel="stylesheet" href="/roast-ms/assets/css/adminlte.css" />
+  <link rel="stylesheet" href="/roast-ms/assets/css/validate.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
@@ -254,15 +255,17 @@ checkRole(['Administrator']); // Only Administrator can access
                         Please enter your username.
                       </div>
                     </div>
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-3 position-relative">
                       <input id="password" type="password" name="password" onkeypress="return noSpace(event)"
                         class="form-control form-control-md rounded-3 mt-2" placeholder="Password" required />
-                      <label for="password">
-                        Password
-                      </label>
-                      <div class="invalid-feedback">
-                        Please enter your password.
-                      </div>
+                      <label for="password">Password</label>
+                      <div class="invalid-feedback">Please enter your password.</div>
+
+                      <!-- Eye Icon -->
+                      <span class="position-absolute top-50 end-0 translate-middle-y me-3" onclick="toggleshowPassword()"
+                        style="cursor: pointer;">
+                        <i id="toggleIcon" class="bi bi-eye-fill"></i>
+                      </span>
                     </div>
                     <div class="form-floating">
                       <select class="form-select rounded-3" name="role" id="role" required>
@@ -411,6 +414,16 @@ checkRole(['Administrator']); // Only Administrator can access
         $('#delete_id').val(data[0]);
       });
     });
+  </script>
+  <script>
+    function toggleshowPassword() {
+      const passwordInput = document.getElementById("password");
+      const toggleIcon = document.getElementById("toggleIcon");
+      const isPassword = passwordInput.type === "password";
+
+      passwordInput.type = isPassword ? "text" : "password";
+      toggleIcon.className = isPassword ? "bi bi-eye-slash-fill" : "bi bi-eye-fill";
+    }
   </script>
 </body>
 

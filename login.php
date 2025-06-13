@@ -66,7 +66,12 @@ if (isset($_SESSION['username'])) {
           <div class="input-group mb-3">
             <input id="password" type="password" name="password" onkeypress="return noSpace(event)"
               class="form-control form-control-md rounded-start-4" placeholder="Password" required />
-            <div class="input-group-text rounded-end-4"><span class="bi bi-lock-fill"></span></div>
+
+            <!-- Eye icon button -->
+            <button type="button" class="input-group-text rounded-end-4" onclick="togglePassword()">
+              <span id="toggleIcon" class="bi bi-eye-fill"></span>
+            </button>
+
             <div class="invalid-feedback">
               Please enter your password!
             </div>

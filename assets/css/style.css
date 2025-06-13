@@ -56,3 +56,11 @@ margin-bottom: 10px;
 .dt-button .buttons-copy .buttons-html5{
   border-color: #212529 solid;
 }
+
+/* Hide Edge's reveal (eye) icon */
+input[type="password"]::-ms-reveal {
+  display: none;
+}
+input[type="password"]::-ms-clear {
+  display: none;
+}

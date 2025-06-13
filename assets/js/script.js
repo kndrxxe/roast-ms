@@ -4,9 +4,7 @@ $(document).ready(function () {
     type: "GET",
     dataType: "json",
     success: function (data) {
-      $("#role").html(
-        '<option value="">Select from options</option>'
-      ); // Reset dropdown
+      $("#role").html('<option value="">Select from options</option>'); // Reset dropdown
       $.each(data, function (index, value) {
         $("#role").append(
           '<option value="' + value + '">' + value + "</option>"
@@ -44,47 +42,68 @@ function goBack() {
   window.history.back();
 }
 
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  const toggleIcon = document.getElementById("toggleIcon");
+
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    toggleIcon.classList.remove("bi-eye-fill");
+    toggleIcon.classList.add("bi-eye-slash-fill");
+  } else {
+    passwordInput.type = "password";
+    toggleIcon.classList.remove("bi-eye-slash-fill");
+    toggleIcon.classList.add("bi-eye-fill");
+  }
+}
+
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (() => {
-  'use strict'
+  "use strict";
 
   // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
+  const forms = document.querySelectorAll(".needs-validation");
 
   // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
+  Array.from(forms).forEach((form) => {
+    form.addEventListener(
+      "submit",
+      (event) => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
 
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
+        form.classList.add("was-validated");
+      },
+      false
+    );
+  });
+})();
 
-document.getElementById("loginButton").addEventListener("click", function (event) {
-  event.preventDefault(); // Prevent default form submission
+document
+  .getElementById("loginButton")
+  .addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent default form submission
 
-  let btn = this;
-  let loader = document.getElementById("loader");
-  let buttonText = document.getElementById("buttonText");
-  let form = document.querySelector(".needs-validation"); // Ensure the form has this class
+    let btn = this;
+    let loader = document.getElementById("loader");
+    let buttonText = document.getElementById("buttonText");
+    let form = document.querySelector(".needs-validation"); // Ensure the form has this class
 
-  // Check form validity
-  if (!form.checkValidity()) {
-    form.classList.add("was-validated"); // Apply Bootstrap validation styles
-    return; // Stop submission if invalid
-  }
+    // Check form validity
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated"); // Apply Bootstrap validation styles
+      return; // Stop submission if invalid
+    }
 
-  // If valid, disable button and show loader
-  btn.disabled = true;
-  loader.classList.remove("d-none");
-  buttonText.textContent = "Signing in ...";
+    // If valid, disable button and show loader
+    btn.disabled = true;
+    loader.classList.remove("d-none");
+    buttonText.textContent = "Signing in ...";
 
-  // Submit the form after a slight delay
-  setTimeout(() => {
-    form.submit();
-  }, 1000);
-});
+    // Submit the form after a slight delay
+    setTimeout(() => {
+      form.submit();
+    }, 1000);
+  });

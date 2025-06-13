@@ -37,8 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['name'] = $user['name']; // Store full name
             $_SESSION['role'] = $user['role'];
             $_SESSION['uid'] = $user['user_id'];
-
-
             // Redirect users based on role
             switch ($user['role']) {
                 case 'Administrator':
