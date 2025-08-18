@@ -40,7 +40,7 @@ checkRole(['Administrator']); // Only Administrator can access
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
         language: {
-          emptyTable: "No appointments available",
+          emptyTable: "No feedbacks available",
         },
         columnDefs: [
           { targets: [0, 1, 2, 3] }

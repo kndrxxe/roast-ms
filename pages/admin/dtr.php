@@ -228,6 +228,7 @@ checkRole(['Administrator']); // Only Administrator can access
               <table id="payrollSummaryTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
                   <tr class="fs-6 text-center">
+                    <th>Employee Name</th>
                     <th>Payroll Period (Start–End Date)</th>
                     <th>Total Days Worked</th>
                     <th>Total Hours</th>
@@ -242,6 +243,7 @@ checkRole(['Administrator']); // Only Administrator can access
                   while ($row = $result->fetch_assoc()):
                     ?>
                     <tr class="text-center">
+                      <td></td>
                       <td></td>
                       <td></td>
                       <td></td>
