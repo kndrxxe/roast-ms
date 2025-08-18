@@ -239,17 +239,46 @@ checkRole(['Administrator']); // Only Administrator can access
                 </thead>
                 <tbody>
                   <?php
-                  $result = $conn->query("SELECT * FROM roles");
+                  // Query to group logs into payroll cutoffs
+                  $result = $conn->query("
+      SELECT 
+        name,
+        YEAR(date) AS year,
+        MONTH(date) AS month,
+        CASE 
+          WHEN DAY(date) <= 15 THEN '1-15'
+          ELSE '16-EOM'
+        END AS cutoff,
+        COUNT(DISTINCT date) AS total_days_worked,
+        SUM(total_hours) AS total_hours
+      FROM dtr_logs
+      GROUP BY name, year, month, cutoff
+      ORDER BY year DESC, month DESC, cutoff
+    ");
+
+                  $hourly_rate = 100; // Example fixed rate
                   while ($row = $result->fetch_assoc()):
+                    $gross_pay = $row['total_hours'] * $hourly_rate;
+                    $net_pay = $gross_pay * 0.9; // Example 10% deduction
+                  
+                    // Format month with leading zeros
+                    $month = str_pad($row['month'], 2, '0', STR_PAD_LEFT);
+
+                    if ($row['cutoff'] === '1-15') {
+                      $period = "{$row['year']}-$month-01 to {$row['year']}-$month-15";
+                    } else {
+                      $period = "{$row['year']}-$month-16 to " . date("Y-m-t", strtotime("{$row['year']}-$month-01"));
+                    }
+
                     ?>
                     <tr class="text-center">
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td><?= htmlspecialchars($row['name']) ?></td>
+                      <td><?= htmlspecialchars($period) ?></td>
+                      <td><?= htmlspecialchars($row['total_days_worked']) ?></td>
+                      <td><?= htmlspecialchars($row['total_hours']) ?></td>
+                      <td><?= number_format($gross_pay, 2) ?></td>
+                      <td><?= number_format($net_pay, 2) ?></td>
+                      <td><span class="badge bg-success">Completed</span></td>
                     </tr>
                   <?php endwhile; ?>
                 </tbody>
