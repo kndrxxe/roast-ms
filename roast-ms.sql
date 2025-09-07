@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2025 at 03:05 PM
+-- Generation Time: Sep 07, 2025 at 06:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,7 +44,8 @@ CREATE TABLE `dtr_logs` (
 INSERT INTO `dtr_logs` (`id`, `user_id`, `name`, `time_in`, `time_out`, `total_hours`, `date`) VALUES
 (2, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-05-14 00:31:27', '2025-05-13 18:32:05', 5.98, '2025-05-14'),
 (3, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-06-01 20:51:10', '2025-06-01 15:21:00', 5.50, '2025-06-01'),
-(4, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-08-18 20:57:26', '2025-08-18 14:57:35', 5.98, '2025-08-18');
+(4, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-08-18 20:57:26', '2025-08-18 14:57:35', 5.98, '2025-08-18'),
+(5, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-08-26 22:02:22', '2025-08-26 16:03:19', 5.98, '2025-08-26');
 
 -- --------------------------------------------------------
 
@@ -144,7 +145,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `dtr_logs`
 --
 ALTER TABLE `dtr_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `feedback`
