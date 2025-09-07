@@ -25,7 +25,9 @@ checkRole(['Administrator']); // Only Administrator can access
   <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.min.css">
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
   <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"></script>
@@ -40,7 +42,7 @@ checkRole(['Administrator']); // Only Administrator can access
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
         language: {
-          emptyTable: "No feedbacks available",
+          emptyTable: "No feedback yet.",
         },
         columnDefs: [
           { targets: [0, 1, 2, 3] }
@@ -178,6 +180,320 @@ checkRole(['Administrator']); // Only Administrator can access
         <div class="container-fluid">
           <div class="table-responsive">
             <div class="data_table">
+              <?php
+              require_once "../../config.php"; // Secure database connection
+              $result = $conn->query("SELECT * FROM feedback");
+
+              // Track sentiment counts
+              $positiveCount = 0;
+              $negativeCount = 0;
+              $neutralCount = 0;
+
+              // Track common issues
+              $issueCategories = [
+                'speed' => ['slow', 'mabagal', 'long wait', 'late', 'delay', 'matagal'],
+                'cleanliness' => ['dirty', 'marumi', 'unclean', 'messy', 'not clean', 'hindi malinis'],
+                'price' => ['expensive', 'mahal', 'overpriced', 'pricey'],
+                'taste' => ['not delicious', 'bland', 'tasteless', 'sour', 'bitter', 'mapait', 'matabang', 'hindi masarap'],
+                'service' => ['rude', 'unfriendly', 'pangit na serbisyo', 'bad service', 'hindi maasikaso'],
+
+                // 🆕 Additional categories
+                'temperature' => ['hot', 'cold', 'mainit', 'malamig', 'too hot', 'too cold'],
+                'availability' => ['unavailable', 'out of stock', 'empty', 'no coffee', 'sold out', 'walang stock'],
+                'noise' => ['noisy', 'maingay', 'loud'],
+                'comfort' => ['uncomfortable', 'hard chair', 'kulang sa upuan', 'init', 'aircon broken'],
+                'portion' => ['small serving', 'too little', 'kulang', 'konti', 'tiny portion'],
+                'crowded' => ['crowded', 'full', 'siksikan', 'no space', 'masikip'],
+                'wifi' => ['no wifi', 'slow wifi', 'weak wifi', 'walang internet', 'mahina ang wifi'],
+                'parking' => ['no parking', 'parking issue', 'walang parking']
+              ];
+
+              $issueCount = [
+                'speed' => 0,
+                'cleanliness' => 0,
+                'price' => 0,
+                'taste' => 0,
+                'service' => 0,
+                'temperature' => 0,
+                'availability' => 0,
+                'noise' => 0,
+                'comfort' => 0,
+                'portion' => 0,
+                'crowded' => 0,
+                'wifi' => 0,
+                'parking' => 0
+              ];
+
+              $positive_words = [
+                // General positive
+                'good',
+                'great',
+                'excellent',
+                'amazing',
+                'awesome',
+                'love',
+                'fantastic',
+                'satisfied',
+                'happy',
+                'nice',
+                'wonderful',
+                'perfect',
+                'friendly',
+                'fast',
+                'clean',
+                'fresh',
+                'delicious',
+                'tasty',
+                'affordable',
+                'cozy',
+                'comfortable',
+                'quick',
+                'beautiful',
+                // Coffee shop specific
+                'aromatic',
+                'flavorful',
+                'smooth',
+                'strong',
+                'rich',
+                'freshly brewed',
+                'hot',
+                'warm',
+                'latte',
+                'cappuccino',
+                'espresso',
+                'frappe',
+                'mocha',
+                'creamy',
+                'refreshing',
+                'specialty',
+                'signature',
+                'well-prepared',
+                'barista',
+                'recommend',
+                'relaxing',
+                'worth it',
+                'attentive',
+                'presentable',
+                'welcoming',
+                'accommodating',
+                'helpful',
+                'generous',
+                'polite',
+                'prompt',
+                'efficient',
+                'value for money',
+                'instagrammable'
+              ];
+
+              $negative_words = [
+                // General negative
+                'bad',
+                'poor',
+                'terrible',
+                'horrible',
+                'worst',
+                'hate',
+                'disappointed',
+                'angry',
+                'unsatisfied',
+                'awful',
+                'slow',
+                'dirty',
+                'rude',
+                'expensive',
+                'unfriendly',
+                'overpriced',
+                'crowded',
+                'noisy',
+                'uncomfortable',
+                'ugly',
+                'messy',
+                // Coffee shop specific
+                'burnt',
+                'stale',
+                'cold',
+                'bitter',
+                'weak',
+                'watery',
+                'sour',
+                'old coffee',
+                'wrong order',
+                'unclean',
+                'undercooked',
+                'overcooked',
+                'too sweet',
+                'too salty',
+                'long wait',
+                'late',
+                'unavailable',
+                'empty',
+                'tasteless',
+                'bland',
+                'not delicious',
+                'not fresh',
+                'not enough',
+                'not good',
+                'inconsistent',
+                'small serving',
+                'delayed',
+                'spilled',
+                'dirty table',
+                'sticky',
+                'overbrewed',
+                'underbrewed',
+                'unhygienic'
+              ];
+              // ✅ Tagalog → English Translation Dictionary (same as before)
+              function translateTagalogToEnglish($text)
+              {
+                $dictionary = [
+                  // Multi-word first
+                  'pangit na serbisyo' => 'bad service',
+                  'sobrang tamis' => 'too sweet',
+                  'hindi masarap' => 'not delicious',
+                  'hindi presko' => 'not fresh',
+                  'hindi maayos' => 'messy',
+                  'hindi malinis' => 'not clean',
+                  'hindi maganda' => 'not good',
+                  'hindi mabilis' => 'not fast',
+                  'mali ang order' => 'wrong order',
+                  'walang stock' => 'unavailable',
+                  'walang wifi' => 'no wifi',
+                  'sobrang mahal' => 'overpriced',
+                  'sobrang bagal' => 'very slow',
+                  'sobrang ingay' => 'very noisy',
+
+                  // Multi-word & Taglish patterns first
+                  'super sarap' => 'very delicious',
+                  'sobrang sarap' => 'very delicious',
+                  'ang sarap' => 'delicious',
+                  'masarap sobra' => 'very delicious',
+
+                  'super mahal' => 'very expensive',
+                  'sobrang mahal' => 'very expensive',
+                  'medyo mahal' => 'a bit expensive',
+
+                  'super bagal' => 'very slow',
+                  'sobrang bagal' => 'very slow',
+                  'medyo mabagal' => 'a bit slow',
+
+                  'super ganda' => 'very beautiful',
+                  'sobrang ganda' => 'very beautiful',
+                  'medyo maganda' => 'quite good',
+
+                  'sobrang ingay' => 'very noisy',
+                  'medyo maingay' => 'a bit noisy',
+
+                  'sobrang linis' => 'very clean',
+                  'medyo marumi' => 'a bit dirty',
+
+                  'sobrang init' => 'very hot',
+                  'sobrang lamig' => 'very cold',
+                  'medyo malamig' => 'a bit cold',
+
+                  'konti ang serving' => 'small serving',
+                  'kulang sa lasa' => 'not enough taste',
+                  'mali ang order' => 'wrong order',
+                  'walang stock' => 'unavailable',
+                  'walang wifi' => 'no wifi',
+                  'sirang aircon' => 'broken aircon',
+                  'masikip' => 'crowded',
+
+                  // Single-word
+                  'masarap' => 'delicious',
+                  'malasa' => 'flavorful',
+                  'maganda' => 'beautiful',
+                  'mabait' => 'friendly',
+                  'maayos' => 'clean',
+                  'malinis' => 'clean',
+                  'mura' => 'affordable',
+                  'mabilis' => 'fast',
+                  'masaya' => 'happy',
+                  'magaling' => 'great',
+                  'mabango' => 'aromatic',
+                  'nakakarelax' => 'relaxing',
+                  'komportable' => 'comfortable',
+                  'presko' => 'fresh',
+                  'sulit' => 'worth it',
+                  'panalo' => 'excellent',
+                  'maasikaso' => 'attentive',
+                  'pangit' => 'ugly',
+                  'mahal' => 'expensive',
+                  'mabagal' => 'slow',
+                  'marumi' => 'dirty',
+                  'mainit' => 'hot',
+                  'malamig' => 'cold',
+                  'mapait' => 'bitter',
+                  'matabang' => 'bland',
+                  'maingay' => 'noisy',
+                  'matagal' => 'long wait',
+                  'walang lasa' => 'tasteless',
+                  'sobra' => 'too much',
+                  'kulang' => 'not enough',
+                  'konti' => 'small serving',
+                  'sirang aircon' => 'broken aircon',
+                  'masikip' => 'crowded',
+                  'sarap' => 'delicious',
+                  'astig' => 'awesome',
+                  'ayos' => 'good',
+                  'malupit' => 'amazing'
+                ];
+
+                $lowerText = strtolower($text);
+
+                // Replace longer phrases first (to avoid "sarap" catching inside "super sarap")
+                uksort($dictionary, function ($a, $b) {
+                  return strlen($b) - strlen($a);
+                });
+
+                foreach ($dictionary as $tagalog => $english) {
+                  $lowerText = str_replace($tagalog, $english, $lowerText);
+                }
+
+                return $lowerText;
+              }
+
+              // ✅ Sentiment Analysis with Issue Tracking
+              function analyzeSentiment($text, $positive_words, $negative_words, &$positiveCount, &$negativeCount, &$neutralCount, &$issueCategories, &$issueCount)
+              {
+                $text = strtolower($text);
+                $score = 0;
+
+                $words = preg_split('/\s+/', $text);
+
+                foreach ($words as $i => $word) {
+                  $word = trim($word, ".,!?");
+
+                  $negation = ($i > 0 && in_array($words[$i - 1], ['not', 'never']));
+
+                  if (in_array($word, $positive_words)) {
+                    $score += $negation ? -1 : 1;
+                  }
+                  if (in_array($word, $negative_words)) {
+                    $score += $negation ? 1 : -1;
+
+                    // Track issue category
+                    foreach ($issueCategories as $category => $keywords) {
+                      if (in_array($word, $keywords)) {
+                        $issueCount[$category]++;
+                      }
+                    }
+                  }
+                }
+
+                if ($score > 0) {
+                  $positiveCount++;
+                  return "<span class='badge bg-success'>Positive</span>";
+                }
+                if ($score < 0) {
+                  $negativeCount++;
+                  return "<span class='badge bg-danger'>Negative</span>";
+                }
+                $neutralCount++;
+                return "<span class='badge bg-secondary'>Neutral</span>";
+              }
+              ?>
+
               <table id="myTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
                   <tr class="fs-6 text-center">
@@ -185,23 +501,88 @@ checkRole(['Administrator']); // Only Administrator can access
                     <th>Email</th>
                     <th>Rating</th>
                     <th>Comment</th>
+                    <th>Sentiment</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php
-                  require_once "../../config.php"; // Secure database connection
-                  $result = $conn->query("SELECT * FROM feedback");
-                  while ($row = $result->fetch_assoc()):
+                  <?php while ($row = $result->fetch_assoc()):
+                    $translated_comment = translateTagalogToEnglish($row['comment']);
+                    $sentiment = analyzeSentiment(
+                      $translated_comment,
+                      $positive_words,
+                      $negative_words,
+                      $positiveCount,
+                      $negativeCount,
+                      $neutralCount,
+                      $issueCategories,
+                      $issueCount
+                    );
                     ?>
                     <tr class="text-center">
                       <td><?= htmlspecialchars($row['name']) ?></td>
                       <td><?= htmlspecialchars($row['email']) ?></td>
                       <td style="color: #FFD700;"><?= str_repeat(' ★ ', $row['rating']) ?></td>
                       <td><?= htmlspecialchars($row['comment']) ?></td>
+                      <td><?= $sentiment ?></td>
                     </tr>
                   <?php endwhile; ?>
                 </tbody>
               </table>
+
+              <?php
+if ($result->num_rows > 0) {
+  // ✅ Suggestion Section Below Table
+  if ($positiveCount > $negativeCount) {
+    echo "<div class='alert alert-success mt-3'><strong>Suggestion:</strong> Customers are mostly happy! Keep maintaining food quality and customer service. 😊</div>";
+  } elseif ($negativeCount > $positiveCount) {
+    // Sort issues by frequency
+    arsort($issueCount);
+
+    $suggestions = [
+      'speed' => "Many customers mentioned waiting time. Suggestion: improve service speed. ⏱️",
+      'cleanliness' => "Cleanliness was a concern. Suggestion: maintain tidiness and hygiene. 🧹",
+      'price' => "Pricing seems to be a concern. Suggestion: review menu pricing or offer promotions. 💰",
+      'taste' => "Some feedback pointed at taste. Suggestion: refine recipes and coffee consistency. ☕",
+      'service' => "Service quality was flagged. Suggestion: train staff for friendliness and attentiveness. 🙋",
+      'temperature' => "Customers mentioned drinks being too hot or too cold. Suggestion: double-check temperature consistency. 🌡️",
+      'availability' => "Some items were unavailable. Suggestion: ensure bestsellers are always in stock. 📦",
+      'noise' => "Noise level was a concern. Suggestion: consider soft music and a cozier environment. 🎶",
+      'comfort' => "Seating comfort was flagged. Suggestion: improve chairs, tables, or air conditioning. 🛋️",
+      'portion' => "Portion sizes were mentioned. Suggestion: review serving sizes to match customer expectations. 🍽️",
+      'crowded' => "Crowded space was noted. Suggestion: improve table arrangements or manage peak hours better. 👥",
+      'wifi' => "Wi-Fi quality was mentioned. Suggestion: provide stable and fast internet for customers. 📶",
+      'parking' => "Parking was an issue. Suggestion: provide clear directions or arrange partnerships with nearby parking areas. 🚗"
+    ];
+
+    // Pick top 3 issues that have counts > 0
+    $shownSuggestions = [];
+    $counter = 0;
+    foreach ($issueCount as $issue => $count) {
+      if ($count > 0 && isset($suggestions[$issue])) {
+        $shownSuggestions[] = $suggestions[$issue];
+        $counter++;
+      }
+      if ($counter >= 3) break; // limit to 3 suggestions
+    }
+
+    if (!empty($shownSuggestions)) {
+      echo "<div class='alert alert-danger mt-3'><strong>Suggestions:</strong><ul>";
+      foreach ($shownSuggestions as $s) {
+        echo "<li>$s</li>";
+      }
+      echo "</ul></div>";
+    } else {
+      echo "<div class='alert alert-secondary mt-3'><strong>Suggestion:</strong> Feedback is mixed. Try gathering more insights with surveys. 🤔</div>";
+    }
+  } else {
+    echo "<div class='alert alert-secondary mt-3'><strong>Suggestion:</strong> Feedback is mixed. Try gathering more insights with surveys. 🤔</div>";
+  }
+} else {
+  // ✅ No feedback at all
+  echo "<div class='alert alert-info mt-3'>No feedback available yet.</div>";
+}
+?>
+
             </div>
           </div>
         </div>
@@ -217,7 +598,7 @@ checkRole(['Administrator']); // Only Administrator can access
   </div>
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
