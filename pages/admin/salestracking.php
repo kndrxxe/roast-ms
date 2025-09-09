@@ -149,6 +149,120 @@ checkRole(['Administrator']); // Only Administrator can access
       </div>
       <div class="app-content">
         <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box">
+                <span class="info-box-icon text-bg-primary shadow-sm">
+                  <i class="bi bi-currency-dollar"></i>
+                </span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Total Sales</span>
+                  <span class="info-box-number total_sales">Loading...</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box">
+                <span class="info-box-icon text-bg-danger shadow-sm">
+                  <i class="bi bi-person-badge"></i>
+                </span>
+                <div class="info-box-content">
+                  <span class="info-box-text">No. of Transactions</span>
+                  <span class="info-box-number total_employees">Loading...</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box">
+                <span class="info-box-icon text-bg-success shadow-sm">
+                  <i class="bi bi-person-fill-check"></i>
+                </span>
+                <div class="info-box-content">
+                  <span class="info-box-text truncate">Average order value</span>
+                  <span class="info-box-number attendance_status">
+                    Loading...
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box">
+                <span class="info-box-icon text-bg-warning shadow-sm">
+                  <i class="bi bi-list-check"></i>
+                </span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Top Product</span>
+                  <span class="info-box-number inventory_status">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-md-12">
+            <div class="card mb-3">
+              <div class="card-header">
+                <h5 class="card-title">Sales Trends Over Time</h5>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div id="sales-chart"></div>
+                    </di>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <h5 class="card-title">Sales per Product</h5>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                      <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                      <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div id="top-chart"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <h5 class="card-title">Sales Distribution (by Product)</h5>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                      <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                      <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div id="sales-distribution"></div>
+                      </di>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -162,7 +276,7 @@ checkRole(['Administrator']); // Only Administrator can access
   </div>
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"

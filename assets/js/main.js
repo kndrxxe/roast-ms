@@ -74,6 +74,86 @@ sales_chart.render();
 //---------------------------
 
 //-----------------------
+// - Sales Distribution CHART -
+//-----------------------
+
+const sales_distribution_options = {
+  series: [44, 55, 13, 33],
+  chart: {
+    height: 285,
+    type: "donut",
+    distributed: true,
+    toolbar: {
+      show: true,
+      tools: {
+        download: true,
+        selection: true,
+        zoom: false,
+        zoomin: true,
+        zoomout: true,
+        pan: false,
+        reset: '<img src="/static/icons/reset.png" width="20">',
+        customIcons: [],
+      },
+    },
+  },
+  labels: ["Apple", "Mango", "Orange", "Watermelon"],
+  legend: {
+    show: false,
+  },
+  tooltip: {
+    y: {
+      formatter: function (val) {
+        return val + " units";
+      },
+    },
+  },
+  plotOptions: {
+    pie: {
+      donut: {
+        labels: {
+          show: true,
+          name: {
+            show: true,
+            fontSize: "16px",
+            fontWeight: 600,
+          },
+          value: {
+            show: true,
+            fontSize: "14px",
+            fontWeight: 400,
+            formatter: function (val) {
+              return val; // ✅ only raw value, no %
+            },
+          },
+          total: {
+            show: true,
+            fontSize: "14px",
+            fontWeight: 600,
+            color: "#373d3f",
+          },
+        },
+      },
+    },
+  },
+  dataLabels: {
+    enabled: true,
+  },
+};
+
+const sales_distribution = new ApexCharts(
+  document.querySelector("#sales-distribution"),
+  sales_distribution_options
+);
+sales_distribution.render();
+
+
+
+//---------------------------
+// - END TREND SALES DISTRIBUTION CHART -
+//---------------------------
+
+//-----------------------
 // - Top Sales CHART -
 //-----------------------
 const topbar_options = {
