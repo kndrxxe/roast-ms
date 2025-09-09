@@ -104,7 +104,7 @@ const sales_distribution_options = {
   tooltip: {
     y: {
       formatter: function (val) {
-        return val + " units";
+        return val + " pieces";
       },
     },
   },
@@ -115,12 +115,12 @@ const sales_distribution_options = {
           show: true,
           name: {
             show: true,
-            fontSize: "16px",
+            fontSize: "25px",
             fontWeight: 600,
           },
           value: {
             show: true,
-            fontSize: "14px",
+            fontSize: "25px",
             fontWeight: 400,
             formatter: function (val) {
               return val; // ✅ only raw value, no %
@@ -128,7 +128,7 @@ const sales_distribution_options = {
           },
           total: {
             show: true,
-            fontSize: "14px",
+            fontSize: "25px",
             fontWeight: 600,
             color: "#373d3f",
           },
