@@ -18,9 +18,38 @@ checkRole(['Administrator']); // Only Administrator can access
     integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
   <link rel="stylesheet" href="/roast-ms/assets/css/style.css" />
   <link rel="stylesheet" href="/roast-ms/assets/css/adminlte.css" />
+  <link rel="stylesheet" href="/roast-ms/assets/css/validate.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+  <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      new DataTable('#salesTable', {
+        dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
+                rt
+                <'d-flex justify-content-between align-items-center mt-3'ip>
+                `,
+        columnDefs: [
+          { targets: [0, 1, 2, 3] }
+        ]
+      });
+    });
+  </script>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
@@ -157,7 +186,26 @@ checkRole(['Administrator']); // Only Administrator can access
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Total Sales</span>
-                  <span class="info-box-number total_sales">Loading...</span>
+                  <span class="info-box-number total_sales">
+                    <?php
+
+                    // Query total sales
+                    $query = "SELECT SUM(total_amount) AS total_sales FROM sales";
+
+                    // Execute query
+                    $result = $conn->query($query);
+
+                    if ($result) {
+                      $row = $result->fetch_assoc();
+                      $total_sales = $row['total_sales'] ?? 0; // fallback to 0 if null
+                    } else {
+                      $total_sales = 0; // fallback if query fails
+                    }
+
+                    // Format for display
+                    echo "₱" . number_format($total_sales, 2);
+                    ?>
+                  </span>
                 </div>
               </div>
             </div>
@@ -168,7 +216,24 @@ checkRole(['Administrator']); // Only Administrator can access
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">No. of Transactions</span>
-                  <span class="info-box-number total_employees">Loading...</span>
+                  <span class="info-box-number total_employees">
+                    <?php
+
+                    // Query total number of transactions
+                    $query = "SELECT COUNT(*) AS total_transactions FROM sales";
+                    $result = $conn->query($query);
+
+                    if ($result) {
+                      $row = $result->fetch_assoc();
+                      $total_transactions = $row['total_transactions'] ?? 0; // fallback to 0 if null
+                    } else {
+                      $total_transactions = 0; // fallback if query fails
+                    }
+
+                    // Display the total transactions
+                    echo $total_transactions;
+                    ?>
+                  </span>
                 </div>
               </div>
             </div>
@@ -180,7 +245,28 @@ checkRole(['Administrator']); // Only Administrator can access
                 <div class="info-box-content">
                   <span class="info-box-text truncate">Average order value</span>
                   <span class="info-box-number attendance_status">
-                    Loading...
+                    <?php
+                    // 1️⃣ Get total sales
+                    $query_sales = "SELECT SUM(total_amount) AS total_sales FROM sales";
+                    $result_sales = $conn->query($query_sales);
+                    $row_sales = $result_sales->fetch_assoc();
+                    $total_sales = $row_sales['total_sales'] ?? 0;
+
+                    // 2️⃣ Get total number of transactions
+                    $query_count = "SELECT COUNT(*) AS total_transactions FROM sales";
+                    $result_count = $conn->query($query_count);
+                    $row_count = $result_count->fetch_assoc();
+                    $total_transactions = $row_count['total_transactions'] ?? 0;
+
+                    // 3️⃣ Calculate Average Order Value
+                    $average_order_value = $total_transactions > 0
+                      ? $total_sales / $total_transactions
+                      : 0;
+
+                    // 4️⃣ Display formatted
+                    echo "₱" . number_format($average_order_value, 2);
+                    ?>
+
                   </span>
                 </div>
               </div>
@@ -192,39 +278,47 @@ checkRole(['Administrator']); // Only Administrator can access
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Top Product</span>
-                  <span class="info-box-number inventory_status">Loading...</span>
+                  <span class="info-box-number inventory_status">
+                    <?php
+
+                    $query = "
+  SELECT 
+      p.name,
+      p.size,
+      SUM(si.quantity) AS total_sold
+  FROM sales_items si
+  JOIN products p ON si.product_id = p.id
+  GROUP BY si.product_id
+  ORDER BY total_sold DESC
+  LIMIT 1
+";
+
+                    $result = $conn->query($query);
+
+                    if ($result && $row = $result->fetch_assoc()) {
+                      $top_product_name = $row['name'];
+                      $top_product_size = $row['size'];
+                      $top_product_qty = $row['total_sold'];
+                    } else {
+                      $top_product_name = "-";
+                      $top_product_size = "-";
+                      $top_product_qty = 0;
+                    }
+
+                    // Display
+                    echo $top_product_name . " ($top_product_size)";
+                    ?>
+
+                  </span>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="row g-2">
-            <div class="col-md-12">
-            <div class="card mb-3">
-              <div class="card-header">
-                <h5 class="card-title">Sales Trends Over Time</h5>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div id="sales-chart"></div>
-                    </di>
-                  </div>
-                </div>
-              </div>
-            </div>
             </div>
           </div>
           <div class="row g-2">
             <div class="col-md-6">
               <div class="card mb-3">
                 <div class="card-header">
-                  <h5 class="card-title">Sales per Product</h5>
+                  <h5 class="card-title">Sales per Category</h5>
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
                       <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -258,6 +352,307 @@ checkRole(['Administrator']); // Only Administrator can access
                       <div id="sales-distribution"></div>
                       </di>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="table-responsive">
+            <div class="data_table">
+              <div class="d-flex justify-content-between ">
+                <h4 class="fw-bold">Sales Record</h4>
+                <button type="button" class="btn btn-dark mb-2" data-bs-toggle="modal"
+                  data-bs-target="#addSalesModal">Add Sales
+                </button>
+              </div>
+              <table id="salesTable" class="table table-hover table-bordered" style="width:100%">
+                <thead>
+                  <tr class="fs-6 text-center">
+                    <th>Date</th>
+                    <th>Shift</th>
+                    <th>Barista</th>
+                    <th>Total Quantity</th>
+                    <th>Total Amount (₱)</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $result = $conn->prepare("SELECT * FROM sales ORDER BY sale_date DESC");
+                  $result->execute();
+                  $data = $result->get_result();
+                  while ($row = $data->fetch_assoc()):
+                    ?>
+                    <tr class="text-center">
+                      <td><?= htmlspecialchars($row['sale_date']) ?></td>
+                      <td><?= htmlspecialchars($row['shift']) ?></td>
+                      <td><?= htmlspecialchars($row['barista']) ?></td>
+                      <td><?= htmlspecialchars($row['total_quantity']) ?></td>
+                      <td>₱<?= number_format($row['total_amount'], 2) ?></td>
+                      <td>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#viewSalesModal"
+                          data-id="<?= $row['id'] ?>" data-date="<?= $row['sale_date'] ?>"
+                          data-shift="<?= $row['shift'] ?>" data-barista="<?= $row['barista'] ?>">
+                          <i class="bi bi-eye-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editSalesModal"
+                          data-id="<?= $row['id']; ?>">
+                          <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal"
+                          data-bs-target="#deleteSalesModal" data-id="<?= $row['id'] ?>">
+                          <i class="bi bi-trash-fill"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  <?php endwhile; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- ADD Sales Modal -->
+          <div class="modal fade" id="addSalesModal" tabindex="-1" aria-labelledby="addSalesLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addSalesLabel">Add Sales</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/roast-ms/pages/admin/api/add_sale" method="POST" class="needs-validation" novalidate>
+                  <div class="modal-body">
+                    <div class="row mb-3">
+                      <div class="col-md-4">
+                        <label class="fw-bold">Date</label>
+                        <input type="date" name="sale_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"
+                          required>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="fw-bold">Shift</label>
+                        <select name="shift" class="form-control" required>
+                          <option>Morning</option>
+                          <option>Afternoon</option>
+                          <option>Evening</option>
+                          <option>Night</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="fw-bold">Barista</label>
+                        <input type="text" name="barista" class="form-control readonly-input"
+                          value="<?php echo $_SESSION['name']; ?>" readonly>
+                      </div>
+                    </div>
+                    <!-- Sales Table -->
+                    <table class="table table-bordered" id="addsalesTable">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Size</th>
+                          <th>Quantity</th>
+                          <th>Unit Price</th>
+                          <th>Total</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <select name="product_id[]" class="form-control productSelect" required>
+                              <option value="">-- Select Product --</option>
+                              <?php
+                              $result = $conn->query("SELECT id, category, name, size, price FROM products ORDER BY category, name, size");
+                              while ($row = $result->fetch_assoc()) {
+                                echo "<option value='{$row['id']}' 
+                                data-price='{$row['price']}' 
+                                data-size='{$row['size']}'>
+                                {$row['category']} - {$row['name']} - {$row['size']}
+                                </option>";
+                              }
+                              ?>
+                            </select>
+                          </td>
+                          <td><span class="productSize"></span></td>
+                          <td>
+                            <input type="number" name="quantity[]" class="form-control quantityInput" value="1" min="1"
+                              required>
+                          </td>
+                          <td>
+                            <span class="unitPrice">₱0</span>
+                            <!-- Hidden input to send unit price -->
+                            <input type="hidden" name="unit_price[]" class="unitPriceInput" value="0">
+                          </td>
+                          <td>
+                            <span class="totalPrice">₱0</span>
+                            <!-- Hidden input to send total -->
+                            <input type="hidden" name="total[]" class="totalPriceInput" value="0">
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-dark btn-sm removeRow"><i
+                                class="bi bi-trash"></i></button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end">
+                      <button type="button" id="addRowBtn" class="btn btn-dark btn-sm"><i class="bi bi-plus-circle"></i>
+                        Add
+                        Row</button>
+                    </div>
+                    <!-- Summary -->
+                    <div class="mt-3">
+                      <p><strong>Total Quantity Sold:</strong> <span id="totalQty">0</span></p>
+                      <p><strong>Total Sales Amount:</strong> ₱<span id="grandTotal">0</span></p>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark">Save Sales</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- DELETE Sales Modal -->
+          <div class="modal fade" id="deleteSalesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="deleteSalesModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteSalesModal">
+                    <i class="bi bi-exclamation-triangle-fill text-dark" width="24" height="24"></i>
+                    Confirm Deletion
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/roast-ms/pages/admin/api/deleteuser" method="post">
+                  <div class="modal-body">
+                    <input type="hidden" name="delete_id" id="delete_id">
+                    <p class="lead">Are you sure you want to delete this record? This action cannot be
+                      undone.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="deletedata" class="btn btn-dark">
+                      <i class="bi bi-trash-fill"></i> Delete</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- EDIT Sales Modal -->
+          <div class="modal fade" id="editSalesModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content">
+                <form id="editSalesForm" action="/roast-ms/pages/admin/api/update_sale" method="POST">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Edit Sale</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+
+                  <div class="modal-body">
+                    <!-- Hidden Sale ID -->
+                    <input type="hidden" name="sale_id" id="editSaleId">
+
+                    <div class="row mb-3">
+                      <div class="col-md-4">
+                        <label class="fw-bold">Date</label>
+                        <input type="date" name="sale_date" id="editSaleDate" class="form-control" required>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="fw-bold">Shift</label>
+                        <select name="shift" id="editShift" class="form-control" required>
+                          <option>Morning</option>
+                          <option>Afternoon</option>
+                          <option>Evening</option>
+                          <option>Night</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="fw-bold">Barista</label>
+                        <input type="text" name="barista" id="editBarista" class="form-control readonly-input" readonly>
+                      </div>
+                    </div>
+
+                    <!-- Sales Items Table -->
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Size</th>
+                          <th>Quantity</th>
+                          <th>Unit Price</th>
+                          <th>Total</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody id="editSalesTableBody">
+                        <!-- JS will fill rows here -->
+                      </tbody>
+                    </table>
+
+                    <button type="button" id="addEditRow" class="btn btn-sm btn-dark"><i class="bi bi-plus-circle"></i>
+                      Add Row</button>
+
+                    <div class="mt-3">
+                      <p><strong>Total Quantity Sold:</strong> <span id="editTotalQty">0</span></p>
+                      <p><strong>Total Sales Amount:</strong> ₱<span id="editGrandTotal">0</span></p>
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark">Update Sale</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- VIEW Sales Modal -->
+          <div class="modal fade" id="viewSalesModal" tabindex="-1" aria-labelledby="viewSalesLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="viewSalesLabel">View Sales Record</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                  <!-- Header Info -->
+                  <div class="row mb-3">
+                    <div class="col-md-4">
+                      <label class="fw-bold">Date:</label>
+                      <p id="viewDate" class="form-control-plaintext"></p>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="fw-bold">Shift:</label>
+                      <p id="viewShift" class="form-control-plaintext"></p>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="fw-bold">Barista:</label>
+                      <p id="viewBarista" class="form-control-plaintext"></p>
+                    </div>
+                  </div>
+
+                  <!-- Sales Table -->
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Size</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody id="viewSalesTableBody">
+                      <!-- Populated dynamically -->
+                    </tbody>
+                  </table>
+
+                  <!-- Summary -->
+                  <div class="mt-3">
+                    <p><strong>Total Quantity Sold:</strong> <span id="viewTotalQty">0</span></p>
+                    <p><strong>Total Sales Amount:</strong> ₱<span id="viewGrandTotal">0</span></p>
                   </div>
                 </div>
               </div>
@@ -303,11 +698,296 @@ checkRole(['Administrator']); // Only Administrator can access
       }
     });
   </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const tableBody = document.querySelector("#addsalesTable tbody");
+      const addRowBtn = document.getElementById("addRowBtn");
+      const totalQty = document.getElementById("totalQty");
+      const grandTotal = document.getElementById("grandTotal");
+
+      function updateTotals() {
+        let qtySum = 0, totalSum = 0;
+        tableBody.querySelectorAll("tr").forEach(row => {
+          const select = row.querySelector(".productSelect");
+          const qty = parseInt(row.querySelector(".quantityInput").value) || 0;
+          const unitPrice = parseFloat(select?.selectedOptions[0]?.dataset.price) || 0;
+          const size = select?.selectedOptions[0]?.dataset.size || "";
+
+          const total = qty * unitPrice;
+
+          // update UI
+          row.querySelector(".productSize").textContent = size;
+          row.querySelector(".unitPrice").textContent = `₱${unitPrice}`;
+          row.querySelector(".totalPrice").textContent = `₱${total}`;
+
+          // update hidden inputs
+          row.querySelector(".unitPriceInput").value = unitPrice;
+          row.querySelector(".totalPriceInput").value = total;
+
+          qtySum += qty;
+          totalSum += total;
+        });
+
+        totalQty.textContent = qtySum;
+        grandTotal.textContent = totalSum;
+      }
+
+      // Add new row
+      addRowBtn.addEventListener("click", () => {
+        const newRow = tableBody.querySelector("tr").cloneNode(true);
+        newRow.querySelectorAll("input, select, span").forEach(el => {
+          if (el.tagName === "INPUT") el.value = 1;
+          if (el.tagName === "SELECT") el.selectedIndex = 0;
+          if (el.tagName === "SPAN") el.textContent = "";
+        });
+        tableBody.appendChild(newRow);
+      });
+
+      // Update totals on product/quantity change
+      tableBody.addEventListener("input", updateTotals);
+      tableBody.addEventListener("change", updateTotals);
+
+      // Remove row
+      tableBody.addEventListener("click", e => {
+        if (e.target.closest(".removeRow") && tableBody.querySelectorAll("tr").length > 1) {
+          e.target.closest("tr").remove();
+          updateTotals();
+        }
+      });
+
+
+      // ✅ Validate before submit
+      salesForm.addEventListener("submit", function (e) {
+        let valid = true;
+
+        tableBody.querySelectorAll("tr").forEach(row => {
+          const select = row.querySelector(".productSelect");
+          const qty = row.querySelector(".quantityInput");
+
+          // Reset error styles
+          select.classList.remove("is-invalid");
+          qty.classList.remove("is-invalid");
+
+          if (!select.value) {
+            select.classList.add("is-invalid");
+            valid = false;
+          }
+          if (qty.value <= 0) {
+            qty.classList.add("is-invalid");
+            valid = false;
+          }
+        });
+
+        if (!valid) {
+          e.preventDefault();
+          e.stopPropagation();
+          alert("⚠️ Please select a product and enter a quantity greater than 0 for all rows.");
+        }
+      });
+      updateTotals();
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const viewModal = document.getElementById("viewSalesModal");
+
+      viewModal.addEventListener("show.bs.modal", function (event) {
+        let button = event.relatedTarget;
+        let saleId = button.getAttribute("data-id");
+
+        // Fill header info (optional: pass from table)
+        document.getElementById("viewDate").innerText = button.getAttribute("data-date");
+        document.getElementById("viewShift").innerText = button.getAttribute("data-shift");
+        document.getElementById("viewBarista").innerText = button.getAttribute("data-barista");
+
+        // Clear table
+        const tbody = document.getElementById("viewSalesTableBody");
+        tbody.innerHTML = "";
+
+        fetch(`/roast-ms/pages/admin/api/get_sale.php?sale_id=${saleId}`)
+          .then(res => res.json())
+          .then(items => {
+            let totalQty = 0, grandTotal = 0;
+
+            items.forEach(item => {
+              let row = `
+            <tr>
+              <td>${item.product}</td>
+              <td>${item.size}</td>
+              <td>${item.quantity}</td>
+              <td>₱${parseFloat(item.unit_price).toFixed(2)}</td>
+              <td>₱${parseFloat(item.total).toFixed(2)}</td>
+            </tr>
+          `;
+              tbody.insertAdjacentHTML("beforeend", row);
+              totalQty += parseInt(item.quantity);
+              grandTotal += parseFloat(item.total);
+            });
+
+            document.getElementById("viewTotalQty").innerText = totalQty;
+            document.getElementById("viewGrandTotal").innerText = grandTotal.toFixed(2);
+          })
+          .catch(err => {
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center">Error loading items</td></tr>`;
+            console.error(err);
+          });
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const editButtons = document.querySelectorAll("[data-bs-target='#editSalesModal']");
+      const tableBody = document.getElementById("editSalesTableBody");
+      const totalQty = document.getElementById("editTotalQty");
+      const grandTotal = document.getElementById("editGrandTotal");
+      const addEditRowBtn = document.getElementById("addEditRow"); // button to add row
+
+      function updateTotals() {
+        let qtySum = 0, totalSum = 0;
+        tableBody.querySelectorAll("tr").forEach(row => {
+          const qty = parseInt(row.querySelector(".quantityInput").value) || 0;
+          const price = parseFloat(row.querySelector(".unitPriceInput").value) || 0;
+          const total = qty * price;
+
+          row.querySelector(".totalPrice").textContent = `₱${total}`;
+          row.querySelector(".totalPriceInput").value = total;
+
+          qtySum += qty;
+          totalSum += total;
+        });
+        totalQty.textContent = qtySum;
+        grandTotal.textContent = totalSum;
+      }
+
+      // Load existing sales data into modal
+      editButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const saleId = btn.getAttribute("data-id");
+
+          fetch(`/roast-ms/pages/admin/api/get_saledetails.php?id=${saleId}`)
+            .then(res => res.json())
+            .then(data => {
+              // Fill main info
+              document.getElementById("editSaleId").value = data.sale.id;
+              document.getElementById("editSaleDate").value = data.sale.sale_date;
+              document.getElementById("editShift").value = data.sale.shift;
+              document.getElementById("editBarista").value = data.sale.barista;
+
+              // Fill items
+              tableBody.innerHTML = "";
+              data.items.forEach(item => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                <td>${item.name}<input type="hidden" name="product_id[]" value="${item.product_id}"></td>
+                <td>${item.size}</td>
+                <td><input type="number" name="quantity[]" class="form-control quantityInput" value="${item.quantity}" min="1"></td>
+                <td>₱${item.unit_price}<input type="hidden" name="unit_price[]" class="unitPriceInput" value="${item.unit_price}"></td>
+                <td><span class="totalPrice">₱${item.total}</span><input type="hidden" name="total[]" class="totalPriceInput" value="${item.total}"></td>
+                <td><button type="button" class="btn btn-dark btn-sm removeRow"><i class="bi bi-trash"></i></button></td>
+              `;
+                tableBody.appendChild(row);
+              });
+
+              updateTotals();
+            });
+        });
+      });
+
+      // Add new row (blank for editing)
+      if (addEditRowBtn) {
+        addEditRowBtn.addEventListener("click", () => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+          <td>
+            <select name="product_id[]" class="form-control productSelect" required>
+              <option value="">-- Select Product --</option>
+              <?php
+              $result = $conn->query("SELECT id, category, name, size, price FROM products ORDER BY category, name, size");
+              while ($row = $result->fetch_assoc()) {
+                echo "<option value='{$row['id']}' data-price='{$row['price']}' data-size='{$row['size']}'>
+                          {$row['category']} - {$row['name']} - {$row['size']}
+                        </option>";
+              }
+              ?>
+            </select>
+          </td>
+          <td><span class="productSize"></span></td>
+          <td><input type="number" name="quantity[]" class="form-control quantityInput" value="1" min="1"></td>
+          <td><span class="unitPrice">₱0</span><input type="hidden" name="unit_price[]" class="unitPriceInput" value="0"></td>
+          <td><span class="totalPrice">₱0</span><input type="hidden" name="total[]" class="totalPriceInput" value="0"></td>
+          <td><button type="button" class="btn btn-dark btn-sm removeRow"><i class="bi bi-trash"></i></button></td>
+        `;
+          tableBody.appendChild(row);
+        });
+      }
+
+      // Update totals when qty changes
+      tableBody.addEventListener("input", updateTotals);
+
+      // Remove row
+      tableBody.addEventListener("click", e => {
+        if (e.target.closest(".removeRow")) {
+          e.target.closest("tr").remove();
+          updateTotals();
+        }
+      });
+
+      // Update price/size when product changes
+      tableBody.addEventListener("change", e => {
+        if (e.target.classList.contains("productSelect")) {
+          const option = e.target.selectedOptions[0];
+          const row = e.target.closest("tr");
+
+          const price = option.getAttribute("data-price") || 0;
+          const size = option.getAttribute("data-size") || "";
+
+          row.querySelector(".productSize").textContent = size;
+          row.querySelector(".unitPrice").textContent = `₱${price}`;
+          row.querySelector(".unitPriceInput").value = price;
+
+          updateTotals();
+        }
+      });
+    });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
     integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/main.js"></script>
   <script src="/roast-ms/assets/js/script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: true,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "5000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+      };
+
+      <?php
+      if (isset($_SESSION['salesfailed'])) {
+        echo "toastr.error('" . $_SESSION['salesfailed'] . "', 'Error');";
+        unset($_SESSION['salesfailed']);
+      }
+      if (isset($_SESSION['salessuccess'])) {
+        echo "toastr.success('" . $_SESSION['salessuccess'] . "', 'Success');";
+        unset($_SESSION['salessuccess']);
+      }
+      ?>
+    });
+  </script>
 </body>
 
 </html>

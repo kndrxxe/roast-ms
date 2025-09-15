@@ -212,7 +212,7 @@ checkRole(['Administrator']); // Only Administrator can access
                       <td><?= htmlspecialchars($row['created_at']) ?></td>
                       <td class="text-center">
                         <div class="btn-group me-2">
-                          <button type="button" class="btn btn-danger btn-md deletebtn px-2"><i class="bi bi-trash"></i>
+                          <button type="button" class="btn btn-dark btn-md deletebtn px-2"><i class="bi bi-trash-fill"></i>
                           </button>
                         </div>
                       </td>
@@ -304,13 +304,13 @@ checkRole(['Administrator']); // Only Administrator can access
                 <form action="/roast-ms/pages/admin/api/deleteuser" method="post">
                   <div class="modal-body">
                     <input type="hidden" name="delete_id" id="delete_id">
-                    <p class="lead">Are you sure you want to delete this item? This action cannot be
+                    <p class="lead">Are you sure you want to delete this user? This action cannot be
                       undone.</p>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="deletedata" class="btn btn-danger">
-                      Delete</button>
+                    <button type="submit" name="deletedata" class="btn btn-dark">
+                      <i class="bi bi-trash-fill"></i> Delete</button>
                   </div>
                 </form>
               </div>

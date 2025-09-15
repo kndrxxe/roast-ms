@@ -165,8 +165,8 @@ checkRole(['Barista']); // Only Administrator can access
               <div class="d-flex justify-content-between">
                 <h4 class="mb-3 fw-bold">Daily Time Record</h4>
                 <form class="clock-in-out" method="POST" action="/roast-ms/pages/barista/api/clock-in-out">
-                  <button type="submit" name="time_in" class="btn btn-success">Time In</button>
-                  <button type="submit" name="time_out" class="btn btn-danger">Time Out</button>
+                  <button type="submit" name="time_in" class="btn btn-dark">Time In</button>
+                  <button type="submit" name="time_out" class="btn btn-dark">Time Out</button>
                 </form>
               </div>
               <table id="dtrTable" class="table table-hover table-bordered" style="width:100%">

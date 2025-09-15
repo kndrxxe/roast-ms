@@ -160,7 +160,28 @@ checkRole(['Administrator']);
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Total Sales</span>
-                  <span class="info-box-number total_sales">Loading...</span>
+                  <span class="info-box-number total_sales">
+<?php
+
+// Query total sales
+$query = "SELECT SUM(total_amount) AS total_sales FROM sales";
+
+// Execute query
+$result = $conn->query($query);
+
+if ($result) {
+    $row = $result->fetch_assoc();
+    $total_sales = $row['total_sales'] ?? 0; // fallback to 0 if null
+} else {
+    $total_sales = 0; // fallback if query fails
+}
+
+// Format for display
+echo "₱" . number_format($total_sales, 2);
+?>
+
+
+                  </span>
                 </div>
               </div>
             </div>
