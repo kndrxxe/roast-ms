@@ -86,7 +86,7 @@ checkRole(['Administrator']); // Only Administrator can access
               </li>
           </li>
           <li class="user-footer">
-            <a href="#" class="btn btn-default btn-flat">Profile</a>
+            <a href="#" class="btn btn-default btn-flat">Settings</a>
             <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
@@ -181,17 +181,15 @@ checkRole(['Administrator']); // Only Administrator can access
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-primary shadow-sm">
-                  <i class="bi bi-currency-dollar"></i>
+                <span class="info-box-icon text-bg-primary shadow-sm d-flex align-items-center justify-content-center">
+                  <i class="bi bi-graph-up"></i>
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Total Sales</span>
                   <span class="info-box-number total_sales">
                     <?php
-
                     // Query total sales
                     $query = "SELECT SUM(total_amount) AS total_sales FROM sales";
-
                     // Execute query
                     $result = $conn->query($query);
 
@@ -211,8 +209,8 @@ checkRole(['Administrator']); // Only Administrator can access
             </div>
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-danger shadow-sm">
-                  <i class="bi bi-person-badge"></i>
+                <span class="info-box-icon text-bg-danger shadow-sm d-flex align-items-center justify-content-center">
+                  <i class="bi bi-arrow-left-right"></i>
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">No. of Transactions</span>
@@ -239,8 +237,8 @@ checkRole(['Administrator']); // Only Administrator can access
             </div>
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-success shadow-sm">
-                  <i class="bi bi-person-fill-check"></i>
+                <span class="info-box-icon text-bg-success shadow-sm d-flex align-items-center justify-content-center">
+                  <i class="bi bi-cart-check-fill"></i>
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text truncate">Average order value</span>
@@ -273,12 +271,12 @@ checkRole(['Administrator']); // Only Administrator can access
             </div>
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-warning shadow-sm">
-                  <i class="bi bi-list-check"></i>
+                <span class="info-box-icon text-bg-warning shadow-sm d-flex align-items-center justify-content-center">
+                  <i class="bi bi-stars"></i>
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Top Product</span>
-                  <span class="info-box-number inventory_status">
+                  <span class="info-box-number inventory_status text-truncate">
                     <?php
 
                     $query = "
@@ -362,9 +360,9 @@ checkRole(['Administrator']); // Only Administrator can access
             <div class="data_table">
               <div class="d-flex justify-content-between ">
                 <h4 class="fw-bold">Sales Record</h4>
-                <button type="button" class="btn btn-dark mb-2" data-bs-toggle="modal"
+                <!--<button type="button" class="btn btn-dark mb-2" data-bs-toggle="modal"
                   data-bs-target="#addSalesModal">Add Sales
-                </button>
+                </button> -->
               </div>
               <table id="salesTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
@@ -399,10 +397,6 @@ checkRole(['Administrator']); // Only Administrator can access
                         <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editSalesModal"
                           data-id="<?= $row['id']; ?>">
                           <i class="bi bi-pencil-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal"
-                          data-bs-target="#deleteSalesModal" data-id="<?= $row['id'] ?>">
-                          <i class="bi bi-trash-fill"></i>
                         </button>
                       </td>
                     </tr>
@@ -507,33 +501,6 @@ checkRole(['Administrator']); // Only Administrator can access
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-dark">Save Sales</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <!-- DELETE Sales Modal -->
-          <div class="modal fade" id="deleteSalesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="deleteSalesModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="deleteSalesModal">
-                    <i class="bi bi-exclamation-triangle-fill text-dark" width="24" height="24"></i>
-                    Confirm Deletion
-                  </h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="/roast-ms/pages/admin/api/deleteuser" method="post">
-                  <div class="modal-body">
-                    <input type="hidden" name="delete_id" id="delete_id">
-                    <p class="lead">Are you sure you want to delete this record? This action cannot be
-                      undone.</p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="deletedata" class="btn btn-dark">
-                      <i class="bi bi-trash-fill"></i> Delete</button>
                   </div>
                 </form>
               </div>

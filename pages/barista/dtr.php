@@ -95,7 +95,7 @@ checkRole(['Barista']); // Only Administrator can access
               </li>
           </li>
           <li class="user-footer">
-            <a href="#" class="btn btn-default btn-flat">Profile</a>
+            <a href="#" class="btn btn-default btn-flat">Settings</a>
             <a href="/roast-ms/logout.php" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
@@ -136,6 +136,13 @@ checkRole(['Barista']); // Only Administrator can access
               <a class="nav-link active">
                 <i class="nav-icon bi bi-calendar3"></i>
                 <p>DTR & Payroll</p>
+              </a>
+            </li>
+            <li class="nav-header">SALES AND ANALYTICS</li>
+            <li class="nav-item">
+              <a href="salestracking.php" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-data"></i>
+                <p>Sales Tracking and Forecasting</p>
               </a>
             </li>
           </ul>
@@ -210,21 +217,53 @@ checkRole(['Barista']); // Only Administrator can access
                     <th>Total Hours</th>
                     <th>Gross Pay</th>
                     <th>Net Pay</th>
-                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-                  $result = $conn->query("SELECT * FROM roles");
+                  $currentUser = $_SESSION['name'];
+                  $stmt = $conn->prepare("
+    SELECT 
+        name,
+        YEAR(date) AS year,
+        MONTH(date) AS month,
+        CASE 
+          WHEN DAY(date) <= 15 THEN '1-15'
+          ELSE '16-EOM'
+        END AS cutoff,
+        COUNT(DISTINCT date) AS total_days_worked,
+        SUM(total_hours) AS total_hours
+    FROM dtr_logs
+    WHERE name = ?
+    GROUP BY name, year, month, cutoff
+    ORDER BY year DESC, month DESC, cutoff
+");
+
+                  $stmt->bind_param("s", $currentUser);
+                  $stmt->execute();
+                  $result = $stmt->get_result();
+
+                  $hourly_rate = 100; // Example fixed rate
+                  
                   while ($row = $result->fetch_assoc()):
+                    $gross_pay = $row['total_hours'] * $hourly_rate;
+                    $net_pay = $gross_pay * 0.9; // Example 10% deduction
+                  
+                    // Format month with leading zeros
+                    $month = str_pad($row['month'], 2, '0', STR_PAD_LEFT);
+
+                    if ($row['cutoff'] === '1-15') {
+                      $period = "{$row['year']}-$month-01 to {$row['year']}-$month-15";
+                    } else {
+                      $period = "{$row['year']}-$month-16 to " . date("Y-m-t", strtotime("{$row['year']}-$month-01"));
+                    }
                     ?>
                     <tr class="text-center">
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td><?= htmlspecialchars($period) ?></td>
+                      <td><?= htmlspecialchars($row['total_days_worked']) ?></td>
+                      <td><?= htmlspecialchars($row['total_hours']) ?></td>
+                      <td><?= number_format($gross_pay, 2) ?></td>
+                      <td><?= number_format($net_pay, 2) ?></td>
                     </tr>
                   <?php endwhile; ?>
                 </tbody>

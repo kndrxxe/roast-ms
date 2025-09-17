@@ -60,7 +60,7 @@ checkRole(['Administrator']);
               </li>
           </li>
           <li class="user-footer">
-            <a href="#" class="btn btn-default btn-flat">Profile</a>
+            <a href="#" class="btn btn-default btn-flat">Settings</a>
             <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
@@ -155,39 +155,33 @@ checkRole(['Administrator']);
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-primary shadow-sm">
-                  <i class="bi bi-currency-dollar"></i>
+                <span class="info-box-icon text-bg-primary shadow-sm d-flex align-items-center justify-content-center">
+                  <i class="bi bi-graph-up"></i>
                 </span>
                 <div class="info-box-content">
                   <span class="info-box-text">Total Sales</span>
                   <span class="info-box-number total_sales">
-<?php
-
-// Query total sales
-$query = "SELECT SUM(total_amount) AS total_sales FROM sales";
-
-// Execute query
-$result = $conn->query($query);
-
-if ($result) {
-    $row = $result->fetch_assoc();
-    $total_sales = $row['total_sales'] ?? 0; // fallback to 0 if null
-} else {
-    $total_sales = 0; // fallback if query fails
-}
-
-// Format for display
-echo "₱" . number_format($total_sales, 2);
-?>
-
-
+                    <?php
+                    // Query total sales
+                    $query = "SELECT SUM(total_amount) AS total_sales FROM sales";
+                    // Execute query
+                    $result = $conn->query($query);
+                    if ($result) {
+                      $row = $result->fetch_assoc();
+                      $total_sales = $row['total_sales'] ?? 0; // fallback to 0 if null
+                    } else {
+                      $total_sales = 0; // fallback if query fails
+                    }
+                    // Format for display
+                    echo "₱" . number_format($total_sales, 2);
+                    ?>
                   </span>
                 </div>
               </div>
             </div>
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-danger shadow-sm">
+                <span class="info-box-icon text-bg-danger shadow-sm d-flex align-items-center justify-content-center">
                   <i class="bi bi-person-badge"></i>
                 </span>
                 <div class="info-box-content">
@@ -205,7 +199,7 @@ echo "₱" . number_format($total_sales, 2);
             </div>
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-success shadow-sm">
+                <span class="info-box-icon text-bg-success shadow-sm d-flex align-items-center justify-content-center">
                   <i class="bi bi-person-fill-check"></i>
                 </span>
                 <div class="info-box-content">
@@ -224,7 +218,6 @@ echo "₱" . number_format($total_sales, 2);
                     }
 
                     $stmt->close();
-                    $conn->close();
                     ?>
                   </span>
                 </div>
@@ -232,7 +225,7 @@ echo "₱" . number_format($total_sales, 2);
             </div>
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-warning shadow-sm">
+                <span class="info-box-icon text-bg-warning shadow-sm d-flex align-items-center justify-content-center">
                   <i class="bi bi-list-check"></i>
                 </span>
                 <div class="info-box-content">
@@ -246,7 +239,7 @@ echo "₱" . number_format($total_sales, 2);
             <div class="col-md-7">
               <div class="card mb-3">
                 <div class="card-header">
-                  <h5 class="card-title">Sales Trends Over Time</h5>
+                  <h5 class="card-title">Latest Sales Record</h5>
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
                       <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -257,8 +250,35 @@ echo "₱" . number_format($total_sales, 2);
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-12">
-                      <div id="sales-chart"></div>
-                      </di>
+                      <div class="table-responsive">
+                        <table id="salesTable" class="table table-hover table-bordered" style="width:100%">
+                          <thead>
+                            <tr class="fs-6 text-center">
+                              <th>Date</th>
+                              <th>Shift</th>
+                              <th>Barista</th>
+                              <th>Total Quantity</th>
+                              <th>Total Amount (₱)</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php
+                            $result = $conn->prepare("SELECT * FROM sales ORDER BY sale_date DESC LIMIT 5");
+                            $result->execute();
+                            $data = $result->get_result();
+                            while ($row = $data->fetch_assoc()):
+                              ?>
+                              <tr class="text-center">
+                                <td><?= htmlspecialchars($row['sale_date']) ?></td>
+                                <td><?= htmlspecialchars($row['shift']) ?></td>
+                                <td><?= htmlspecialchars($row['barista']) ?></td>
+                                <td><?= htmlspecialchars($row['total_quantity']) ?></td>
+                                <td>₱<?= number_format($row['total_amount'], 2) ?></td>
+                              </tr>
+                            <?php endwhile; ?>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -332,6 +352,7 @@ echo "₱" . number_format($total_sales, 2);
     integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/main.js"></script>
   <script src="/roast-ms/assets/js/script.js"></script>
+  <?php $conn->close(); ?>
 </body>
 
 </html>

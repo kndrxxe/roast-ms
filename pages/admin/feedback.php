@@ -42,7 +42,7 @@ checkRole(['Administrator']); // Only Administrator can access
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
         language: {
-          emptyTable: "No feedback yet.",
+          emptyTable: "No data available in table",
         },
         columnDefs: [
           { targets: [0, 1, 2, 3] }
@@ -86,7 +86,7 @@ checkRole(['Administrator']); // Only Administrator can access
               </li>
           </li>
           <li class="user-footer">
-            <a href="#" class="btn btn-default btn-flat">Profile</a>
+            <a href="#" class="btn btn-default btn-flat">Settings</a>
             <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
@@ -530,58 +530,59 @@ checkRole(['Administrator']); // Only Administrator can access
               </table>
 
               <?php
-if ($result->num_rows > 0) {
-  // ✅ Suggestion Section Below Table
-  if ($positiveCount > $negativeCount) {
-    echo "<div class='alert alert-success mt-3'><strong>Suggestion:</strong> Customers are mostly happy! Keep maintaining food quality and customer service. 😊</div>";
-  } elseif ($negativeCount > $positiveCount) {
-    // Sort issues by frequency
-    arsort($issueCount);
+              if ($result->num_rows > 0) {
+                // ✅ Suggestion Section Below Table
+                if ($positiveCount > $negativeCount) {
+                  echo "<div class='alert alert-success mt-3'><strong>Suggestion:</strong> Customers are mostly happy! Keep maintaining food quality and customer service. 😊</div>";
+                } elseif ($negativeCount > $positiveCount) {
+                  // Sort issues by frequency
+                  arsort($issueCount);
 
-    $suggestions = [
-      'speed' => "Many customers mentioned waiting time. Suggestion: improve service speed. ⏱️",
-      'cleanliness' => "Cleanliness was a concern. Suggestion: maintain tidiness and hygiene. 🧹",
-      'price' => "Pricing seems to be a concern. Suggestion: review menu pricing or offer promotions. 💰",
-      'taste' => "Some feedback pointed at taste. Suggestion: refine recipes and coffee consistency. ☕",
-      'service' => "Service quality was flagged. Suggestion: train staff for friendliness and attentiveness. 🙋",
-      'temperature' => "Customers mentioned drinks being too hot or too cold. Suggestion: double-check temperature consistency. 🌡️",
-      'availability' => "Some items were unavailable. Suggestion: ensure bestsellers are always in stock. 📦",
-      'noise' => "Noise level was a concern. Suggestion: consider soft music and a cozier environment. 🎶",
-      'comfort' => "Seating comfort was flagged. Suggestion: improve chairs, tables, or air conditioning. 🛋️",
-      'portion' => "Portion sizes were mentioned. Suggestion: review serving sizes to match customer expectations. 🍽️",
-      'crowded' => "Crowded space was noted. Suggestion: improve table arrangements or manage peak hours better. 👥",
-      'wifi' => "Wi-Fi quality was mentioned. Suggestion: provide stable and fast internet for customers. 📶",
-      'parking' => "Parking was an issue. Suggestion: provide clear directions or arrange partnerships with nearby parking areas. 🚗"
-    ];
+                  $suggestions = [
+                    'speed' => "Many customers mentioned waiting time. Suggestion: improve service speed. ⏱️",
+                    'cleanliness' => "Cleanliness was a concern. Suggestion: maintain tidiness and hygiene. 🧹",
+                    'price' => "Pricing seems to be a concern. Suggestion: review menu pricing or offer promotions. 💰",
+                    'taste' => "Some feedback pointed at taste. Suggestion: refine recipes and coffee consistency. ☕",
+                    'service' => "Service quality was flagged. Suggestion: train staff for friendliness and attentiveness. 🙋",
+                    'temperature' => "Customers mentioned drinks being too hot or too cold. Suggestion: double-check temperature consistency. 🌡️",
+                    'availability' => "Some items were unavailable. Suggestion: ensure bestsellers are always in stock. 📦",
+                    'noise' => "Noise level was a concern. Suggestion: consider soft music and a cozier environment. 🎶",
+                    'comfort' => "Seating comfort was flagged. Suggestion: improve chairs, tables, or air conditioning. 🛋️",
+                    'portion' => "Portion sizes were mentioned. Suggestion: review serving sizes to match customer expectations. 🍽️",
+                    'crowded' => "Crowded space was noted. Suggestion: improve table arrangements or manage peak hours better. 👥",
+                    'wifi' => "Wi-Fi quality was mentioned. Suggestion: provide stable and fast internet for customers. 📶",
+                    'parking' => "Parking was an issue. Suggestion: provide clear directions or arrange partnerships with nearby parking areas. 🚗"
+                  ];
 
-    // Pick top 3 issues that have counts > 0
-    $shownSuggestions = [];
-    $counter = 0;
-    foreach ($issueCount as $issue => $count) {
-      if ($count > 0 && isset($suggestions[$issue])) {
-        $shownSuggestions[] = $suggestions[$issue];
-        $counter++;
-      }
-      if ($counter >= 3) break; // limit to 3 suggestions
-    }
+                  // Pick top 3 issues that have counts > 0
+                  $shownSuggestions = [];
+                  $counter = 0;
+                  foreach ($issueCount as $issue => $count) {
+                    if ($count > 0 && isset($suggestions[$issue])) {
+                      $shownSuggestions[] = $suggestions[$issue];
+                      $counter++;
+                    }
+                    if ($counter >= 3)
+                      break; // limit to 3 suggestions
+                  }
 
-    if (!empty($shownSuggestions)) {
-      echo "<div class='alert alert-danger mt-3'><strong>Suggestions:</strong><ul>";
-      foreach ($shownSuggestions as $s) {
-        echo "<li>$s</li>";
-      }
-      echo "</ul></div>";
-    } else {
-      echo "<div class='alert alert-secondary mt-3'><strong>Suggestion:</strong> Feedback is mixed. Try gathering more insights with surveys. 🤔</div>";
-    }
-  } else {
-    echo "<div class='alert alert-secondary mt-3'><strong>Suggestion:</strong> Feedback is mixed. Try gathering more insights with surveys. 🤔</div>";
-  }
-} else {
-  // ✅ No feedback at all
-  echo "<div class='alert alert-info mt-3'>No feedback available yet.</div>";
-}
-?>
+                  if (!empty($shownSuggestions)) {
+                    echo "<div class='alert alert-danger mt-3'><strong>Suggestions:</strong><ul>";
+                    foreach ($shownSuggestions as $s) {
+                      echo "<li>$s</li>";
+                    }
+                    echo "</ul></div>";
+                  } else {
+                    echo "<div class='alert alert-secondary mt-3'><strong>Suggestion:</strong> Feedback is mixed. Try gathering more insights with surveys. 🤔</div>";
+                  }
+                } else {
+                  echo "<div class='alert alert-secondary mt-3'><strong>Suggestion:</strong> Feedback is mixed. Try gathering more insights with surveys. 🤔</div>";
+                }
+              } else {
+                // ✅ No feedback at all
+                echo "<div class='alert alert-secondary mt-3'>No feedback available yet.</div>";
+              }
+              ?>
 
             </div>
           </div>

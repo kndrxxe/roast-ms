@@ -95,7 +95,7 @@ checkRole(['Administrator']); // Only Administrator can access
               </li>
           </li>
           <li class="user-footer">
-            <a href="#" class="btn btn-default btn-flat">Profile</a>
+            <a href="#" class="btn btn-default btn-flat">Settings</a>
             <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
@@ -234,7 +234,6 @@ checkRole(['Administrator']); // Only Administrator can access
                     <th>Total Hours</th>
                     <th>Gross Pay</th>
                     <th>Net Pay</th>
-                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -278,7 +277,6 @@ checkRole(['Administrator']); // Only Administrator can access
                       <td><?= htmlspecialchars($row['total_hours']) ?></td>
                       <td><?= number_format($gross_pay, 2) ?></td>
                       <td><?= number_format($net_pay, 2) ?></td>
-                      <td><span class="badge bg-success">Completed</span></td>
                     </tr>
                   <?php endwhile; ?>
                 </tbody>

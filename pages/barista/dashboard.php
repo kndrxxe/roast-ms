@@ -60,7 +60,7 @@ checkRole(['Barista']);
               </li>
           </li>
           <li class="user-footer">
-            <a href="#" class="btn btn-default btn-flat">Profile</a>
+            <a href="#" class="btn btn-default btn-flat">Settings</a>
             <a href="/roast-ms/logout.php" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
@@ -101,6 +101,13 @@ checkRole(['Barista']);
               <a href="dtr.php" class="nav-link">
                 <i class="nav-icon bi bi-calendar3"></i>
                 <p>DTR & Payroll</p>
+              </a>
+            </li>
+            <li class="nav-header">SALES AND ANALYTICS</li>
+            <li class="nav-item">
+              <a href="salestracking.php" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-data"></i>
+                <p>Sales Tracking and Forecasting</p>
               </a>
             </li>
           </ul>
