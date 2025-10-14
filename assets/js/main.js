@@ -115,3 +115,50 @@ fetch("/roast-ms/pages/admin/api/get_sales_per_category.php")
 //-----------------------
 // - END Sales per Category CHART -
 //-----------------------
+
+//-----------------------
+// - Sales per Month CHART -
+//-----------------------
+fetch('/roast-ms/pages/admin/api/get_sales_per_month.php')
+  .then(res => res.json())
+  .then(data => {
+    console.log('Monthly sales data:', data); // Debug
+
+    if (!data || !data.length) return;
+
+    const categories = data.map(item => {
+      const year = Number(item.year);
+      const month = Number(item.month) - 1;
+      const date = new Date(year, month);
+      return date.toLocaleString('default', { month: 'short', year: 'numeric' });
+    });
+
+    const salesData = data.map(item => Number(item.total_sales));
+
+    const options = {
+      chart: { height: 350, type: "line" },
+      series: [{ name: "Monthly Sales", data: salesData }],
+      xaxis: { categories: categories },
+      yaxis: { title: { text: "Sales Amount (₱)" } },
+      stroke: { width: 4 },
+      colors: ["#247BA0"],
+      dataLabels: { enabled: false },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: { formatter: val => "₱" + val.toLocaleString() }
+      },
+      legend: { horizontalAlign: "left", offsetX: 40 }
+    };
+
+    const chartEl = document.querySelector("#charte");
+    if (chartEl) {
+      new ApexCharts(chartEl, options).render();
+    } else {
+      console.warn('Chart container "#charte" not found.');
+    }
+  })
+  .catch(err => console.error('Error fetching sales per month:', err));
+//-----------------------
+// - END Sales per Category CHART -
+//----

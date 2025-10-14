@@ -38,15 +38,15 @@ checkRole(['Administrator']); // Only Administrator can access
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
   <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
       new DataTable('#salesTable', {
         dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
                 rt
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
-        columnDefs: [
-          { targets: [0, 1, 2, 3] }
-        ]
+        columnDefs: [{
+          targets: [0, 1, 2, 3]
+        }]
       });
     });
   </script>
@@ -355,6 +355,28 @@ checkRole(['Administrator']); // Only Administrator can access
               </div>
             </div>
           </div>
+          <div class="row g-2">
+            <div class="col-12">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <h5 class="card-title">Monthly Sales</h5>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                      <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                      <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div id="charte"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <hr>
           <div class="table-responsive">
             <div class="data_table">
@@ -381,7 +403,7 @@ checkRole(['Administrator']); // Only Administrator can access
                   $result->execute();
                   $data = $result->get_result();
                   while ($row = $data->fetch_assoc()):
-                    ?>
+                  ?>
                     <tr class="text-center">
                       <td><?= htmlspecialchars($row['sale_date']) ?></td>
                       <td><?= htmlspecialchars($row['shift']) ?></td>
@@ -652,7 +674,7 @@ checkRole(['Administrator']); // Only Administrator can access
       scrollbarAutoHide: 'leave',
       scrollbarClickScroll: true,
     };
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
       if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
         OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
@@ -673,7 +695,8 @@ checkRole(['Administrator']); // Only Administrator can access
       const grandTotal = document.getElementById("grandTotal");
 
       function updateTotals() {
-        let qtySum = 0, totalSum = 0;
+        let qtySum = 0,
+          totalSum = 0;
         tableBody.querySelectorAll("tr").forEach(row => {
           const select = row.querySelector(".productSelect");
           const qty = parseInt(row.querySelector(".quantityInput").value) || 0;
@@ -724,7 +747,7 @@ checkRole(['Administrator']); // Only Administrator can access
 
 
       // ✅ Validate before submit
-      salesForm.addEventListener("submit", function (e) {
+      salesForm.addEventListener("submit", function(e) {
         let valid = true;
 
         tableBody.querySelectorAll("tr").forEach(row => {
@@ -755,10 +778,10 @@ checkRole(['Administrator']); // Only Administrator can access
     });
   </script>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
       const viewModal = document.getElementById("viewSalesModal");
 
-      viewModal.addEventListener("show.bs.modal", function (event) {
+      viewModal.addEventListener("show.bs.modal", function(event) {
         let button = event.relatedTarget;
         let saleId = button.getAttribute("data-id");
 
@@ -774,7 +797,8 @@ checkRole(['Administrator']); // Only Administrator can access
         fetch(`/roast-ms/pages/admin/api/get_sale.php?sale_id=${saleId}`)
           .then(res => res.json())
           .then(items => {
-            let totalQty = 0, grandTotal = 0;
+            let totalQty = 0,
+              grandTotal = 0;
 
             items.forEach(item => {
               let row = `
@@ -810,7 +834,8 @@ checkRole(['Administrator']); // Only Administrator can access
       const addEditRowBtn = document.getElementById("addEditRow"); // button to add row
 
       function updateTotals() {
-        let qtySum = 0, totalSum = 0;
+        let qtySum = 0,
+          totalSum = 0;
         tableBody.querySelectorAll("tr").forEach(row => {
           const qty = parseInt(row.querySelector(".quantityInput").value) || 0;
           const price = parseFloat(row.querySelector(".unitPriceInput").value) || 0;
@@ -924,7 +949,7 @@ checkRole(['Administrator']); // Only Administrator can access
   <script src="/roast-ms/assets/js/script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       toastr.options = {
         closeButton: true,
         debug: false,
