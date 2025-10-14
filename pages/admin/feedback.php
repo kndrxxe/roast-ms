@@ -35,7 +35,7 @@ checkRole(['Administrator']); // Only Administrator can access
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
   <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
       new DataTable('#myTable', {
         dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'>f>>
                 rt
@@ -44,9 +44,9 @@ checkRole(['Administrator']); // Only Administrator can access
         language: {
           emptyTable: "No data available in table",
         },
-        columnDefs: [
-          { targets: [0, 1, 2, 3] }
-        ]
+        columnDefs: [{
+          targets: [0, 1, 2, 3]
+        }]
       });
     });
   </script>
@@ -454,10 +454,10 @@ checkRole(['Administrator']); // Only Administrator can access
               }
 
               // ✅ Sentiment Analysis with Issue Tracking
-              function analyzeSentiment($text, $positive_words, $negative_words, &$positiveCount, &$negativeCount, &$neutralCount, &$issueCategories, &$issueCount)
+              function analyzeSentiment($text, $rating, $positive_words, $negative_words, &$positiveCount, &$negativeCount, &$neutralCount, &$issueCategories, &$issueCount)
               {
                 $text = strtolower($text);
-                $score = 0;
+                $commentScore = 0;
 
                 $words = preg_split('/\s+/', $text);
 
@@ -467,10 +467,10 @@ checkRole(['Administrator']); // Only Administrator can access
                   $negation = ($i > 0 && in_array($words[$i - 1], ['not', 'never']));
 
                   if (in_array($word, $positive_words)) {
-                    $score += $negation ? -1 : 1;
+                    $commentScore += $negation ? -1 : 1;
                   }
                   if (in_array($word, $negative_words)) {
-                    $score += $negation ? 1 : -1;
+                    $commentScore += $negation ? 1 : -1;
 
                     // Track issue category
                     foreach ($issueCategories as $category => $keywords) {
@@ -480,12 +480,20 @@ checkRole(['Administrator']); // Only Administrator can access
                     }
                   }
                 }
+                // --- Rating sentiment scoring ---
+                $rating = (int)$rating; // make sure it's an integer
+                $ratingScore = 0;
+                if ($rating <= 2) $ratingScore = -5; // heavy negative weight
+                elseif ($rating == 3) $ratingScore = 0;
+                else $ratingScore = 5; // heavy positive weight
 
-                if ($score > 0) {
+                // --- Weighted combination ---
+                $totalScore = $ratingScore + $commentScore;
+                if ($totalScore > 0) {
                   $positiveCount++;
                   return "<span class='badge bg-success'>Positive</span>";
                 }
-                if ($score < 0) {
+                if ($totalScore < 0) {
                   $negativeCount++;
                   return "<span class='badge bg-danger'>Negative</span>";
                 }
@@ -509,6 +517,7 @@ checkRole(['Administrator']); // Only Administrator can access
                     $translated_comment = translateTagalogToEnglish($row['comment']);
                     $sentiment = analyzeSentiment(
                       $translated_comment,
+                      $row['rating'],
                       $positive_words,
                       $negative_words,
                       $positiveCount,
@@ -517,7 +526,7 @@ checkRole(['Administrator']); // Only Administrator can access
                       $issueCategories,
                       $issueCount
                     );
-                    ?>
+                  ?>
                     <tr class="text-center">
                       <td><?= htmlspecialchars($row['name']) ?></td>
                       <td><?= htmlspecialchars($row['email']) ?></td>
@@ -613,7 +622,7 @@ checkRole(['Administrator']); // Only Administrator can access
       scrollbarAutoHide: 'leave',
       scrollbarClickScroll: true,
     };
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
       if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
         OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
