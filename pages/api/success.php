@@ -6,6 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    Success Story Added!
+    Success
 </body>
 </html>
