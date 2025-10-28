@@ -38,15 +38,15 @@ checkRole(['Administrator']); // Only Administrator can access
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
   <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
       new DataTable('#dtrTable', {
         dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
                 rt
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
-        columnDefs: [
-          { targets: [0, 1, 2, 3] }
-        ]
+        columnDefs: [{
+          targets: [0, 1, 2, 3]
+        }]
       });
     });
   </script>
@@ -203,7 +203,7 @@ checkRole(['Administrator']); // Only Administrator can access
                   $result->execute();
                   $data = $result->get_result();
                   while ($row = $data->fetch_assoc()):
-                    ?>
+                  ?>
                     <tr class="text-center">
                       <td><?= htmlspecialchars($row['id']) ?></td>
                       <td><?= htmlspecialchars($row['name']) ?></td>
@@ -212,6 +212,8 @@ checkRole(['Administrator']); // Only Administrator can access
                       <td><?= htmlspecialchars($row['created_at']) ?></td>
                       <td class="text-center">
                         <div class="btn-group me-2">
+                          <button type="button" class="btn btn-dark btn-md editbtn px-2"><i class="bi bi-pencil-square"></i>
+                          </button>
                           <button type="button" class="btn btn-dark btn-md deletebtn px-2"><i class="bi bi-trash-fill"></i>
                           </button>
                         </div>
@@ -260,7 +262,6 @@ checkRole(['Administrator']); // Only Administrator can access
                         class="form-control form-control-md rounded-3 mt-2" placeholder="Password" required />
                       <label for="password">Password</label>
                       <div class="invalid-feedback">Please enter your password.</div>
-
                       <!-- Eye Icon -->
                       <span class="position-absolute top-50 end-0 translate-middle-y me-3" onclick="toggleshowPassword()"
                         style="cursor: pointer;">
@@ -284,6 +285,79 @@ checkRole(['Administrator']); // Only Administrator can access
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-dark">Add User</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- Edit Modal -->
+          <div class="modal fade" id="editmodal" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                    <i class="bi bi-pencil-square"></i>
+                    Edit User
+                  </h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                </div>
+                <form action="/roast-ms/pages/admin/api/update_user" method="POST" class="needs-validation" novalidate>
+                  <div class="modal-body">
+                    <input type="hidden" name="update_id" id="update_id">
+                    <div class="form-floating mb-2">
+                      <input type="text" name="name" id="name"
+                        class="form-control" required>
+                      <label for="name" class="form-label">Name</label>
+                      <div class="invalid-feedback">
+                        Please enter your name.
+                      </div>
+                    </div>
+                    <div class="form-floating mb-2">
+                      <input type="text" name="username" id="userName"
+                        class="form-control" required>
+                      <label for="username" class="form-label">Username</label>
+                      <div class="invalid-feedback">
+                        Please enter your username.
+                      </div>
+                    </div>
+                    <div class="form-floating mb-3 position-relative">
+                      <input id="editpassword"
+                        type="password"
+                        name="password"
+                        onkeypress="return noSpace(event)"
+                        class="form-control form-control-md rounded-3 mt-2"
+                        placeholder="Password"
+                         />
+                      <label for="editpassword">Password</label>
+                      <div class="invalid-feedback">Please enter your password.</div>
+
+                      <!-- Eye Icon -->
+                      <span class="position-absolute top-50 end-0 translate-middle-y me-3"
+                        onclick="toggleEditShowPassword()" style="cursor: pointer;">
+                        <i id="toggleeditIcon" class="bi bi-eye-fill"></i>
+                      </span>
+                    </div>
+                    <div class="form-floating mb-2">
+                      <select class="form-select form-select-md"
+                        value="<?php echo $row['role'] ?>" name="role" id="Role"
+                        placeholder="Role" required>
+                        <option selected disabled>Choose from options</option>
+                        <option value="Administrator">Administrator</option>
+                        <option value="Barista">Barista</option>
+                        <option value="Manager">Manager</option>
+                      </select>
+                      <label for="role">Role</label>
+                      <div class="invalid-feedback">
+                        Please select a role.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark">Update User</button>
                   </div>
                 </form>
               </div>
@@ -344,7 +418,7 @@ checkRole(['Administrator']); // Only Administrator can access
       scrollbarAutoHide: 'leave',
       scrollbarClickScroll: true,
     };
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
       if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
         OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
@@ -363,7 +437,7 @@ checkRole(['Administrator']); // Only Administrator can access
   <script src="/roast-ms/assets/js/main.js"></script>
   <script src="/roast-ms/assets/js/script.js"></script>
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       toastr.options = {
         closeButton: true,
         debug: false,
@@ -399,15 +473,23 @@ checkRole(['Administrator']); // Only Administrator can access
         echo "toastr.success('" . $_SESSION['deletesuccess'] . "', 'Success');";
         unset($_SESSION['deletesuccess']);
       }
+      if (isset($_SESSION['updateerror'])) {
+        echo "toastr.error('" . $_SESSION['updateerror'] . "', 'Error');";
+        unset($_SESSION['updateerror']);
+      }
+      if (isset($_SESSION['updatesuccess'])) {
+        echo "toastr.success('" . $_SESSION['updatesuccess'] . "', 'Success');";
+        unset($_SESSION['updatesuccess']);
+      }
       ?>
     });
   </script>
   <script>
-    $(document).ready(function () {
-      $(document).on('click', '.deletebtn', function () {
+    $(document).ready(function() {
+      $(document).on('click', '.deletebtn', function() {
         $('#deletemodal').modal('show');
         $tr = $(this).closest('tr');
-        var data = $tr.children("td").map(function () {
+        var data = $tr.children("td").map(function() {
           return $(this).text().trim();
         }).get();
         console.log(data);
@@ -416,9 +498,39 @@ checkRole(['Administrator']); // Only Administrator can access
     });
   </script>
   <script>
+    $(document).ready(function() {
+
+      $('.editbtn').on('click', function() {
+
+        $('#editmodal').modal('show');
+
+        $tr = $(this).closest('tr');
+
+        var data = $tr.children("td").map(function() {
+          return $(this).text().trim();
+        }).get();
+
+        console.log(data);
+
+        $('#update_id').val(data[0]);
+        $('#name').val(data[1]);
+        $('#userName').val(data[2]);
+        $('#Role').val(data[3]);
+      });
+    });
+  </script>
+  <script>
     function toggleshowPassword() {
       const passwordInput = document.getElementById("password");
       const toggleIcon = document.getElementById("toggleIcon");
+      const isPassword = passwordInput.type === "password";
+
+      passwordInput.type = isPassword ? "text" : "password";
+      toggleIcon.className = isPassword ? "bi bi-eye-slash-fill" : "bi bi-eye-fill";
+    }
+    function toggleEditShowPassword() {
+      const passwordInput = document.getElementById("editpassword");
+      const toggleIcon = document.getElementById("toggleeditIcon");
       const isPassword = passwordInput.type === "password";
 
       passwordInput.type = isPassword ? "text" : "password";
