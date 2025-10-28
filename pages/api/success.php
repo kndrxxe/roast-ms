@@ -30,7 +30,7 @@ require_once "../../config.php"; // Secure database connection
     <div class="login-box">
         <div class="card card-outline card-dark rounded-5">
             <div class="card-body login-card-body rounded-5 text-center">        
-                <h1 class="bi bi-check-circle-fill text-dark" style="font-size: 4em;"></h1>
+                <i class="bi bi-check-circle-fill text-dark" style="font-size: 4em;"></i>
                 <h1 class="login-box-msg fs-1 fw-bold text-dark">Success</h1>
                 <p class="text-center text-dark fs-6">
                     Thank you for your valuable feedback. We appreciate your time and effort in helping us improve our
