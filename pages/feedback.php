@@ -11,6 +11,7 @@ require_once "../config.php"; // Secure database connection
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="ROAST-MS" />
     <meta name="author" content="Author" />
+    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css"
         integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -20,7 +21,9 @@ require_once "../config.php"; // Secure database connection
     <link rel="stylesheet" href="../assets/css/login-register.css" />
     <link rel="stylesheet" href="../assets/css/validate.css" />
     <link rel="icon" href="../assets/images/logo.png" type="image/x-icon">
+    <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Toastr & Animation -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -87,12 +90,14 @@ require_once "../config.php"; // Secure database connection
             </div>
         </div>
     </div>
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
         integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
     <script src="/roast-ms/assets/js/adminlte.js"></script>
+    <!-- Initialize Overlay Scrollbars -->
     <script>
         const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
         const Default = {
