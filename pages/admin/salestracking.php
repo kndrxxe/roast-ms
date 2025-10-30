@@ -411,15 +411,17 @@ checkRole(['Administrator']); // Only Administrator can access
                       <td><?= htmlspecialchars($row['total_quantity']) ?></td>
                       <td>₱<?= number_format($row['total_amount'], 2) ?></td>
                       <td>
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#viewSalesModal"
-                          data-id="<?= $row['id'] ?>" data-date="<?= $row['sale_date'] ?>"
-                          data-shift="<?= $row['shift'] ?>" data-barista="<?= $row['barista'] ?>">
-                          <i class="bi bi-eye-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editSalesModal"
-                          data-id="<?= $row['id']; ?>">
-                          <i class="bi bi-pencil-fill"></i>
-                        </button>
+                        <div class="btn-group me-2">
+                          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#viewSalesModal"
+                            data-id="<?= $row['id'] ?>" data-date="<?= $row['sale_date'] ?>"
+                            data-shift="<?= $row['shift'] ?>" data-barista="<?= $row['barista'] ?>">
+                            <i class="bi bi-eye-fill"></i>
+                          </button>
+                          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editSalesModal"
+                            data-id="<?= $row['id']; ?>">
+                            <i class="bi bi-pencil-fill"></i>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   <?php endwhile; ?>

@@ -210,11 +210,13 @@ checkRole(['Administrator']); // Only Administrator can access
                       <td><?= htmlspecialchars($row['username']) ?></td>
                       <td><?= htmlspecialchars($row['role']) ?></td>
                       <td><?= htmlspecialchars($row['created_at']) ?></td>
-                      <td class="text-center">
+                      <td>
                         <div class="btn-group me-2">
-                          <button type="button" class="btn btn-dark btn-md editbtn px-2"><i class="bi bi-pencil-square"></i>
+                          <button type="button" class="btn btn-dark editbtn">
+                            <i class="bi bi-pencil-square"></i>
                           </button>
-                          <button type="button" class="btn btn-dark btn-md deletebtn px-2"><i class="bi bi-trash-fill"></i>
+                          <button type="button" class="btn btn-dark deletebtn">
+                            <i class="bi bi-trash-fill"></i>
                           </button>
                         </div>
                       </td>
