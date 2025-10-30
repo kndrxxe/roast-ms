@@ -18,9 +18,38 @@ checkRole(['Administrator']); // Only Administrator can access
     integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
   <link rel="stylesheet" href="/roast-ms/assets/css/style.css" />
   <link rel="stylesheet" href="/roast-ms/assets/css/adminlte.css" />
+  <link rel="stylesheet" href="/roast-ms/assets/css/validate.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
   <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+  <link rel="icon" href="/roast-ms/assets/images/logo.png" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      new DataTable('#salesTable', {
+        dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
+                rt
+                <'d-flex justify-content-between align-items-center mt-3'ip>
+                `,
+        columnDefs: [{
+          targets: [0, 1, 2, 3]
+        }]
+      });
+    });
+  </script>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
@@ -149,6 +178,233 @@ checkRole(['Administrator']); // Only Administrator can access
       </div>
       <div class="app-content">
         <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-primary shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                  <i class="bi bi-box2-heart fs-3"></i>
+                </span>
+                <div class="info-box-content flex-grow-1 text-truncate">
+                  <span class="info-box-text">Products in Stock</span>
+                  <span class="info-box-number total_sales text-truncate">
+                    0
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-danger shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                  <i class="bi bi-graph-down-arrow"></i>
+                </span>
+                <div class="info-box-content flex-grow-1 text-truncate">
+                  <span class="info-box-text">Low Stock Items</span>
+                  <span class="info-box-number total_employees text-truncate">
+                    0
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-success shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                  <i class="bi bi-cart-x"></i>
+                </span>
+                <div class="info-box-content flex-grow-1 text-truncate">
+                  <span class="info-box-text">Out-of-stock items</span>
+                  <span class="info-box-number attendance_status text-truncate">
+                    0
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-warning shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                  <i class="bi bi-cart-plus"></i>
+                </span>
+                <div class="info-box-content flex-grow-1 text-truncate">
+                  <span class="info-box-text">Recently Added Items</span>
+                  <span class="info-box-number inventory_status text-truncate">
+                    0
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between mb-3 align-items-center">
+            <h4 class="fw-bold">Inventory List</h4>
+            <div
+              class="btn-group mb-2"
+              role="group"
+              aria-label="Inventory Actions">
+              <button
+                type="button"
+                class="btn btn-dark fw-bold d-flex"
+                data-bs-toggle="modal"
+                data-bs-target="#addItemModal">
+                <i class="bi bi-plus-circle"></i> <span class="d-none d-sm-block ms-1">Add New Item</span>
+              </button>
+              <button
+                type="button"
+                class="btn btn-dark fw-bold d-flex"
+                data-bs-toggle="modal"
+                data-bs-target="#stockInModal">
+                <i class="bi bi-cart-plus"></i> <span class="d-none d-sm-block ms-1">Stock In</span>
+              </button>
+              <button
+                type="button"
+                class="btn btn-dark fw-bold d-flex"
+                data-bs-toggle="modal"
+                data-bs-target="#stockOutModal">
+                <i class="bi bi-cart-plus"></i> <span class="d-none d-sm-block ms-1">Stock Out</span>
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <div class="data_table">
+              <table
+                id="salesTable"
+                class="table table-hover table-bordered"
+                style="width: 100%">
+                <thead>
+                  <tr class="fs-6 text-center">
+                    <th>Item ID</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Supplier/Vendor</th>
+                    <th>Quantity in Stock</th>
+                    <th>Unit of Measure</th>
+                    <th>Cost Price</th>
+                    <th>Selling Price</th>
+                    <th>Stock Value</th>
+                    <th>Reorder Level</th>
+                    <th>Status</th>
+                    <th>Last Updated Date</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <!-- Add New Item Modal -->
+              <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="/roast-ms/pages/admin/api/add_inventory" method="POST" class="needs-validation" novalidate>
+                      <div class="modal-body">
+                        <div class="row g-3">
+                          <!-- Item ID / SKU / Barcode -->
+                          <div class="col-md-6">
+                            <div class="form-floating">
+                              <input type="text" class="form-control form-control-md" id="item_id" name="item_id" placeholder="Item ID / SKU / Barcode" required />
+                              <label for="item_id">Item ID / SKU / Barcode</label>
+                            </div>
+                            <div class="invalid-feedback">
+                              Please enter the name.
+                            </div>
+                          </div>
+                          <!-- Product Name -->
+                          <div class="col-md-6">
+                            <div class="form-floating">
+                              <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Product Name" required />
+                              <label for="product_name">Product Name</label>
+                            </div>
+                          </div>
+                          <!-- Category -->
+                          <div class="col-md-6">
+                            <div class="form-floating">
+                              <select class="form-select" id="category" name="category" required>
+                                <option value="" selected disabled>Select category</option>
+                                <option value="Drinks">Drinks</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Hardware">Hardware</option>
+                                <option value="Others">Others</option>
+                              </select>
+                              <label for="category">Category</label>
+                            </div>
+                          </div>
+
+                          <!-- Supplier/Vendor -->
+                          <div class="col-md-6">
+                            <div class="form-floating">
+                              <input type="text" class="form-control" id="supplier" name="supplier" placeholder="Supplier/Vendor" required />
+                              <label for="supplier">Supplier/Vendor</label>
+                            </div>
+                          </div>
+
+                          <!-- Quantity in Stock -->
+                          <div class="col-md-4">
+                            <div class="form-floating">
+                              <input type="number" class="form-control" id="quantity" name="quantity" min="0" placeholder="0" required />
+                              <label for="quantity">Quantity in Stock</label>
+                            </div>
+                          </div>
+
+                          <!-- Unit of Measure -->
+                          <div class="col-md-4">
+                            <div class="form-floating">
+                              <select class="form-select" id="unit" name="unit" required>
+                                <option value="" selected disabled>Select unit</option>
+                                <option value="pcs">pcs</option>
+                                <option value="kg">kg</option>
+                                <option value="packs">packs</option>
+                                <option value="liters">liters</option>
+                                <option value="box">box</option>
+                              </select>
+                              <label for="unit">Unit of Measure</label>
+                            </div>
+                          </div>
+
+                          <!-- Cost Price -->
+                          <div class="col-md-4">
+                            <div class="form-floating">
+                              <input type="number" min="0" step="0.01" class="form-control" id="cost_price" name="cost_price" placeholder="0.00" required />
+                              <label for="cost_price">Cost Price (₱)</label>
+                            </div>
+                          </div>
+
+                          <!-- Selling Price -->
+                          <div class="col-md-4">
+                            <div class="form-floating">
+                              <input type="number" min="0" step="0.01" class="form-control" id="selling_price" name="selling_price" placeholder="0.00" required />
+                              <label for="selling_price">Selling Price (₱)</label>
+                            </div>
+                          </div>
+
+                          <!-- Stock Value -->
+                          <div class="col-md-4">
+                            <div class="form-floating">
+                              <input type="number" min="0" step="0.01" class="form-control" id="stock_value" name="stock_value" placeholder="Auto-calculated" readonly />
+                              <label for="stock_value">Stock Value (₱)</label>
+                            </div>
+                          </div>
+
+                          <!-- Reorder Level -->
+                          <div class="col-md-4">
+                            <div class="form-floating">
+                              <input type="number" min="0" class="form-control" id="reorder_level" name="reorder_level" placeholder="Enter threshold" required />
+                              <label for="reorder_level">Reorder Level</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                          Cancel
+                        </button>
+                        <button type="submit" class="btn btn-dark">Save Item</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -162,7 +418,7 @@ checkRole(['Administrator']); // Only Administrator can access
   </div>
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
@@ -176,7 +432,7 @@ checkRole(['Administrator']); // Only Administrator can access
       scrollbarAutoHide: 'leave',
       scrollbarClickScroll: true,
     };
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
       if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
         OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {

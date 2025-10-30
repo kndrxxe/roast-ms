@@ -132,37 +132,37 @@ checkRole(['Barista']);
       </div>
       <div class="app-content">
         <div class="container-fluid">
-          <div class="row">
+          <div class="row d-flex justify-content-center">
             <div class="col-12 col-sm-6 col-md-4">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-primary shadow-sm">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-primary shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-calendar"></i>
                 </span>
-                <div class="info-box-content text-truncate">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Today's Attendance Status</span>
-                  <span class="info-box-number attendance-status">Loading...</span>
+                  <span class="info-box-number attendance-status text-truncate">Loading...</span>
                 </div>
               </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-danger shadow-sm">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-danger shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-clock"></i>
                 </span>
-                <div class="info-box-content text-truncate">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Total Hours (This Week)</span>
-                  <span class="info-box-number total-hours-week">Loading...</span>
+                  <span class="info-box-number total-hours-week text-truncate">Loading...</span>
                 </div>
               </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-success shadow-sm">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-success shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-person-fill-check"></i>
                 </span>
-                <div class="info-box-content">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Shifts Completed (This Month)</span>
-                  <span class="info-box-number shifts-completed">Loading...</span>
+                  <span class="info-box-number shifts-completed text-truncate">Loading...</span>
                 </div>
               </div>
             </div>

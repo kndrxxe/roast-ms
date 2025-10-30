@@ -154,13 +154,13 @@ checkRole(['Administrator']);
         <div class="container-fluid">
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-primary shadow-sm d-flex align-items-center justify-content-center">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-primary shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-graph-up"></i>
                 </span>
-                <div class="info-box-content">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Total Sales</span>
-                  <span class="info-box-number total_sales">
+                  <span class="info-box-number total_sales text-truncate">
                     <?php
                     // Query total sales
                     $query = "SELECT SUM(total_amount) AS total_sales FROM sales";
@@ -180,13 +180,13 @@ checkRole(['Administrator']);
               </div>
             </div>
             <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-danger shadow-sm d-flex align-items-center justify-content-center">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-danger shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-person-badge"></i>
                 </span>
-                <div class="info-box-content">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">No. of Employees</span>
-                  <span class="info-box-number total_employees"><?php
+                  <span class="info-box-number total_employees text-truncate"><?php
                   $query = "SELECT id FROM users WHERE role='Barista'";
                   $stmt = $conn->prepare($query);
                   $stmt->execute();
@@ -198,13 +198,13 @@ checkRole(['Administrator']);
               </div>
             </div>
             <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-success shadow-sm d-flex align-items-center justify-content-center">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-success shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-person-fill-check"></i>
                 </span>
-                <div class="info-box-content">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Attendance Status</span>
-                  <span class="info-box-number attendance_status">
+                  <span class="info-box-number attendance_status text-truncate">
                     <?php
                     $query = "SELECT COUNT(*) AS present_today FROM dtr_logs WHERE date = CURDATE() AND time_in IS NOT NULL";
                     $stmt = $conn->prepare($query);
@@ -224,13 +224,13 @@ checkRole(['Administrator']);
               </div>
             </div>
             <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-warning shadow-sm d-flex align-items-center justify-content-center">
+              <div class="info-box d-flex align-items-center rounded">
+                <span class="info-box-icon text-bg-warning shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-list-check"></i>
                 </span>
-                <div class="info-box-content">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Inventory Status</span>
-                  <span class="info-box-number inventory_status">Loading...</span>
+                  <span class="info-box-number inventory_status text-truncate">Loading...</span>
                 </div>
               </div>
             </div>

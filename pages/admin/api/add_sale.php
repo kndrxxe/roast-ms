@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } catch (Exception $e) {
         $conn->rollback();
-        $_SESSION['salesfailed'] = "Error: " . $e->getMessage();
+        $_SESSION['salesfailed'] = "Failed to record sale: ";
         header("Location: /roast-ms/pages/admin/salestracking.php");
         exit;
     }
