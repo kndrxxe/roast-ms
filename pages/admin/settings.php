@@ -104,10 +104,11 @@ checkRole(['Administrator']);
             <div class="app-content-header">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <h3 class="mb-0 fw-bold">Account Settings</h3>
+                            <p class="text-muted mb-0">Manage your profile details, login information, and personal preferences here.</p>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4 d-lg-block d-sm-block d-none">
                             <ol class="breadcrumb float-sm-end">
                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Settings</li>
@@ -118,31 +119,61 @@ checkRole(['Administrator']);
             </div>
             <div class="app-content">
                 <div class="container-fluid">
-                    <div class="d-flex justify-content-between align-items-center gap-2">
-                        <div class="col">
-                            <div class="card">
+                    <div class="row g-2">
+                        <div class="col-md-12 col-lg-6">
+                            <div class="card h-100">
                                 <div class="card-header fw-bold">
-                                    <i class="bi bi-person-gear"></i> Username
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            Name
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button" class="btn btn-dark editbtn" data-bs-toggle="modal"
+                                                data-bs-target="#editUsernameModal">
+                                                <i class="bi bi-pencil-fill"></i> Edit
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body d-flex align-items-center justify-content-between">
-                                    <?php echo getUsername() ?>
-                                    <button type="button" class="btn btn-dark editbtn" data-bs-toggle="modal"
-                                        data-bs-target="#editUsernameModal">
-                                        <i class="bi bi-pencil-fill"></i> Edit
-                                    </button>
+                                <div class="card-body">
+                                    <p class="fw-bold">Current Name<br><span class="text-secondary fw-normal fs-5"><?php echo getFullname() ?></span></p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="card">
+                        <div class="col-md-12 col-lg-6">
+                            <div class="card h-100">
                                 <div class="card-header fw-bold">
-                                    <i class="bi bi-key-fill"></i> Password
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto ">
+                                            Username
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button" class="btn btn-dark editbtn" data-bs-toggle="modal"
+                                                data-bs-target="#editUsernameModal">
+                                                <i class="bi bi-pencil-fill"></i> Edit
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="card-body">
-                                    <button type="button" class="btn btn-dark editpassbtn" data-bs-toggle="modal"
-                                        data-bs-target="#editPasswordModal">
-                                        <i class="bi bi-pencil-fill"></i> Edit
-                                    </button>
+                                    <p class="fw-bold">Current Username<br><span class="text-secondary fw-normal fs-5"><?php echo getUsername() ?></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6">
+                            <div class="card h-100">
+                                <div class="card-header fw-bold">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            Password
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button" class="btn btn-dark editpassbtn" data-bs-toggle="modal"
+                                                data-bs-target="#editPasswordModal">
+                                                <i class="bi bi-pencil-fill"></i> Edit
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

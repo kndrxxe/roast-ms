@@ -39,7 +39,7 @@ checkRole(['Administrator']); // Only Administrator can access
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-      new DataTable('#dtrTable', {
+      new DataTable('#userTable', {
         dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
                 rt
                 <'d-flex justify-content-between align-items-center mt-3'ip>
@@ -186,7 +186,7 @@ checkRole(['Administrator']); // Only Administrator can access
           </div>
           <div class="table-responsive">
             <div class="data_table">
-              <table id="dtrTable" class="table table-hover table-bordered" style="width:100%">
+              <table id="userTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
                   <tr class="fs-6">
                     <th class="text-start">ID</th>
@@ -331,8 +331,7 @@ checkRole(['Administrator']); // Only Administrator can access
                         name="password"
                         onkeypress="return noSpace(event)"
                         class="form-control form-control-md rounded-3 mt-2"
-                        placeholder="Password"
-                         />
+                        placeholder="Password" />
                       <label for="editpassword">Password</label>
                       <div class="invalid-feedback">Please enter your password.</div>
 
@@ -504,8 +503,6 @@ checkRole(['Administrator']); // Only Administrator can access
 
       $('.editbtn').on('click', function() {
 
-        $('#editmodal').modal('show');
-
         $tr = $(this).closest('tr');
 
         var data = $tr.children("td").map(function() {
@@ -518,6 +515,7 @@ checkRole(['Administrator']); // Only Administrator can access
         $('#name').val(data[1]);
         $('#userName').val(data[2]);
         $('#Role').val(data[3]);
+        $('#editmodal').modal('show');
       });
     });
   </script>
@@ -530,6 +528,7 @@ checkRole(['Administrator']); // Only Administrator can access
       passwordInput.type = isPassword ? "text" : "password";
       toggleIcon.className = isPassword ? "bi bi-eye-slash-fill" : "bi bi-eye-fill";
     }
+
     function toggleEditShowPassword() {
       const passwordInput = document.getElementById("editpassword");
       const toggleIcon = document.getElementById("toggleeditIcon");

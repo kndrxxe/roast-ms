@@ -436,7 +436,7 @@ checkRole(['Administrator']); // Only Administrator can access
                           <!-- Cost Price -->
                           <div class="col-md-4">
                             <div class="form-floating">
-                              <input type="number" min="0" step="0.01" class="form-control" id="cost_price" name="cost_price" placeholder="0.00" required />
+                              <input type="number" min="0" step="0.01" class="form-control" value="0.00" oninput="this.value = this.value.match(/^\d*\.?\d{0,2}/)[0]" id="cost_price" name="cost_price" placeholder="0.00" required />
                               <label for="cost_price">Cost Price (₱)</label>
                             </div>
                           </div>
@@ -444,7 +444,7 @@ checkRole(['Administrator']); // Only Administrator can access
                           <!-- Selling Price -->
                           <div class="col-md-4">
                             <div class="form-floating">
-                              <input type="number" min="0" step="0.01" class="form-control" id="selling_price" name="selling_price" placeholder="0.00" required />
+                              <input type="number" min="0" step="0.01" value="0.00" class="form-control" id="selling_price" name="selling_price" placeholder="0.00" required />
                               <label for="selling_price">Selling Price (₱)</label>
                             </div>
                           </div>
@@ -452,7 +452,7 @@ checkRole(['Administrator']); // Only Administrator can access
                           <!-- Stock Value -->
                           <div class="col-md-4">
                             <div class="form-floating">
-                              <input type="number" min="0" step="0.01" class="form-control" id="stock_value" name="stock_value" placeholder="Auto-calculated" readonly />
+                              <input type="number" min="0" step="0.01" value="0.00" class="form-control" id="stock_value" name="stock_value" placeholder="Auto-calculated" readonly />
                               <label for="stock_value">Stock Value (₱)</label>
                             </div>
                           </div>
@@ -720,6 +720,13 @@ checkRole(['Administrator']); // Only Administrator can access
             alert('Error fetching stock data.');
           }
         });
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      $('.modal').on('hidden.bs.modal', function() {
+        $(this).find('form')[0]?.reset();
       });
     });
   </script>

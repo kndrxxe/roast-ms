@@ -306,7 +306,6 @@ checkRole(['Administrator']); // Only Administrator can access
                     // Display
                     echo $top_product_name . " ($top_product_size)";
                     ?>
-
                   </span>
                 </div>
               </div>
