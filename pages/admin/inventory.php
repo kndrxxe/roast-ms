@@ -383,10 +383,20 @@ checkRole(['Administrator']); // Only Administrator can access
                           <!-- Supplier/Vendor -->
                           <div class="col-md-6">
                             <div class="form-floating">
-                              <input type="text" class="form-control" id="supplier" name="supplier" placeholder="Supplier/Vendor" required />
+                              <select class="form-select" id="supplier" name="supplier" required>
+                                <option value="" disabled selected>Select Supplier/Vendor</option>
+                                <?php
+                                // Fetch supplier list from the database
+                                $suppliers = $conn->query("SELECT id, supplier_name FROM suppliers ORDER BY supplier_name ASC");
+                                while ($row = $suppliers->fetch_assoc()) {
+                                  echo "<option value='{$row['supplier_name']}'>{$row['supplier_name']}</option>";
+                                }
+                                ?>
+                              </select>
                               <label for="supplier">Supplier/Vendor</label>
                             </div>
                           </div>
+
 
                           <!-- Quantity in Stock -->
                           <div class="col-md-4">
