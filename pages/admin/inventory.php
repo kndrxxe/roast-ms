@@ -187,7 +187,13 @@ checkRole(['Administrator']); // Only Administrator can access
                 <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Products in Stock</span>
                   <span class="info-box-number total_sales text-truncate">
-                    0
+                    <?php
+                    // Sum the quantity of all products in stock
+                    $result = $conn->query("SELECT SUM(quantity_in_stock) AS total_stock FROM inventory");
+                    $row = $result->fetch_assoc();
+                    $total_stock = $row['total_stock'] ?? 0; // default to 0 if null
+                    ?>
+                    <?= $total_stock; ?>
                   </span>
                 </div>
               </div>
@@ -200,7 +206,13 @@ checkRole(['Administrator']); // Only Administrator can access
                 <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Low Stock Items</span>
                   <span class="info-box-number total_employees text-truncate">
-                    0
+                    <?php
+                    // Count items where quantity_in_stock is less than or equal to reorder_level
+                    $result = $conn->query("SELECT COUNT(*) AS low_stock_count FROM inventory WHERE quantity_in_stock <= reorder_level AND quantity_in_stock > 0");
+                    $row = $result->fetch_assoc();
+                    $low_stock_count = $row['low_stock_count'] ?? 0; // default to 0 if null
+                    ?>
+                    <?= $low_stock_count; ?>
                   </span>
                 </div>
               </div>
@@ -264,12 +276,10 @@ checkRole(['Administrator']); // Only Administrator can access
           </div>
           <div class="table-responsive">
             <div class="data_table">
-              <table
-                id="salesTable"
-                class="table table-hover table-bordered"
-                style="width: 100%">
+              <table id="salesTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
                   <tr class="fs-6 text-center">
+                    <th>ID</th>
                     <th>Item ID</th>
                     <th>Product Name</th>
                     <th>Category</th>
@@ -284,8 +294,44 @@ checkRole(['Administrator']); // Only Administrator can access
                     <th>Last Updated Date</th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                  <?php
+
+                  $query = "SELECT * FROM inventory ORDER BY item_id ASC";
+                  $result = $conn->query($query);
+
+                  if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      $statusClass = match ($row['status']) {
+                        'Available' => 'bg-success text-white',
+                        'Low Stock' => 'bg-warning text-dark',
+                        'Out of Stock' => 'bg-danger text-white',
+                        default => 'bg-secondary text-white'
+                      };
+
+                      echo "<tr class='text-center'>";
+                      echo "<td>{$row['id']}</td>";
+                      echo "<td>{$row['item_id']}</td>";
+                      echo "<td>{$row['product_name']}</td>";
+                      echo "<td>{$row['category']}</td>";
+                      echo "<td>{$row['supplier']}</td>";
+                      echo "<td>{$row['quantity_in_stock']}</td>";
+                      echo "<td>{$row['unit_of_measure']}</td>";
+                      echo "<td>₱" . number_format($row['cost_price'], 2) . "</td>";
+                      echo "<td>₱" . number_format($row['selling_price'], 2) . "</td>";
+                      echo "<td>₱" . number_format($row['stock_value'], 2) . "</td>";
+                      echo "<td>{$row['reorder_level']}</td>";
+                      echo "<td><span class='badge {$statusClass}'>{$row['status']}</span></td>";
+                      echo "<td>" . date("Y-m-d", strtotime($row['last_updated'])) . "</td>";
+                      echo "</tr>";
+                    }
+                  } else {
+                    echo "<tr><td colspan='12' class='text-center text-muted'>No records found.</td></tr>";
+                  }
+                  ?>
+                </tbody>
               </table>
+
               <!-- Add New Item Modal -->
               <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -321,6 +367,12 @@ checkRole(['Administrator']); // Only Administrator can access
                                 <option value="" selected disabled>Select category</option>
                                 <option value="Drinks">Drinks</option>
                                 <option value="Snacks">Snacks</option>
+                                <option value="Ingredients">Ingredients</option>
+                                <option value="Condiments">Condiments</option>
+                                <option value="Packaging">Packaging</option>
+                                <option value="Utensils">Utensils</option>
+                                <option value="Equipment">Equipment</option>
+                                <option value="Cleaning Supplies">Cleaning Supplies</option>
                                 <option value="Hardware">Hardware</option>
                                 <option value="Others">Others</option>
                               </select>
@@ -350,10 +402,22 @@ checkRole(['Administrator']); // Only Administrator can access
                               <select class="form-select" id="unit" name="unit" required>
                                 <option value="" selected disabled>Select unit</option>
                                 <option value="pcs">pcs</option>
-                                <option value="kg">kg</option>
+                                <option value="pack">pack</option>
                                 <option value="packs">packs</option>
-                                <option value="liters">liters</option>
                                 <option value="box">box</option>
+                                <option value="bottle">bottle</option>
+                                <option value="liter">liter</option>
+                                <option value="liters">liters</option>
+                                <option value="ml">ml</option>
+                                <option value="kg">kg</option>
+                                <option value="kilos">kilos</option>
+                                <option value="gram">gram</option>
+                                <option value="grams">grams</option>
+                                <option value="can">can</option>
+                                <option value="jar">jar</option>
+                                <option value="sachet">sachet</option>
+                                <option value="bag">bag</option>
+
                               </select>
                               <label for="unit">Unit of Measure</label>
                             </div>
@@ -403,6 +467,113 @@ checkRole(['Administrator']); // Only Administrator can access
                   </div>
                 </div>
               </div>
+              <!-- Stock In Modal -->
+              <div class="modal fade" id="stockInModal" tabindex="-1" aria-labelledby="stockInModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="stockInModalLabel">Stock In</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="/roast-ms/pages/admin/api/stock_in" method="POST" class="needs-validation" novalidate>
+                      <div class="modal-body">
+                        <!-- Select Item -->
+                        <div class="mb-3">
+                          <div class="form-floating">
+                            <select class="form-select" name="item_id" id="item_id_stockin" required>
+                              <option disabled selected>Select item</option>
+                              <?php
+                              $result = $conn->query("SELECT item_id, product_name, supplier FROM inventory");
+                              while ($row = $result->fetch_assoc()) {
+                                echo "<option value='{$row['item_id']}'>{$row['supplier']} - {$row['product_name']}</option>";
+                              }
+                              ?>
+                            </select>
+                            <label class="form-label">Item</label>
+                          </div>
+                        </div>
+
+                        <!-- Current Stock (Readonly) -->
+                        <div class="mb-3">
+                          <div class="form-floating">
+                            <input type="number" class="form-control" name="current_stock" id="current_stock_stockin" readonly>
+                            <label class="form-label">Current Stock</label>
+                          </div>
+                        </div>
+
+                        <!-- Stock to Add -->
+                        <div class="mb-3">
+                          <div class="form-floating">
+                            <input type="number" class="form-control" name="add_qty" id="add_qty" min="1" required>
+                            <label class="form-label">Add Quantity</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                          Cancel
+                        </button>
+                        <button type="submit" class="btn btn-dark">Confirm</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- Stock Out Modal -->
+              <div class="modal fade" id="stockOutModal" tabindex="-1" aria-labelledby="stockOutModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="stockOutModalLabel">Stock Out Item</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <form action="/roast-ms/pages/admin/api/stock_out" method="POST" class="needs-validation" novalidate>
+                      <div class="modal-body">
+
+                        <!-- Select Item -->
+                        <div class="mb-3">
+                          <div class="form-floating">
+                            <select class="form-select" name="item_id" id="item_id_stockout" required>
+                              <option disabled selected>Select item</option>
+                              <?php
+                              $result = $conn->query("SELECT item_id, product_name, supplier FROM inventory");
+                              while ($row = $result->fetch_assoc()) {
+                                echo "<option value='{$row['item_id']}'>{$row['supplier']} - {$row['product_name']}</option>";
+                              }
+                              ?>
+                            </select>
+                            <label class="form-label">Item</label>
+                          </div>
+                        </div>
+
+                        <!-- Current Stock (Readonly) -->
+                        <div class="mb-3">
+                          <div class="form-floating">
+                            <input type="number" class="form-control" name="current_stock" id="current_stock_stockout" readonly>
+                            <label class="form-label">Current Stock</label>
+                          </div>
+                        </div>
+
+                        <!-- Quantity to Remove -->
+                        <div class="mb-3">
+                          <div class="form-floating">
+                            <input type="number" class="form-control" name="remove_qty" id="remove_qty" min="1" required>
+                            <label class="form-label">Remove Quantity</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                          Cancel
+                        </button>
+                        <button type="submit" class="btn btn-dark">Confirm</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -425,6 +596,39 @@ checkRole(['Administrator']); // Only Administrator can access
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/adminlte.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: true,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "5000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+      };
+
+      <?php
+      if (isset($_SESSION['inventoryfailed'])) {
+        echo "toastr.error('" . $_SESSION['inventoryfailed'] . "', 'Error');";
+        unset($_SESSION['inventoryfailed']);
+      }
+      if (isset($_SESSION['inventorysuccess'])) {
+        echo "toastr.success('" . $_SESSION['inventorysuccess'] . "', 'Success');";
+        unset($_SESSION['inventorysuccess']);
+      }
+      ?>
+    });
+  </script>
   <script>
     const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
     const Default = {
@@ -445,7 +649,70 @@ checkRole(['Administrator']); // Only Administrator can access
       }
     });
   </script>
+  <script>
+    const qty = document.getElementById('quantity');
+    const cost = document.getElementById('cost_price');
+    const stockValue = document.getElementById('stock_value');
 
+    function calculateStockValue() {
+      const q = parseFloat(qty.value) || 0;
+      const c = parseFloat(cost.value) || 0;
+      stockValue.value = (q * c).toFixed(2);
+    }
+
+    qty.addEventListener('input', calculateStockValue);
+    cost.addEventListener('input', calculateStockValue);
+  </script>
+  <script>
+    $(document).ready(function() {
+      $('#item_id_stockin').on('change', function() {
+        const itemId = $(this).val();
+
+        if (!itemId) return;
+
+        $.ajax({
+          url: '/roast-ms/pages/admin/api/get_stock.php',
+          method: 'GET',
+          data: {
+            item_id: itemId
+          },
+          dataType: 'json',
+          success: function(response) {
+            console.log(response); // 👈 check this in browser console
+            $('#current_stock_stockin').val(response.stock);
+          },
+          error: function() {
+            alert('Error fetching stock data.');
+          }
+        });
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      $('#item_id_stockout').on('change', function() {
+        const itemId = $(this).val();
+
+        if (!itemId) return;
+
+        $.ajax({
+          url: '/roast-ms/pages/admin/api/get_stock.php',
+          method: 'GET',
+          data: {
+            item_id: itemId
+          },
+          dataType: 'json',
+          success: function(response) {
+            console.log(response); // 👈 check this in browser console
+            $('#current_stock_stockout').val(response.stock);
+          },
+          error: function() {
+            alert('Error fetching stock data.');
+          }
+        });
+      });
+    });
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
     integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
   <script src="/roast-ms/assets/js/main.js"></script>
