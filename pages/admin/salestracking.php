@@ -388,29 +388,29 @@ checkRole(['Administrator']); // Only Administrator can access
               </div>
               <table id="salesTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
-                  <tr class="fs-6 text-center">
-                    <th>Date</th>
+                  <tr class="fs-6">
+                    <th class="text-start">Date</th>
                     <th>Shift</th>
                     <th>Barista</th>
-                    <th>Total Quantity</th>
+                    <th class="text-start">Total Quantity</th>
                     <th>Total Amount (₱)</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-                  $result = $conn->prepare("SELECT * FROM sales ORDER BY sale_date DESC");
+                  $result = $conn->prepare("SELECT * FROM sales ORDER BY sale_date");
                   $result->execute();
                   $data = $result->get_result();
                   while ($row = $data->fetch_assoc()):
                   ?>
-                    <tr class="text-center">
-                      <td><?= htmlspecialchars($row['sale_date']) ?></td>
-                      <td><?= htmlspecialchars($row['shift']) ?></td>
-                      <td><?= htmlspecialchars($row['barista']) ?></td>
-                      <td><?= htmlspecialchars($row['total_quantity']) ?></td>
-                      <td>₱<?= number_format($row['total_amount'], 2) ?></td>
-                      <td>
+                    <tr class="fs-6">
+                      <td class="text-center"><?= htmlspecialchars($row['sale_date']) ?></td>
+                      <td class="text-center"><?= htmlspecialchars($row['shift']) ?></td>
+                      <td class="text-center"><?= htmlspecialchars($row['barista']) ?></td>
+                      <td class="text-center"><?= htmlspecialchars($row['total_quantity']) ?></td>
+                      <td class="text-center">₱<?= number_format($row['total_amount'], 2) ?></td>
+                      <td class="text-center">
                         <div class="btn-group me-2">
                           <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#viewSalesModal"
                             data-id="<?= $row['id'] ?>" data-date="<?= $row['sale_date'] ?>"

@@ -310,7 +310,7 @@ checkRole(['Administrator']); // Only Administrator can access
                       };
 
                       echo "<tr class='text-center'>";
-                      echo "<td>{$row['id']}</td>";
+                      echo "<td class='text-center'>{$row['id']}</td>";
                       echo "<td>{$row['item_id']}</td>";
                       echo "<td>{$row['product_name']}</td>";
                       echo "<td>{$row['category']}</td>";

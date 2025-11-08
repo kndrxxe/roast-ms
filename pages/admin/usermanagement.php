@@ -188,29 +188,29 @@ checkRole(['Administrator']); // Only Administrator can access
             <div class="data_table">
               <table id="dtrTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
-                  <tr class="fs-6 text-center">
-                    <th>ID</th>
+                  <tr class="fs-6">
+                    <th class="text-start">ID</th>
                     <th>Name</th>
                     <th>Username</th>
                     <th>Role</th>
-                    <th>Date Created</th>
+                    <th class="text-start">Date Created</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-                  $result = $conn->prepare("SELECT * FROM users");
+                  $result = $conn->prepare("SELECT * FROM users WHERE role IN ('Manager', 'Barista')");
                   $result->execute();
                   $data = $result->get_result();
                   while ($row = $data->fetch_assoc()):
                   ?>
-                    <tr class="text-center">
-                      <td><?= htmlspecialchars($row['id']) ?></td>
-                      <td><?= htmlspecialchars($row['name']) ?></td>
-                      <td><?= htmlspecialchars($row['username']) ?></td>
-                      <td><?= htmlspecialchars($row['role']) ?></td>
-                      <td><?= htmlspecialchars($row['created_at']) ?></td>
-                      <td>
+                    <tr class="fs-6">
+                      <td class="text-center"><?= htmlspecialchars($row['id']) ?></td>
+                      <td class="text-center"><?= htmlspecialchars($row['name']) ?></td>
+                      <td class="text-center"><?= htmlspecialchars($row['username']) ?></td>
+                      <td class="text-center"><?= htmlspecialchars($row['role']) ?></td>
+                      <td class="text-center"><?= htmlspecialchars($row['created_at']) ?></td>
+                      <td class="text-center">
                         <div class="btn-group me-2">
                           <button type="button" class="btn btn-dark editbtn">
                             <i class="bi bi-pencil-square"></i>
