@@ -37,15 +37,51 @@ checkRole(['Barista']); // Only Administrator can access
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
   <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
       new DataTable('#dtrTable', {
         dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
                 rt
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
-        columnDefs: [
-          { targets: [0, 1, 2, 3] }
-        ]
+        buttons: ['copy',
+          {
+            extend: 'csv',
+            title: '',
+            messageTop: 'DAILY TIME RECORD - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [0, 1, 2, 3]
+            }
+          },
+          {
+            extend: 'excel',
+            title: '',
+            messageTop: 'DAILY TIME RECORD - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [0, 1, 2, 3]
+            }
+          },
+          {
+            extend: 'print',
+            title: '',
+            customize: function(win) {
+              $(win.document.body)
+                .css('font-size', '10pt')
+                .prepend(
+                  '<div style="text-align:center;"><img src="/roast-ms/assets/images/axl-rose-cafe.png" style="width:100px;" /></div>',
+                  '<h3 style="text-align:center; margin-bottom:20px;">DAILY TIME RECORD</h3>'
+                );
+              $(win.document.body).find('table')
+                .addClass('compact')
+                .css('font-size', '10pt');
+            },
+            exportOptions: {
+              columns: [0, 1, 2, 3]
+            }
+          }
+        ],
+        columnDefs: [{
+          targets: [0, 1, 2, 3]
+        }]
       });
 
       new DataTable('#payrollSummaryTable', {
@@ -53,9 +89,45 @@ checkRole(['Barista']); // Only Administrator can access
                 rt
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
-        columnDefs: [
-          { targets: [0, 1, 2, 3] }
-        ]
+        buttons: ['copy',
+          {
+            extend: 'csv',
+            title: '',
+            messageTop: 'PAYROLL SUMMARY - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4]
+            }
+          },
+          {
+            extend: 'excel',
+            title: '',
+            messageTop: 'PAYROLL SUMMARY - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4]
+            }
+          },
+          {
+            extend: 'print',
+            title: '',
+            customize: function(win) {
+              $(win.document.body)
+                .css('font-size', '10pt')
+                .prepend(
+                  '<div style="text-align:center;"><img src="/roast-ms/assets/images/axl-rose-cafe.png" style="width:100px;" /></div>',
+                  '<h3 style="text-align:center; margin-bottom:20px;">PAYROLL SUMMARY</h3>'
+                );
+              $(win.document.body).find('table')
+                .addClass('compact')
+                .css('font-size', '10pt');
+            },
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4]
+            }
+          }
+        ],
+        columnDefs: [{
+          targets: [0, 1, 2, 3]
+        }]
       });
     });
   </script>
@@ -193,7 +265,7 @@ checkRole(['Barista']); // Only Administrator can access
                   $result->execute();
                   $data = $result->get_result();
                   while ($row = $data->fetch_assoc()):
-                    ?>
+                  ?>
                     <tr class="text-center">
                       <td><?= htmlspecialchars($row['date']) ?></td>
                       <td><?= htmlspecialchars($row['time_in']) ?></td>
@@ -244,11 +316,11 @@ checkRole(['Barista']); // Only Administrator can access
                   $result = $stmt->get_result();
 
                   $hourly_rate = 100; // Example fixed rate
-                  
+
                   while ($row = $result->fetch_assoc()):
                     $gross_pay = $row['total_hours'] * $hourly_rate;
                     $net_pay = $gross_pay * 0.9; // Example 10% deduction
-                  
+
                     // Format month with leading zeros
                     $month = str_pad($row['month'], 2, '0', STR_PAD_LEFT);
 
@@ -257,7 +329,7 @@ checkRole(['Barista']); // Only Administrator can access
                     } else {
                       $period = "{$row['year']}-$month-16 to " . date("Y-m-t", strtotime("{$row['year']}-$month-01"));
                     }
-                    ?>
+                  ?>
                     <tr class="text-center">
                       <td><?= htmlspecialchars($period) ?></td>
                       <td><?= htmlspecialchars($row['total_days_worked']) ?></td>
@@ -298,7 +370,7 @@ checkRole(['Barista']); // Only Administrator can access
       scrollbarAutoHide: 'leave',
       scrollbarClickScroll: true,
     };
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
       if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
         OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
@@ -316,7 +388,7 @@ checkRole(['Barista']); // Only Administrator can access
   <script src="/roast-ms/assets/js/main.js"></script>
   <script src="/roast-ms/assets/js/script.js"></script>
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       toastr.options = {
         closeButton: true,
         debug: false,

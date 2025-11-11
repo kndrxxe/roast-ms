@@ -44,6 +44,42 @@ checkRole(['Administrator']); // Only Administrator can access
                 rt
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
+        buttons: ['copy',
+          {
+            extend: 'csv',
+            title: '',
+            messageTop: 'SALES LIST - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4]
+            }
+          },
+          {
+            extend: 'excel',
+            title: '',
+            messageTop: 'SALES LIST - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4]
+            }
+          },
+          {
+            extend: 'print',
+            title: '',
+            customize: function(win) {
+              $(win.document.body)
+                .css('font-size', '12pt')
+                .prepend(
+                  '<div style="text-align:center;"><img src="/roast-ms/assets/images/axl-rose-cafe.png" style="width:100px;" /></div>',
+                  '<h3 style="text-align:center; margin-bottom:20px;">SALES LIST</h3>'
+                );
+              $(win.document.body).find('table')
+                .addClass('compact')
+                .css('font-size', '12pt');
+            },
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4]
+            }
+          }
+        ],
         columnDefs: [{
           targets: [0, 1, 2, 3]
         }]
@@ -606,7 +642,7 @@ checkRole(['Administrator']); // Only Administrator can access
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
+                  <button type="button" class="btn btn-dark float-end btn-print" id="printSalesBtn"><i class="bi bi-printer-fill"></i> Print</button>
                   <!-- Header Info -->
                   <div class="row mb-3">
                     <div class="col-md-4">
@@ -979,6 +1015,39 @@ checkRole(['Administrator']); // Only Administrator can access
         unset($_SESSION['salessuccess']);
       }
       ?>
+    });
+  </script>
+    <script>
+    document.getElementById('printSalesBtn').addEventListener('click', function() {
+      // Clone modal content so we don't affect the actual modal
+      const modalContentClone = document.querySelector('#viewSalesModal .modal-content').cloneNode(true);
+
+      // Remove the close button (assuming it has class 'btn-close' or similar)
+      const closeBtn = modalContentClone.querySelector('.btn-close');
+      const printBtn = modalContentClone.querySelector('.btn-print');
+      const modalTitle = modalContentClone.querySelector('.modal-title');
+      if (closeBtn) {
+        closeBtn.remove();
+      }
+      if (printBtn) {
+        printBtn.remove();
+      }
+      if (modalTitle) {
+        modalTitle.remove();
+      }
+
+      // Open a new window for printing
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write('<html><head><title>Print Sales Record | ROAST-MS</title>');
+      printWindow.document.write('<link rel="stylesheet" href="/roast-ms/assets/css/style.css" />');
+      printWindow.document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<div style="text-align:center;"><img src="/roast-ms/assets/images/axl-rose-cafe.png" style="width:100px;" /></div>');
+      printWindow.document.write('<h4 style="text-align:center; margin-bottom:20px;">SALES RECORD</h4>');
+      printWindow.document.write(modalContentClone.innerHTML);
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
     });
   </script>
 </body>

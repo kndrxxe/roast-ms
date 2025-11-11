@@ -38,15 +38,51 @@ checkRole(['Barista']); // Only Barista can access
     <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             new DataTable('#salesTable', {
                 dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
                 rt
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
-                columnDefs: [
-                    { targets: [0, 1, 2, 3] }
-                ]
+                buttons: ['copy',
+                    {
+                        extend: 'csv',
+                        title: '',
+                        messageTop: 'SALES LIST - AXL ROSE CAFE',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        title: '',
+                        messageTop: 'SALES LIST - AXL ROSE CAFE',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        title: '',
+                        customize: function(win) {
+                            $(win.document.body)
+                                .css('font-size', '12pt')
+                                .prepend(
+                                    '<div style="text-align:center;"><img src="/roast-ms/assets/images/axl-rose-cafe.png" style="width:100px;" /></div>',
+                                    '<h3 style="text-align:center; margin-bottom:20px;">SALES LIST</h3>'
+                                );
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', '12pt');
+                        },
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    }
+                ],
+                columnDefs: [{
+                    targets: [0, 1, 2, 3]
+                }]
             });
         });
     </script>
@@ -188,7 +224,7 @@ checkRole(['Barista']); // Only Barista can access
                                     $data = $result->get_result();
 
                                     while ($row = $data->fetch_assoc()):
-                                        ?>
+                                    ?>
                                         <tr class="text-center">
                                             <td><?= htmlspecialchars($row['sale_date']) ?></td>
                                             <td><?= htmlspecialchars($row['shift']) ?></td>
@@ -477,7 +513,7 @@ checkRole(['Barista']); // Only Barista can access
             scrollbarAutoHide: 'leave',
             scrollbarClickScroll: true,
         };
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
             if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
                 OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
@@ -499,7 +535,8 @@ checkRole(['Barista']); // Only Barista can access
             const grandTotal = document.getElementById("grandTotal");
 
             function updateTotals() {
-                let qtySum = 0, totalSum = 0;
+                let qtySum = 0,
+                    totalSum = 0;
                 tableBody.querySelectorAll("tr").forEach(row => {
                     const select = row.querySelector(".productSelect");
                     const qty = parseInt(row.querySelector(".quantityInput").value) || 0;
@@ -550,7 +587,7 @@ checkRole(['Barista']); // Only Barista can access
 
 
             // ✅ Validate before submit
-            salesForm.addEventListener("submit", function (e) {
+            salesForm.addEventListener("submit", function(e) {
                 let valid = true;
 
                 tableBody.querySelectorAll("tr").forEach(row => {
@@ -583,10 +620,10 @@ checkRole(['Barista']); // Only Barista can access
 
     <!-- View Sales Modal -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const viewModal = document.getElementById("viewSalesModal");
 
-            viewModal.addEventListener("show.bs.modal", function (event) {
+            viewModal.addEventListener("show.bs.modal", function(event) {
                 let button = event.relatedTarget;
                 let saleId = button.getAttribute("data-id");
 
@@ -602,7 +639,8 @@ checkRole(['Barista']); // Only Barista can access
                 fetch(`/roast-ms/pages/admin/api/get_sale.php?sale_id=${saleId}`)
                     .then(res => res.json())
                     .then(items => {
-                        let totalQty = 0, grandTotal = 0;
+                        let totalQty = 0,
+                            grandTotal = 0;
 
                         items.forEach(item => {
                             let row = `
@@ -639,7 +677,8 @@ checkRole(['Barista']); // Only Barista can access
             const addEditRowBtn = document.getElementById("addEditRow"); // button to add row
 
             function updateTotals() {
-                let qtySum = 0, totalSum = 0;
+                let qtySum = 0,
+                    totalSum = 0;
                 tableBody.querySelectorAll("tr").forEach(row => {
                     const qty = parseInt(row.querySelector(".quantityInput").value) || 0;
                     const price = parseFloat(row.querySelector(".unitPriceInput").value) || 0;
@@ -698,13 +737,13 @@ checkRole(['Barista']); // Only Barista can access
             <select name="product_id[]" class="form-control productSelect" required>
               <option value="">-- Select Product --</option>
               <?php
-              $result = $conn->query("SELECT id, category, name, size, price FROM products ORDER BY category, name, size");
-              while ($row = $result->fetch_assoc()) {
-                  echo "<option value='{$row['id']}' data-price='{$row['price']}' data-size='{$row['size']}'>
+                $result = $conn->query("SELECT id, category, name, size, price FROM products ORDER BY category, name, size");
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='{$row['id']}' data-price='{$row['price']}' data-size='{$row['size']}'>
                           {$row['category']} - {$row['name']} - {$row['size']}
                         </option>";
-              }
-              ?>
+                }
+                ?>
             </select>
           </td>
           <td><span class="productSize"></span></td>
@@ -752,7 +791,7 @@ checkRole(['Barista']); // Only Barista can access
     <script src="/roast-ms/assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             toastr.options = {
                 closeButton: true,
                 debug: false,
