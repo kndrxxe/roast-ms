@@ -40,10 +40,46 @@ checkRole(['Administrator']); // Only Administrator can access
   <script type="text/javascript">
     $(document).ready(function() {
       new DataTable('#userTable', {
-        dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'B>f>>
+        dom: `<'d-flex justify-content-between mb-3 align-items-center'l<'d-flex align-items-center'<'d-none d-lg-block me-2'>f>>
                 rt
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
+        buttons: ['copy',
+          {
+            extend: 'csv',
+            title: '',
+            messageTop: 'EMPLOYEE LIST - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [2, 3, 4, 5]
+            }
+          },
+          {
+            extend: 'excel',
+            title: '',
+            messageTop: 'EMPLOYEE LIST - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [2, 3, 4, 5]
+            }
+          },
+          {
+            extend: 'print',
+            title: '',
+            customize: function(win) {
+              $(win.document.body)
+                .css('font-size', '12pt')
+                .prepend(
+                  '<div style="text-align:center;"><img src="/roast-ms/assets/images/axl-rose-cafe.png" style="width:100px;" /></div>',
+                  '<h3 style="text-align:center; margin-bottom:20px;">EMPLOYEE LIST</h3>'
+                );
+              $(win.document.body).find('table')
+                .addClass('compact')
+                .css('font-size', '14pt');
+            },
+            exportOptions: {
+              columns: [2, 3, 4, 5]
+            }
+          }
+        ],
         columnDefs: [{
           targets: [0, 1, 2, 3]
         }]
@@ -178,7 +214,7 @@ checkRole(['Administrator']); // Only Administrator can access
       </div>
       <div class="app-content">
         <div class="container-fluid">
-          <div class="d-flex align-items-center justify-content-end mb-2">
+          <div class="d-flex align-items-center justify-content-end mb-3">
             <button type="button" class="btn btn-md btn-dark fw-bold" data-bs-toggle="modal"
               data-bs-target="#addUserModal"><i class="bi bi-plus-circle">
               </i> Add User
@@ -190,6 +226,7 @@ checkRole(['Administrator']); // Only Administrator can access
                 <thead>
                   <tr class="fs-6">
                     <th class="text-start">ID</th>
+                    <th class="text-start">Picture</th>
                     <th>Name</th>
                     <th>Username</th>
                     <th>Role</th>
@@ -206,6 +243,12 @@ checkRole(['Administrator']); // Only Administrator can access
                   ?>
                     <tr class="fs-6">
                       <td class="text-center"><?= htmlspecialchars($row['id']) ?></td>
+                      <td class="text-center">
+                        <img src="<?= htmlspecialchars(!empty($row['picture']) ? $row['picture'] : '/roast-ms/assets/images/default-150x150.png') ?>"
+                          alt="Profile Picture"
+                          class="rounded-circle border border-1"
+                          width="50" height="50">
+                      </td>
                       <td class="text-center"><?= htmlspecialchars($row['name']) ?></td>
                       <td class="text-center"><?= htmlspecialchars($row['username']) ?></td>
                       <td class="text-center"><?= htmlspecialchars($row['role']) ?></td>
@@ -512,9 +555,9 @@ checkRole(['Administrator']); // Only Administrator can access
         console.log(data);
 
         $('#update_id').val(data[0]);
-        $('#name').val(data[1]);
-        $('#userName').val(data[2]);
-        $('#Role').val(data[3]);
+        $('#name').val(data[2]);
+        $('#userName').val(data[3]);
+        $('#Role').val(data[4]);
         $('#editmodal').modal('show');
       });
     });

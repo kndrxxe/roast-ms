@@ -9,39 +9,43 @@ if (!$user_id) {
     exit;
 }
 
-// Fetch attendance data for the past 7 days
+// Fetch number of present days per month
 $query = "
     SELECT 
-        date, 
-        COUNT(time_in) AS present 
-    FROM 
-        dtr_logs 
-    WHERE 
-        user_id = ? 
-        AND date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) 
-    GROUP BY 
-        date
-    ORDER BY 
-        date ASC
+        DATE_FORMAT(date, '%Y-%m') AS month,
+        COUNT(*) AS present_days
+    FROM dtr_logs
+    WHERE user_id = ?
+    GROUP BY month
+    ORDER BY month ASC
 ";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$dates = [];
-$attendance = [];
+$months = [];
+$present_days = [];
+$absent_days = [];
 
 while ($row = $result->fetch_assoc()) {
-    $dates[] = $row['date'];
-    $attendance[] = $row['present'] > 0 ? 1 : 0; // 1 for Present, 0 for Absent
+    $months[] = date('F Y', strtotime($row['month'] . '-01'));
+    $present_days[] = (int)$row['present_days'];
+
+    $year_month = $row['month'] . '-01';
+    $total_days = (int)date('t', strtotime($year_month));
+
+    $absent = $total_days - (int)$row['present_days'];
+    $absent_days[] = $absent > 0 ? $absent : null; // only show if absent
 }
+
 
 $stmt->close();
 
-// Return data as JSON
+// Return JSON
 echo json_encode([
-    'dates' => $dates,
-    'attendance' => $attendance,
+    'months' => $months,
+    'present_days' => $present_days,
+    'absent_days' => $absent_days
 ]);
 ?>

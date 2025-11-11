@@ -31,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($stmt && $stmt->execute()) {
-        $_SESSION['updatesuccess'] = "User updated successfully.";
+        $_SESSION['updatesuccess'] = "User <strong>{$name}</strong> updated successfully.";
     } else {
-        $_SESSION['updateerror'] = "Failed to update user. Please try again.";
+        $_SESSION['updateerror'] = "Failed to update user <strong>{$name}</strong>. Please try again.";
         if ($stmt) {
             $_SESSION['updateerror'] .= " Error: " . $stmt->error;
         }

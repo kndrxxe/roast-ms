@@ -181,12 +181,12 @@ checkRole(['Administrator']); // Only Administrator can access
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-primary shadow-sm d-flex align-items-center justify-content-center">
-                  <i class="bi bi-graph-up"></i>
+                <span class="info-box-icon text-bg-primary shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                  <i class="bi bi-graph-up fs-3"></i>
                 </span>
-                <div class="info-box-content">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Total Sales</span>
-                  <span class="info-box-number total_sales">
+                  <span class="info-box-number total_sales text-truncate">
                     <?php
                     // Query total sales
                     $query = "SELECT SUM(total_amount) AS total_sales FROM sales";
@@ -209,12 +209,12 @@ checkRole(['Administrator']); // Only Administrator can access
             </div>
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-danger shadow-sm d-flex align-items-center justify-content-center">
+                <span class="info-box-icon text-bg-danger shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-arrow-left-right"></i>
                 </span>
-                <div class="info-box-content">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">No. of Transactions</span>
-                  <span class="info-box-number total_employees">
+                  <span class="info-box-number total_employees text-truncate">
                     <?php
 
                     // Query total number of transactions
@@ -237,12 +237,12 @@ checkRole(['Administrator']); // Only Administrator can access
             </div>
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-success shadow-sm d-flex align-items-center justify-content-center">
+                <span class="info-box-icon text-bg-success shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-cart-check-fill"></i>
                 </span>
-                <div class="info-box-content">
-                  <span class="info-box-text truncate">Average order value</span>
-                  <span class="info-box-number attendance_status">
+                <div class="info-box-content flex-grow-1 text-truncate">
+                  <span class="info-box-text">Average order value</span>
+                  <span class="info-box-number attendance_status text-truncate">
                     <?php
                     // 1️⃣ Get total sales
                     $query_sales = "SELECT SUM(total_amount) AS total_sales FROM sales";
@@ -271,10 +271,10 @@ checkRole(['Administrator']); // Only Administrator can access
             </div>
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-warning shadow-sm d-flex align-items-center justify-content-center">
+                <span class="info-box-icon text-bg-warning shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                   <i class="bi bi-stars"></i>
                 </span>
-                <div class="info-box-content">
+                <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Top Product</span>
                   <span class="info-box-number inventory_status text-truncate">
                     <?php

@@ -160,5 +160,5 @@ fetch('/roast-ms/pages/admin/api/get_sales_per_month.php')
   })
   .catch(err => console.error('Error fetching sales per month:', err));
 //-----------------------
-// - END Sales per Category CHART -
+// - END Sales per Month CHART -
 //----

@@ -44,6 +44,42 @@ checkRole(['Administrator']); // Only Administrator can access
                 rt
                 <'d-flex justify-content-between align-items-center mt-3'ip>
                 `,
+        buttons: ['copy',
+          {
+            extend: 'csv',
+            title: '',
+            messageTop: 'INVENTORY - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12]
+            }
+          },
+          {
+            extend: 'excel',
+            title: '',
+            messageTop: 'INVENTORY - AXL ROSE CAFE',
+            exportOptions: {
+              columns: [1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12]
+            }
+          },
+          {
+            extend: 'print',
+            title: '',
+            customize: function(win) {
+              $(win.document.body)
+                .css('font-size', '12pt')
+                .prepend(
+                  '<div style="text-align:center;"><img src="/roast-ms/assets/images/axl-rose-cafe.png" style="width:100px;" /></div>',
+                  '<h3 style="text-align:center; margin-bottom:20px;">INVENTORY</h3>'
+                );
+              $(win.document.body).find('table')
+                .addClass('compact')
+                .css('font-size', '14pt');
+            },
+            exportOptions: {
+              columns: [1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12]
+            }
+          }
+        ],
         columnDefs: [{
           targets: [0, 1, 2, 3]
         }]

@@ -1,31 +1,59 @@
 <?php
+ini_set('session.use_strict_mode', 1);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on');
+
 session_start();
 require_once "config.php"; // Secure database connection
 
+// ⏱️ Session Timeout & Regeneration
+$timeout_duration = 600; // 600 seconds = 10 minutes
+
+// Check for inactivity timeout
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
+    session_unset();
+    session_destroy();
+    header("Location: /roast-ms/login.php?timeout=1");
+    exit;
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // Update timestamp
+
+// Regenerate session ID periodically (prevent fixation)
+if (!isset($_SESSION['CREATED'])) {
+    $_SESSION['CREATED'] = time();
+} elseif (time() - $_SESSION['CREATED'] > 600) {
+    session_regenerate_id(true);
+    $_SESSION['CREATED'] = time();
+}
+
+// 👤 User Authentication Check
 if (!isset($_SESSION['username']) || !isset($_SESSION['role'])) {
-    header("Location: /roast-ms/login.php"); // Redirect to login
+    header("Location: /roast-ms/login.php");
     exit;
 }
 
-// Check user role
+// 🧩 Helper Functions
 function checkRole($allowed_roles) {
     if (!in_array($_SESSION['role'], $allowed_roles)) {
         $_SESSION['usernotfound'] = "You are not allowed to login";
         header("Location: /roast-ms/login.php");
-    exit;
+        exit;
     }
 }
+
 function getUsername() {
-    return isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+    return $_SESSION['username'] ?? 'Guest';
 }
-// Function to get the full name of the logged-in user
+
 function getFullname() {
-    return isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest User';
+    return $_SESSION['name'] ?? 'Guest User';
 }
+
 function getRole() {
-    return isset($_SESSION['role']) ? $_SESSION['role'] : 'Guest Role';
+    return $_SESSION['role'] ?? 'Guest Role';
 }
+
 function userID() {
-    return isset($_SESSION['uid']) ? $_SESSION['uid'] : 'Guest UID';
+    return $_SESSION['uid'] ?? 'Guest UID';
 }
 ?>

@@ -64,10 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Execute and handle result
     if ($stmt->execute()) {
-        $_SESSION['salessuccess'] = "✅ <strong>{$product_name}</strong> was successfully added to the inventory.";
+        $_SESSION['salessuccess'] = "<strong>{$product_name}</strong> was successfully added to the inventory.";
     } else {
         error_log("Error adding item ({$item_id}): " . $stmt->error);
-        $_SESSION['error'] = "❌ Could not add <strong>{$product_name}</strong>. Please check for duplicate IDs or database issues.";
+        $_SESSION['error'] = "Could not add <strong>{$product_name}</strong>. Please check for duplicate IDs or database issues.";
     }
 
     $stmt->close();

@@ -1,6 +1,8 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/roast-ms/auth.php';
 checkRole(['Barista']);
+
+$id = userID(); // ✅ Now $id is available for your card + modal
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +29,16 @@ checkRole(['Barista']);
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
+  <?php
+  // Fetch the logged-in user's profile picture
+  $query = $conn->prepare("SELECT picture FROM users WHERE user_id = ?");
+  $query->bind_param("s", $id);
+  $query->execute();
+  $result = $query->get_result()->fetch_assoc();
+
+  // Set $picture to the uploaded path or default
+  $picture = !empty($result['picture']) ? $result['picture'] : '/roast-ms/assets/images/default-150x150.png';
+  ?>
   <div class="app-wrapper">
     <nav class="app-header navbar navbar-expand bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
@@ -46,13 +58,13 @@ checkRole(['Barista']);
           </li>
           <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-              <img src="/roast-ms/assets/images/default-150x150.png" class="user-image rounded-circle shadow"
+              <img src="<?php echo htmlspecialchars($picture); ?>" class="user-image rounded-circle shadow"
                 alt="User" />
               <span class="d-none d-md-inline"><?php echo getUsername(); ?></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <li class="user-header text-bg-dark">
-                <img src="/roast-ms/assets/images/default-150x150.png" class="rounded-circle shadow" alt="User" />
+                <img src="<?php echo htmlspecialchars($picture); ?>" class="rounded-circle shadow" alt="User" />
                 <p>
                   <?php echo getFullname(); ?>
                   <small><?php echo getRole(); ?></small>
@@ -60,8 +72,8 @@ checkRole(['Barista']);
               </li>
           </li>
           <li class="user-footer">
-            <a href="#" class="btn btn-default btn-flat">Settings</a>
-            <a href="/roast-ms/logout.php" class="btn btn-default btn-flat float-end">Log out</a>
+            <a href="/roast-ms/pages/barista/settings" class="btn btn-default btn-flat">Settings</a>
+            <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
         </li>
@@ -78,7 +90,7 @@ checkRole(['Barista']);
       <div class="sidebar-wrapper">
         <div class="user-panel py-2 d-flex align-items-center">
           <div class="image">
-            <img width="50" src="/roast-ms/assets/images/default-150x150.png" class="rounded-circle shadow ms-1 me-2"
+            <img width="50" src="<?php echo htmlspecialchars($picture); ?>" class="rounded-circle shadow ms-1 me-2"
               alt="User Image">
           </div>
           <div class="info">
@@ -168,7 +180,7 @@ checkRole(['Barista']);
             </div>
           </div>
           <div class="row g-2">
-            <div class="col-md-12">
+            <div class="col-md-12 col-lg-8">
               <div class="card mb-3">
                 <div class="card-header">
                   <h5 class="card-title">Attendance Over Time</h5>
@@ -181,10 +193,60 @@ checkRole(['Barista']);
                 </div>
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-12">
-                      <div id="attendance-chart"></div>
-                    </div>
+                    <div id="attendance-chart"></div>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <h5 class="card-title">Upcoming Holidays</h5>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                      <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                      <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <small class="d-flex justify-content-center" style="font-size: 12px;">
+                      <p class="me-2">
+                        <span style="display:inline-block;width:10px;height:10px;background-color:#28a745;"></span> Regular
+                      </p>
+                      <p>
+                        <span style="display:inline-block;width:10px;height:10px;background-color:#ffc107;"></span> Special
+                      </p>
+                    </small>
+                  </div>
+                  <table class="table table-sm table-hover mb-0">
+                    <tbody>
+                      <?php
+                      // Fetch upcoming holidays (today and forward)
+                      $query = "SELECT holiday_date, holiday_name, holiday_type 
+                      FROM holidays 
+                      WHERE holiday_date >= CURDATE() 
+                      ORDER BY holiday_date ASC";
+                      $result = $conn->query($query);
+
+                      while ($row = $result->fetch_assoc()):
+                        $date = date_create($row['holiday_date']);
+                        $formatted_date = date_format($date, 'F j (D)'); // e.g., August 21 (Thu)
+                        $color = $row['holiday_type'] === 'Regular' ? '#28a745' : '#ffc107';
+                      ?>
+                        <tr>
+                          <td>
+                            <span style="display:inline-block;width:12px;height:12px;background-color:<?= $color ?>;"></span>
+                          </td>
+                          <td><?= htmlspecialchars($formatted_date) ?></td>
+                          <td style="max-width:150px;" title="<?= htmlspecialchars($row['holiday_name']) ?>">
+                            <?= htmlspecialchars($row['holiday_name']) ?>
+                          </td>
+                        </tr>
+                      <?php endwhile; ?>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -216,7 +278,7 @@ checkRole(['Barista']);
       scrollbarAutoHide: 'leave',
       scrollbarClickScroll: true,
     };
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
       if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
         OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
@@ -235,13 +297,13 @@ checkRole(['Barista']);
   <script src="/roast-ms/assets/js/main.js"></script>
   <script src="/roast-ms/assets/js/script.js"></script>
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       // Fetch dashboard data
       $.ajax({
         url: '/roast-ms/pages/barista/api/dashboard-data.php',
         method: 'GET',
         dataType: 'json',
-        success: function (data) {
+        success: function(data) {
           if (data.error) {
             alert(data.error);
             return;
@@ -252,72 +314,81 @@ checkRole(['Barista']);
           $('.total-hours-week').text(data.total_hours_week);
           $('.shifts-completed').text(data.shifts_completed);
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           console.error('Error fetching dashboard data:', error);
         },
       });
     });
   </script>
   <script>
-    $(document).ready(function () {
-      // Fetch attendance data
+    $(document).ready(function() {
       $.ajax({
         url: '/roast-ms/pages/barista/api/attendance-data.php',
         method: 'GET',
         dataType: 'json',
-        success: function (data) {
+        success: function(data) {
           if (data.error) {
             alert(data.error);
             return;
           }
 
-          // Configure the chart with fetched data
           const attendance_chart_options = {
-            series: [
-              {
-                name: "Attendance",
-                data: data.attendance, // 1 for Present, 0 for Absent
+            series: [{
+                name: 'Present',
+                data: data.present_days
               },
+              {
+                name: 'Absent',
+                data: data.absent_days
+              }
             ],
             chart: {
-              height: 250,
-              type: "line", // Line chart for attendance trends
+              type: 'bar',
+              height: 350,
+              stacked: true,
               toolbar: {
-                show: true,
-              },
+                show: true
+              }
+            },
+            plotOptions: {
+              bar: {
+                columnWidth: '25%'
+              }
+            },
+            colors: ['#28a745', '#dc3545'], // green = Present, red = Absent
+            dataLabels: {
+              enabled: true
             },
             xaxis: {
-              type: "datetime",
-              categories: data.dates, // Dates from the API
+              categories: data.months
+            },
+            yaxis: {
+              title: {
+                text: 'Days'
+              },
+              min: 0
             },
             tooltip: {
-              x: {
-                format: "yyyy-MM-dd",
-              },
               y: {
-                formatter: function (value) {
-                  return value === 1 ? "Present" : "Absent"; // Show "Present" or "Absent"
-                },
-              },
+                formatter: function(val) {
+                  return val + " days";
+                }
+              }
             },
-            stroke: {
-              curve: "smooth",
-            },
-            dataLabels: {
-              enabled: true,
-            },
+            legend: {
+              position: 'top'
+            }
           };
 
-          // Render the chart
           const attendance_chart = new ApexCharts(
             document.querySelector("#attendance-chart"),
             attendance_chart_options
           );
           attendance_chart.render();
         },
-        error: function (xhr, status, error) {
-          console.error("Error fetching attendance data:", error);
-        },
+        error: function(xhr, status, error) {
+          console.error('Error fetching monthly attendance:', error);
+        }
       });
     });
   </script>

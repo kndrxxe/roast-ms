@@ -87,7 +87,7 @@ checkRole(['Barista']); // Only Barista can access
                             </li>
                     </li>
                     <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Settings</a>
+                        <a href="/roast-ms/pages/barista/settings" class="btn btn-default btn-flat">Settings</a>
                         <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
                     </li>
                 </ul>
