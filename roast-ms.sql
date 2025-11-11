@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2025 at 05:18 AM
+-- Generation Time: Nov 11, 2025 at 05:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,12 +42,7 @@ CREATE TABLE `dtr_logs` (
 --
 
 INSERT INTO `dtr_logs` (`id`, `user_id`, `name`, `time_in`, `time_out`, `total_hours`, `date`) VALUES
-(2, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-05-14 00:31:27', '2025-05-13 18:32:05', 5.98, '2025-05-14'),
-(3, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-06-01 20:51:10', '2025-06-01 15:21:00', 5.50, '2025-06-01'),
-(4, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-08-18 20:57:26', '2025-08-18 14:57:35', 5.98, '2025-08-18'),
-(5, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-08-26 22:02:22', '2025-08-26 16:03:19', 5.98, '2025-08-26'),
-(6, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-10-28 23:04:46', '2025-10-28 23:05:38', 0.01, '2025-10-28'),
-(7, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-10-30 22:07:03', '2025-10-30 22:07:07', 0.00, '2025-10-30');
+(1, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-11-11 20:53:45', '2025-11-11 22:35:05', 1.69, '2025-11-11');
 
 -- --------------------------------------------------------
 
@@ -63,6 +58,46 @@ CREATE TABLE `feedback` (
   `comment` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `holidays`
+--
+
+CREATE TABLE `holidays` (
+  `id` int(11) NOT NULL,
+  `holiday_date` date NOT NULL,
+  `holiday_name` varchar(255) NOT NULL,
+  `holiday_type` enum('Regular','Special') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `holidays`
+--
+
+INSERT INTO `holidays` (`id`, `holiday_date`, `holiday_name`, `holiday_type`) VALUES
+(1, '2025-01-01', 'New Year\'s Day', 'Regular'),
+(2, '2025-04-01', 'Eid\'l Fitr', 'Regular'),
+(3, '2025-04-09', 'Araw ng Kagitingan', 'Regular'),
+(4, '2025-04-17', 'Maundy Thursday', 'Regular'),
+(5, '2025-04-18', 'Good Friday', 'Regular'),
+(6, '2025-05-01', 'Labor Day', 'Regular'),
+(7, '2025-06-06', 'Eidul Adha', 'Regular'),
+(8, '2025-06-12', 'Independence Day', 'Regular'),
+(9, '2025-08-25', 'National Heroes Day', 'Regular'),
+(10, '2025-11-30', 'Bonifacio Day', 'Regular'),
+(11, '2025-12-25', 'Christmas Day', 'Regular'),
+(12, '2025-12-30', 'Rizal Day', 'Regular'),
+(13, '2025-08-21', 'Ninoy Aquino Day', 'Special'),
+(14, '2025-11-01', 'All Saints\' Day', 'Special'),
+(15, '2025-12-08', 'Feast of the Immaculate Conception of Mary', 'Special'),
+(16, '2025-12-31', 'Last Day of the Year', 'Special'),
+(17, '2025-01-29', 'Chinese New Year', 'Special'),
+(18, '2025-04-19', 'Black Saturday', 'Special'),
+(19, '2025-05-12', 'National and Local Elections', 'Special'),
+(20, '2025-12-24', 'Christmas Eve', 'Special'),
+(21, '2025-10-31', 'All Saints\' Day Eve', 'Special');
 
 -- --------------------------------------------------------
 
@@ -109,7 +144,7 @@ INSERT INTO `inventory` (`id`, `item_id`, `product_name`, `category`, `supplier`
 (16, 'MLK-001', 'Condensed Milk (1kg)', 'Ingredients', 'Doreen', 20, 'pcs', 0.00, 0.00, 5, 'Available', '2025-11-07 23:40:05'),
 (17, 'MTC-001', 'Matcha Powder', 'Ingredients', 'Injoy', 20, 'packs', 0.00, 0.00, 5, 'Available', '2025-11-07 23:40:05'),
 (18, 'ORE-001', 'Crushed Oreo', 'Ingredients', 'Default Supplier', 5, 'packs', 0.00, 0.00, 3, 'Available', '2025-11-07 23:40:05'),
-(19, 'MLK-002', 'Milk Boxes', 'Ingredients', 'Arla Barista Milk', 20, 'boxes', 0.00, 0.00, 5, 'Available', '2025-11-07 23:40:05'),
+(19, 'MLK-002', 'Barista Milk', 'Ingredients', 'Arla', 20, 'boxes', 0.00, 0.00, 5, 'Available', '2025-11-08 22:13:07'),
 (20, 'ICE-001', 'Ice', 'Daily Consumables', 'Default Supplier', 4, 'sacks', 0.00, 0.00, 2, 'Low Stock', '2025-11-08 12:12:42'),
 (21, 'WTR-001', 'Mineral Water', 'Daily Consumables', 'Default Supplier', 4, 'gallons', 0.00, 0.00, 2, 'Low Stock', '2025-11-08 12:12:46');
 
@@ -221,10 +256,7 @@ CREATE TABLE `sales` (
 --
 
 INSERT INTO `sales` (`id`, `sale_date`, `shift`, `barista`, `total_quantity`, `total_amount`, `created_at`) VALUES
-(1, '2025-09-15', 'Morning', 'Administrator', 6, 680.00, '2025-09-15 13:44:28'),
-(2, '2025-09-15', 'Morning', 'Administrator', 6, 690.00, '2025-09-15 15:04:59'),
-(3, '2025-09-15', 'Evening', 'Administrator', 1, 110.00, '2025-09-15 16:22:33'),
-(4, '2025-10-30', 'Afternoon', 'Barista One', 5, 550.00, '2025-10-30 10:29:01');
+(1, '2025-11-11', 'Evening', 'Barista One', 13, 1290.00, '2025-11-11 15:00:40');
 
 -- --------------------------------------------------------
 
@@ -246,13 +278,32 @@ CREATE TABLE `sales_items` (
 --
 
 INSERT INTO `sales_items` (`id`, `sale_id`, `product_id`, `quantity`, `unit_price`, `total`) VALUES
-(16, 1, 7, 2, 90.00, 180.00),
-(17, 1, 36, 3, 130.00, 390.00),
-(18, 1, 41, 1, 110.00, 110.00),
-(25, 2, 46, 3, 120.00, 360.00),
-(26, 2, 26, 3, 110.00, 330.00),
-(31, 3, 8, 1, 110.00, 110.00),
-(33, 4, 8, 5, 110.00, 550.00);
+(1, 1, 10, 6, 110.00, 660.00),
+(2, 1, 17, 7, 90.00, 630.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suppliers`
+--
+
+CREATE TABLE `suppliers` (
+  `id` int(11) NOT NULL,
+  `supplier_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `suppliers`
+--
+
+INSERT INTO `suppliers` (`id`, `supplier_name`) VALUES
+(1, 'Doking'),
+(2, 'Premium Bubbles'),
+(3, 'Torani'),
+(4, 'Doreen'),
+(5, 'Injoy'),
+(6, 'Arla'),
+(7, 'Default Supplier');
 
 -- --------------------------------------------------------
 
@@ -267,16 +318,18 @@ CREATE TABLE `users` (
   `username` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('Administrator','Manager','Barista') NOT NULL DEFAULT 'Barista',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `picture` varchar(255) DEFAULT '/roast-ms/assets/images/default-150x150.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_id`, `name`, `username`, `password`, `role`, `created_at`) VALUES
-(1, '49e349af-d80e-45a8-8336-ce45deafcfc9', 'Administrator', 'admin', '$2y$10$qi29r7qJZSfmD5P/hw3HtuVdaUWmhi1Y8ZM3mu6cJFruMin6Mw.o.', 'Administrator', '2025-02-25 03:41:34'),
-(2, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', 'barista', '$2y$10$.c3aVFs/.dpn4BsozGJAnO7dYXWkbAI0CrPecS/XuhV2Pa9jDDEPi', 'Barista', '2025-02-25 03:42:52');
+INSERT INTO `users` (`id`, `user_id`, `name`, `username`, `password`, `role`, `created_at`, `picture`) VALUES
+(1, '49e349af-d80e-45a8-8336-ce45deafcfc9', 'Administrator', 'admin', '$2y$10$qi29r7qJZSfmD5P/hw3HtuVdaUWmhi1Y8ZM3mu6cJFruMin6Mw.o.', 'Administrator', '2025-02-25 03:41:34', '/roast-ms/assets/images/default-150x150.png'),
+(2, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', 'barista', '$2y$10$y1GeEfjSMyf.5vlowkaicu4/MhQhNXsaHWsKgj.K3ZV0SOZofuo4q', 'Barista', '2025-02-25 03:42:52', '/roast-ms/uploads/profile_97e360af-b535-4ab1-974d-968e2056179b_1762865602.png'),
+(5, 'a09601b7-e0b8-4281-829b-04040f40e099', 'Manager', 'manager', '$2y$10$9sYaX2aclWsZL/YjVeJraOKI1hU89b8VCCVYPleVm7jeHfSVSZMkK', 'Manager', '2025-11-11 13:51:13', '/roast-ms/assets/images/default-150x150.png');
 
 --
 -- Indexes for dumped tables
@@ -292,6 +345,12 @@ ALTER TABLE `dtr_logs`
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `holidays`
+--
+ALTER TABLE `holidays`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -328,6 +387,12 @@ ALTER TABLE `sales_items`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `suppliers`
+--
+ALTER TABLE `suppliers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -343,13 +408,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `dtr_logs`
 --
 ALTER TABLE `dtr_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `holidays`
+--
+ALTER TABLE `holidays`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `inventory`
@@ -373,19 +444,25 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sales_items`
 --
 ALTER TABLE `sales_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `suppliers`
+--
+ALTER TABLE `suppliers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
