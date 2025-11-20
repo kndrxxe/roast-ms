@@ -60,7 +60,7 @@ checkRole(['Manager']);
               </li>
           </li>
           <li class="user-footer">
-            <a href="/roast-ms/pages/admin/settings" class="btn btn-default btn-flat">Settings</a>
+            <a href="/roast-ms/pages/manager/settings" class="btn btn-default btn-flat">Settings</a>
             <a href="/roast-ms/logout" class="btn btn-default btn-flat float-end">Log out</a>
           </li>
         </ul>
@@ -123,13 +123,14 @@ checkRole(['Manager']);
                 <p>Inventory Management</p>
               </a>
             </li>
-            <li class="nav-header">USERS</li>
+            <!--<li class="nav-header">USERS</li>
             <li class="nav-item">
               <a href="usermanagement.php" class="nav-link">
                 <i class="nav-icon bi bi-person-gear"></i>
                 <p>User Management</p>
               </a>
             </li>
+-->
           </ul>
         </nav>
       </div>

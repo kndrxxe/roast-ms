@@ -230,13 +230,14 @@ checkRole(['Manager']);
                 <p>Inventory Management</p>
               </a>
             </li>
+            <!--
             <li class="nav-header">USERS</li>
             <li class="nav-item">
               <a href="usermanagement.php" class="nav-link">
                 <i class="nav-icon bi bi-person-gear"></i>
                 <p>User Management</p>
               </a>
-            </li>
+            </li>-->
           </ul>
         </nav>
       </div>

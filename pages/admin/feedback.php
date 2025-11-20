@@ -282,7 +282,21 @@ checkRole(['Administrator']); // Only Administrator can access
                 'prompt',
                 'efficient',
                 'value for money',
-                'instagrammable'
+                'instagrammable',
+                // Positive extras
+                'pleasant',
+                'delightful',
+                'superb',
+                'enjoyable',
+                'instagrammable',
+                'worth it',
+                'fantastic',
+                'cozy',
+                'relaxing',
+                'efficient',
+                'prompt',
+                'polite',
+                'generous'
               ];
 
               $negative_words = [
@@ -341,16 +355,73 @@ checkRole(['Administrator']); // Only Administrator can access
                 'sticky',
                 'overbrewed',
                 'underbrewed',
-                'unhygienic'
+                'unhygienic',
+                'frustrating',
+                'annoying',
+                'inconvenient',
+                'slow service',
+                'overpriced',
+                'disappointing',
+                'messy table',
+                'sticky floor',
+                'broken',
+                'unhygienic',
+                'poor quality',
+                'bad taste',
+                'overcrowded'
               ];
               // ✅ Tagalog → English Translation Dictionary (same as before)
               function translateTagalogToEnglish($text)
               {
+
+                $lowerText = strtolower($text);
+                $lowerText = preg_replace('/hindi\s+(.*?)\s*masarap/', 'not delicious', $lowerText);
+                $lowerText = preg_replace('/di\s+(.*?)\s*masarap/', 'not delicious', $lowerText);
+                $lowerText = preg_replace('/d\s+(.*?)\s*masarap/', 'not delicious', $lowerText);
+                $lowerText = preg_replace('/hindi\s+maganda/', 'not good', $lowerText);
+                $lowerText = preg_replace('/di\s+maganda/', 'not good', $lowerText);
+                $lowerText = preg_replace('/super\s+(delicious|good|fast|clean)/', '$1', $lowerText);
+                $lowerText = preg_replace('/sobrang\s+(delicious|good|fast|clean)/', '$1', $lowerText);
+                $lowerText = preg_replace('/grabe\s+(delicious|good|fast|clean)/', '$1', $lowerText);
+                $lowerText = preg_replace('/napaka\s+(delicious|good|fast|clean)/', '$1', $lowerText);
+
                 $dictionary = [
+                  // Positive
+                  'napakasarap' => 'very delicious',
+                  'napakaganda' => 'very beautiful',
+                  'napakabait' => 'very friendly',
+                  'nakakarelax' => 'relaxing',
+                  'sulit' => 'worth it',
+                  'panalo' => 'excellent',
+                  'astig' => 'awesome',
+                  'super sarap' => 'very delicious',
+                  'sobrang sarap' => 'very delicious',
+                  'ang sarap' => 'delicious',
+                  'cozy' => 'comfortable',
+                  'komportable' => 'comfortable',
+                  // Negative
+                  'pangit' => 'ugly',
+                  'marumi' => 'dirty',
+                  'masikip' => 'crowded',
+                  'mabagal' => 'slow',
+                  'matagal' => 'long wait',
+                  'di ok' => 'not good',
+                  'nakakainis' => 'annoying',
+                  'nakakaasar' => 'annoying',
+                  'hassle' => 'inconvenient',
+                  'sira' => 'broken',
+                  'walang lasa' => 'tasteless',
+                  'hilaw' => 'undercooked',
+                  'sunog' => 'burnt',
+                  'malabnaw' => 'watery',
+                  'mapait' => 'bitter',
+                  'matabang' => 'bland',
+                  'maasim' => 'sour',
                   // Multi-word first
                   'pangit na serbisyo' => 'bad service',
                   'sobrang tamis' => 'too sweet',
                   'hindi masarap' => 'not delicious',
+                  'hindi siya masarap' => 'not delicious',
                   'hindi presko' => 'not fresh',
                   'hindi maayos' => 'messy',
                   'hindi malinis' => 'not clean',
@@ -399,6 +470,87 @@ checkRole(['Administrator']); // Only Administrator can access
                   'sirang aircon' => 'broken aircon',
                   'masikip' => 'crowded',
 
+                  // --- STRONG NEGATIVE PHRASES ---
+                  'hindi siya masarap' => 'not delicious',
+                  'di siya masarap' => 'not delicious',
+                  'di masarap' => 'not delicious',
+                  'di ko gusto' => 'i do not like it',
+                  'd ko gusto' => 'i do not like it',
+                  'hindi ko gusto' => 'i do not like it',
+                  'hindi ko nagustuhan' => 'i did not like it',
+                  'di ko nagustuhan' => 'i did not like it',
+                  'diko nagustuhan' => 'i did not like it',
+                  'hindi masarap yung' => 'not delicious',
+                  'di masarap yung' => 'not delicious',
+                  'hindi ok' => 'not good',
+                  'di ok' => 'not good',
+                  'diko gusto' => 'i do not like it',
+
+                  // --- STRONG POSITIVE PHRASES ---
+                  'ang sarap sobra' => 'very delicious',
+                  'grabe ang sarap' => 'very delicious',
+                  'grabeng sarap' => 'very delicious',
+                  'solid ang sarap' => 'very delicious',
+                  'sobrang sarap grabe' => 'very delicious',
+                  'ayos na ayos' => 'very good',
+                  'panalo sobra' => 'excellent',
+
+                  // --- MODERATE WORDS WITH IMPLIED SENTIMENT ---
+                  'pwede na' => 'okay',
+                  'ok lang' => 'neutral',
+                  'sakto lang' => 'just okay',
+                  'medyo masarap' => 'slightly delicious',
+                  'medyo hindi masarap' => 'not very delicious',
+                  'medyo hindi ok' => 'not good',
+                  'medyo hindi maganda' => 'not good',
+                  'medyo pangit' => 'a bit ugly',
+
+                  // --- SLANG / TAGLISH COMMON FEEDBACK ---
+                  'meh' => 'not good',
+                  'low quality' => 'bad',
+                  'high quality' => 'great',
+                  'not my type' => 'not good',
+                  'not worth it' => 'overpriced',
+                  'worth the price' => 'worth it',
+                  'value for money' => 'worth it',
+                  'pricey' => 'expensive',
+                  'super slow' => 'very slow',
+                  'super rude' => 'very rude',
+
+                  // --- FOOD SPECIFIC NEGATIVE ---
+                  'malabnaw' => 'watery',
+                  'hilaw' => 'undercooked',
+                  'sunog' => 'burnt',
+                  'maasim' => 'sour',
+                  'malansa' => 'fishy',
+                  'mapakla' => 'bitter',
+                  'walang lasa' => 'tasteless',
+
+                  // --- AMBIANCE / TOTAL EXPERIENCE ---
+                  'pangit ang ambience' => 'bad ambiance',
+                  'ganda ng ambience' => 'beautiful ambiance',
+                  'ambience' => 'ambiance',
+                  'malakas aircon' => 'cold',
+                  'mahina aircon' => 'hot',
+                  'sira ang aircon' => 'broken aircon',
+
+                  // --- COMMON CUSTOMER COMPLAINTS ---
+                  'mabagal ang serbisyo' => 'slow service',
+                  'nakakainis' => 'annoying',
+                  'nakakaasar' => 'annoying',
+                  'nakakadisappoint' => 'disappointing',
+                  'hassle' => 'inconvenient',
+                  'super hassle' => 'very inconvenient',
+                  'ang bagal' => 'slow',
+                  'grabeng bagal' => 'very slow',
+
+                  // --- COMMON PRAISE ---
+                  'napakabait' => 'very friendly',
+                  'napakabilis' => 'very fast',
+                  'napakasarap' => 'very delicious',
+                  'napakaganda' => 'very beautiful',
+                  'napakalinaw' => 'very clean',
+
                   // Single-word
                   'masarap' => 'delicious',
                   'malasa' => 'flavorful',
@@ -438,9 +590,6 @@ checkRole(['Administrator']); // Only Administrator can access
                   'ayos' => 'good',
                   'malupit' => 'amazing'
                 ];
-
-                $lowerText = strtolower($text);
-
                 // Replace longer phrases first (to avoid "sarap" catching inside "super sarap")
                 uksort($dictionary, function ($a, $b) {
                   return strlen($b) - strlen($a);
@@ -454,8 +603,17 @@ checkRole(['Administrator']); // Only Administrator can access
               }
 
               // ✅ Sentiment Analysis with Issue Tracking
-              function analyzeSentiment($text, $rating, $positive_words, $negative_words, &$positiveCount, &$negativeCount, &$neutralCount, &$issueCategories, &$issueCount)
-              {
+              function analyzeSentiment(
+                $text,
+                $rating,
+                $positive_words,
+                $negative_words,
+                &$positiveCount,
+                &$negativeCount,
+                &$neutralCount,
+                &$issueCategories,
+                &$issueCount
+              ) {
                 $text = strtolower($text);
                 $commentScore = 0;
 
@@ -463,16 +621,15 @@ checkRole(['Administrator']); // Only Administrator can access
 
                 foreach ($words as $i => $word) {
                   $word = trim($word, ".,!?");
-
                   $negation = ($i > 0 && in_array($words[$i - 1], ['not', 'never']));
 
                   if (in_array($word, $positive_words)) {
                     $commentScore += $negation ? -1 : 1;
                   }
+
                   if (in_array($word, $negative_words)) {
                     $commentScore += $negation ? 1 : -1;
 
-                    // Track issue category
                     foreach ($issueCategories as $category => $keywords) {
                       if (in_array($word, $keywords)) {
                         $issueCount[$category]++;
@@ -480,28 +637,92 @@ checkRole(['Administrator']); // Only Administrator can access
                     }
                   }
                 }
-                // --- Rating sentiment scoring ---
-                $rating = (int)$rating; // make sure it's an integer
-                $ratingScore = 0;
-                if ($rating <= 2) $ratingScore = -5; // heavy negative weight
+
+                // -----------------------------
+                // STEP 1: COMMENT-ONLY SENTIMENT
+                // -----------------------------
+                if ($commentScore > 0) $commentSentiment = "Positive";
+                elseif ($commentScore < 0) $commentSentiment = "Negative";
+                else $commentSentiment = "Neutral";
+
+                // -----------------------------
+                // STEP 2: APPLY RATING WEIGHT
+                // -----------------------------
+                $rating = (int)$rating;
+                if ($rating <= 2) $ratingScore = -5;
                 elseif ($rating == 3) $ratingScore = 0;
-                else $ratingScore = 5; // heavy positive weight
+                else $ratingScore = 5;
 
-                // --- Weighted combination ---
-                $totalScore = $ratingScore + $commentScore;
-                if ($totalScore > 0) {
-                  $positiveCount++;
-                  return "<span class='badge bg-success'>Positive</span>";
+                $weightedScore = $ratingScore + $commentScore;
+
+                // -----------------------------
+                // STEP 3: INITIAL FINAL SENTIMENT
+                // -----------------------------
+                if ($weightedScore > 0) $finalSentiment = "Positive";
+                elseif ($weightedScore < 0) $finalSentiment = "Negative";
+                else $finalSentiment = "Neutral";
+
+                // -----------------------------
+                // STEP 4: MISMATCH DETECTION
+                // -----------------------------
+                $mismatch = false;
+
+                // Positive rating but negative comment  
+                if ($rating >= 4 && $commentSentiment == "Negative") {
+                  $mismatch = true;
                 }
-                if ($totalScore < 0) {
-                  $negativeCount++;
-                  return "<span class='badge bg-danger'>Negative</span>";
+
+                // Negative rating but positive comment  
+                if ($rating <= 2 && $commentSentiment == "Positive") {
+                  $mismatch = true;
                 }
-                $neutralCount++;
-                return "<span class='badge bg-secondary'>Neutral</span>";
+
+                // 3-star but extreme written sentiment  
+                if ($rating == 3 && abs($commentScore) >= 3) {
+                  $mismatch = true;
+                }
+
+                // -----------------------------
+                // STEP 5: OVERRIDE IF MISMATCH
+                // -----------------------------
+                if ($mismatch) {
+                  // TRUST COMMENT, IGNORE STAR WEIGHT
+                  $finalSentiment = $commentSentiment;
+                }
+
+                // -----------------------------
+                // STEP 6: UPDATE COUNTS
+                // -----------------------------
+                if ($finalSentiment == "Positive") $positiveCount++;
+                elseif ($finalSentiment == "Negative") $negativeCount++;
+                else $neutralCount++;
+
+                // -----------------------------
+                // STEP 7: RETURN
+                // -----------------------------
+                return [
+                  "badge" =>
+                  "<span class='badge bg-" .
+                    ($finalSentiment == "Positive" ? "success" : ($finalSentiment == "Negative" ? "danger" : "secondary")) .
+                    "'>$finalSentiment</span>",
+
+                  "mismatch" => $mismatch
+                ];
               }
-              ?>
 
+              ?>
+              <div class="mb-3 d-flex justify-content-end align-items-center gap-2">
+                <label for="ratingFilter" class="form-label">Filter:</label>
+                <select id="ratingFilter" class="form-select" style="width:150px; border: 1px solid #212529; box-shadow: none;">
+                  <option value="" selected disabled hidden>Rating</option>
+                  <option value="">All Ratings</option>
+                  <option value="★">★</option>
+                  <option value="★★">★★</option>
+                  <option value="★★★">★★★</option>
+                  <option value="★★★★">★★★★</option>
+                  <option value="★★★★★">★★★★★</option>
+                </select>
+              </div>
               <table id="myTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
                   <tr class="fs-6 text-center">
@@ -515,7 +736,7 @@ checkRole(['Administrator']); // Only Administrator can access
                 <tbody>
                   <?php while ($row = $result->fetch_assoc()):
                     $translated_comment = translateTagalogToEnglish($row['comment']);
-                    $sentiment = analyzeSentiment(
+                    $analysis = analyzeSentiment(
                       $translated_comment,
                       $row['rating'],
                       $positive_words,
@@ -530,9 +751,13 @@ checkRole(['Administrator']); // Only Administrator can access
                     <tr class="text-center">
                       <td><?= htmlspecialchars($row['name']) ?></td>
                       <td><?= htmlspecialchars($row['email']) ?></td>
-                      <td style="color: #FFD700;"><?= str_repeat(' ★ ', $row['rating']) ?></td>
+                      <td style="color: #FFD700;"><?= str_repeat('★', $row['rating']) ?></td>
                       <td><?= htmlspecialchars($row['comment']) ?></td>
-                      <td><?= $sentiment ?></td>
+                      <td><?= $analysis['badge'] ?>
+                        <?php if ($analysis['mismatch']): ?>
+                          <span class="badge bg-dark text-light">⚠️ Mismatch</span>
+                        <?php endif; ?>
+                      </td>
                     </tr>
                   <?php endwhile; ?>
                 </tbody>
@@ -633,6 +858,22 @@ checkRole(['Administrator']); // Only Administrator can access
           },
         });
       }
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      var table = new DataTable('#myTable'); // initialize DataTable
+
+      // Filter by Rating dropdown
+      $('#ratingFilter').on('change', function() {
+        var value = $(this).val(); // selected value
+        if (value) {
+          table.column(2).search('^' + value + '$', true, false).draw();
+        } else {
+          // Show all rows
+          table.column(2).search('').draw();
+        }
+      });
     });
   </script>
 
