@@ -713,7 +713,7 @@ checkRole(['Manager']);
 
               ?>
               <div class="mb-3 d-flex justify-content-end align-items-center gap-2">
-                <label for="ratingFilter" class="form-label">Filter:</label>
+                <label for="filter" class="form-label">Filter:</label>
                 <select id="ratingFilter" class="form-select" style="width:150px; border: 1px solid #212529; box-shadow: none;">
                   <option value="" selected disabled hidden>Rating</option>
                   <option value="">All Ratings</option>
