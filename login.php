@@ -155,6 +155,10 @@ if (isset($_SESSION['username'])) {
         echo "toastr.error('" . $_SESSION['usernotfound'] . "', 'Login Error');";
         unset($_SESSION['usernotfound']);
       }
+      if (isset($_SESSION['sessionexpired'])) {
+        echo "toastr.error('" . $_SESSION['sessionexpired'] . "', 'Session Expired');";
+        unset($_SESSION['sessionexpired']);
+      }
       ?>
     });
   </script>

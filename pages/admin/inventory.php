@@ -488,7 +488,7 @@ checkRole(['Administrator']); // Only Administrator can access
                           <!-- Stock Value -->
                           <div class="col-md-4">
                             <div class="form-floating">
-                              <input type="number" min="0" step="0.01" value="0.00" class="form-control" id="stock_value" name="stock_value" placeholder="Auto-calculated" readonly />
+                              <input type="number" min="0" step="0.01" value="0.00" class="form-control readonly-input" id="stock_value" name="stock_value" placeholder="Auto-calculated" readonly />
                               <label for="stock_value">Stock Value (₱)</label>
                             </div>
                           </div>
