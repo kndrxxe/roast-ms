@@ -68,7 +68,7 @@ $result = $stmt->get_result();
                         title: '',
                         messageTop: 'AUDIT TRAIL - AXL ROSE CAFE',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6]
+                            columns: [0, 1, 2]
                         }
                     },
                     {
@@ -76,7 +76,7 @@ $result = $stmt->get_result();
                         title: '',
                         messageTop: 'AUDIT TRAIL - AXL ROSE CAFE',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6]
+                            columns: [0, 1, 2]
                         }
                     },
                     {
@@ -91,15 +91,15 @@ $result = $stmt->get_result();
                                 );
                             $(win.document.body).find('table')
                                 .addClass('compact')
-                                .css('font-size', '14pt');
+                                .css('font-size', '10pt');
                         },
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6]
+                            columns: [0, 1, 2]
                         }
                     }
                 ],
                 columnDefs: [{
-                    targets: [0, 1, 2, 3, 4, 5, 6]
+                    targets: [0, 1, 2]
                 }]
             });
         });
@@ -243,26 +243,18 @@ $result = $stmt->get_result();
                             <table id="auditTable" class="table table-hover table-bordered" style="width:100%">
                                 <thead>
                                     <tr class="fs-6">
-                                        <th>ID</th>
-                                        <th>User</th>
-                                        <th>Action</th>
-                                        <th>Table</th>
-                                        <th>Record ID</th>
-                                        <th>IP</th>
-                                        <th>Timestamp</th>
+                                        <th class="text-start">User</th>
+                                        <th class="text-start">Action</th>
+                                        <th class="text-start">Timestamp</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php if ($result && $result->num_rows > 0): ?>
                                         <?php while ($row = $result->fetch_assoc()): ?>
                                             <tr>
-                                                <td><?= $row['id'] ?></td>
-                                                <td><?= htmlspecialchars($row['username']) ?></td>
-                                                <td><?= htmlspecialchars($row['action']) ?></td>
-                                                <td><?= htmlspecialchars($row['table_name']) ?></td>
-                                                <td><?= $row['record_id'] ?></td>
-                                                <td><?= $row['ip_address'] ?></td>
-                                                <td><?= $row['created_at'] ?></td>
+                                                <td class="text-center"><?= htmlspecialchars($row['username']) ?></td>
+                                                <td class="text-center" width="60%"><?= htmlspecialchars($row['action']) ?></td>
+                                                <td class="text-center" width="20%"><?= $row['created_at'] ?></td>
                                             </tr>
                                         <?php endwhile; ?>
                                     <?php endif; ?>

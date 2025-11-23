@@ -401,12 +401,12 @@ checkRole(['Administrator']); // Only Administrator can access
                       echo "<td>{$row['product_name']}</td>";
                       echo "<td>{$row['category']}</td>";
                       echo "<td>{$row['supplier']}</td>";
-                      echo "<td>{$row['quantity_in_stock']}</td>";
+                      echo "<td class='text-center'>{$row['quantity_in_stock']}</td>";
                       echo "<td>{$row['unit_of_measure']}</td>";
                       echo "<td>₱" . number_format($row['cost_price'], 2) . "</td>";
                       echo "<td>₱" . number_format($row['selling_price'], 2) . "</td>";
                       echo "<td>₱" . number_format($row['stock_value'], 2) . "</td>";
-                      echo "<td>{$row['reorder_level']}</td>";
+                      echo "<td class='text-center'>{$row['reorder_level']}</td>";
                       echo "<td><span class='badge {$statusClass}'>{$status}</span></td>";
                       echo "<td>" . date("Y-m-d", strtotime($row['last_updated'])) . "</td>";
                       echo "</tr>";
