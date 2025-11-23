@@ -261,7 +261,17 @@ checkRole(['Administrator']); // Only Administrator can access
                 <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Out-of-stock items</span>
                   <span class="info-box-number attendance_status text-truncate">
-                    0
+                    <?php
+                    // Query to count items where quantity_in_stock = 0
+                    $query = "SELECT COUNT(*) AS out_of_stock_count FROM inventory WHERE quantity_in_stock = 0";
+                    $result = $conn->query($query);
+
+                    $outOfStockCount = 0;
+                    if ($result && $row = $result->fetch_assoc()) {
+                      $outOfStockCount = $row['out_of_stock_count'];
+                    }
+                    ?>
+                    <?php echo $outOfStockCount; ?>
                   </span>
                 </div>
               </div>
@@ -274,7 +284,20 @@ checkRole(['Administrator']); // Only Administrator can access
                 <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">Recently Added Items</span>
                   <span class="info-box-number inventory_status text-truncate">
-                    0
+                    <?php
+                    // Query to get the most recently added item
+                    $query = "SELECT product_name 
+          FROM inventory 
+          ORDER BY last_updated DESC 
+          LIMIT 1";
+                    $result = $conn->query($query);
+
+                    $recentItem = "No recent items";
+                    if ($result && $row = $result->fetch_assoc()) {
+                      $recentItem = $row['product_name'];
+                    }
+                    ?>
+                    <?php echo $recentItem; ?>
                   </span>
                 </div>
               </div>
@@ -348,12 +371,23 @@ checkRole(['Administrator']); // Only Administrator can access
 
                   if ($result && $result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                      $statusClass = match ($row['status']) {
+                      // Dynamically calculate status based on stock
+                      if ($row['quantity_in_stock'] == 0) {
+                        $status = 'Out of Stock';
+                      } elseif ($row['quantity_in_stock'] <= $row['reorder_level']) {
+                        $status = 'Low Stock';
+                      } else {
+                        $status = 'Available';
+                      }
+
+                      // Use the dynamically calculated status for the badge class
+                      $statusClass = match ($status) {
                         'Available' => 'bg-success text-white',
                         'Low Stock' => 'bg-warning text-dark',
                         'Out of Stock' => 'bg-danger text-white',
                         default => 'bg-secondary text-white'
                       };
+
 
                       echo "<tr class='text-center'>";
                       echo "<td class='text-center'>{$row['id']}</td>";
@@ -367,7 +401,7 @@ checkRole(['Administrator']); // Only Administrator can access
                       echo "<td>₱" . number_format($row['selling_price'], 2) . "</td>";
                       echo "<td>₱" . number_format($row['stock_value'], 2) . "</td>";
                       echo "<td>{$row['reorder_level']}</td>";
-                      echo "<td><span class='badge {$statusClass}'>{$row['status']}</span></td>";
+                      echo "<td><span class='badge {$statusClass}'>{$status}</span></td>";
                       echo "<td>" . date("Y-m-d", strtotime($row['last_updated'])) . "</td>";
                       echo "</tr>";
                     }
