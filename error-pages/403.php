@@ -16,8 +16,8 @@ http_response_code(403);
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <!-- Custom styles -->
-    <link rel="stylesheet" href="./assets/css/error-pages.css" />
-    <link rel="stylesheet" href="./assets/css/adminlte.css" />
+    <link rel="stylesheet" href="/roast-ms/assets/css/error-pages.css" />
+    <link rel="stylesheet" href="/roast-ms/assets/css/adminlte.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
         integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
 </head>
@@ -37,7 +37,7 @@ http_response_code(403);
         </div>
     </div>
 
-    <script src="./assets/js/script.js"></script>
+    <script src="../../assets/js/script.js"></script>
 </body>
 
 </html>

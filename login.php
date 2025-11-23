@@ -16,7 +16,6 @@ if (isset($_SESSION['username'])) {
   }
   exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +55,7 @@ if (isset($_SESSION['username'])) {
           <div class="input-group mb-3">
             <input id="username" type="text" name="username"
               value="<?php echo isset($_SESSION['entered_username']) ? htmlspecialchars($_SESSION['entered_username']) : ''; ?>"
-              onkeypress="return noSpace(event)" class="form-control form-control-md rounded-start-4" value=""
+              onkeypress="return noSpace(event)" class="form-control form-control-md rounded-start-4"
               placeholder="Username" required />
             <div class="input-group-text rounded-end-4"><span class="bi bi-person-lines-fill"></span></div>
             <div class="invalid-feedback">
