@@ -13,6 +13,7 @@ $timeout_duration = 600; // 600 seconds = 10 minutes
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
     session_unset();
     session_destroy();
+    session_start();
     $_SESSION['sessionexpired'] = "Your session has expired due to inactivity.";
     header("Location: /roast-ms/login.php?timeout=1");
     exit;
@@ -36,25 +37,26 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['role'])) {
 // 🧩 Helper Functions
 function checkRole($allowed_roles) {
     if (!in_array($_SESSION['role'], $allowed_roles)) {
-        $_SESSION['usernotfound'] = "You are not allowed to login";
+        session_start();
+        $_SESSION['access_denied'] = "You are not allowed to login";
         header("Location: /roast-ms/login.php");
         exit;
     }
 }
 
 function getUsername() {
-    return $_SESSION['username'] ?? 'Guest';
+    return $_SESSION['username'] ?? null;
 }
 
 function getFullname() {
-    return $_SESSION['name'] ?? 'Guest User';
+    return $_SESSION['name'] ?? null;
 }
 
 function getRole() {
-    return $_SESSION['role'] ?? 'Guest Role';
+    return $_SESSION['role'] ?? null;
 }
 
 function userID() {
-    return $_SESSION['uid'] ?? 'Guest UID';
+    return $_SESSION['uid'] ?? null;
 }
 ?>

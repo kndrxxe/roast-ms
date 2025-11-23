@@ -101,7 +101,7 @@ if (isset($_SESSION['username'])) {
       scrollbarAutoHide: 'leave',
       scrollbarClickScroll: true,
     };
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
       if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
         OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
@@ -115,7 +115,7 @@ if (isset($_SESSION['username'])) {
     });
   </script>
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       toastr.options = {
         closeButton: true,
         debug: false,
@@ -157,6 +157,10 @@ if (isset($_SESSION['username'])) {
       if (isset($_SESSION['sessionexpired'])) {
         echo "toastr.error('" . $_SESSION['sessionexpired'] . "', 'Session Expired');";
         unset($_SESSION['sessionexpired']);
+      }
+      if (isset($_SESSION['access_denied'])) {
+        echo "toastr.error('" . $_SESSION['access_denied'] . "', 'Access Denied');";
+        unset($_SESSION['access_denied']);
       }
       ?>
     });
