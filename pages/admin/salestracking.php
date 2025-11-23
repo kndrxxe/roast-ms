@@ -192,6 +192,12 @@ checkRole(['Administrator']); // Only Administrator can access
                 <p>User Management</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="audit-trail.php" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-pulse"></i>
+                <p>Audit Trail</p>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -1017,7 +1023,7 @@ checkRole(['Administrator']); // Only Administrator can access
       ?>
     });
   </script>
-    <script>
+  <script>
     document.getElementById('printSalesBtn').addEventListener('click', function() {
       // Clone modal content so we don't affect the actual modal
       const modalContentClone = document.querySelector('#viewSalesModal .modal-content').cloneNode(true);

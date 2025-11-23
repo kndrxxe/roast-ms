@@ -156,6 +156,12 @@ checkRole(['Administrator']); // Only Administrator can access
                 <p>User Management</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="audit-trail.php" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-pulse"></i>
+                <p>Audit Trail</p>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>

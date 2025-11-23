@@ -130,6 +130,12 @@ checkRole(['Administrator']);
                 <p>User Management</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="audit-trail.php" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-pulse"></i>
+                <p>Audit Trail</p>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -187,13 +193,13 @@ checkRole(['Administrator']);
                 <div class="info-box-content flex-grow-1 text-truncate">
                   <span class="info-box-text">No. of Employees</span>
                   <span class="info-box-number total_employees text-truncate"><?php
-                  $query = "SELECT id FROM users WHERE role='Barista'";
-                  $stmt = $conn->prepare($query);
-                  $stmt->execute();
-                  $result = $stmt->get_result();
-                  $row = $result->num_rows;
-                  echo $row;
-                  ?></span>
+                                                                              $query = "SELECT id FROM users WHERE role='Barista'";
+                                                                              $stmt = $conn->prepare($query);
+                                                                              $stmt->execute();
+                                                                              $result = $stmt->get_result();
+                                                                              $row = $result->num_rows;
+                                                                              echo $row;
+                                                                              ?></span>
                 </div>
               </div>
             </div>
@@ -267,7 +273,7 @@ checkRole(['Administrator']);
                             $result->execute();
                             $data = $result->get_result();
                             while ($row = $data->fetch_assoc()):
-                              ?>
+                            ?>
                               <tr class="text-center">
                                 <td><?= htmlspecialchars($row['sale_date']) ?></td>
                                 <td><?= htmlspecialchars($row['shift']) ?></td>
@@ -335,7 +341,7 @@ checkRole(['Administrator']);
       scrollbarAutoHide: 'leave',
       scrollbarClickScroll: true,
     };
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
       if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
         OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
