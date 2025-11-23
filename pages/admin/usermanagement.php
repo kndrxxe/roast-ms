@@ -214,7 +214,16 @@ checkRole(['Administrator']); // Only Administrator can access
       </div>
       <div class="app-content">
         <div class="container-fluid">
-          <div class="d-flex align-items-center justify-content-end mb-3">
+          <div class="d-flex align-items-center justify-content-end mb-3 gap-2">
+            <div class=" d-flex justify-content-end align-items-center gap-2">
+              <label for="roleFilter" class="form-label">Filter:</label>
+              <select id="roleFilter" class="form-select" style="width:150px; border: 1px solid #212529; box-shadow: none;">
+                <option value="" selected disabled hidden>Roles</option>
+                <option value="">All Roles</option>
+                <option value="Barista">Barista</option>
+                <option value="Manager">Manager</option>
+              </select>
+            </div>
             <button type="button" class="btn btn-md btn-dark fw-bold" data-bs-toggle="modal"
               data-bs-target="#addUserModal"><i class="bi bi-plus-circle">
               </i> Add User
@@ -580,6 +589,22 @@ checkRole(['Administrator']); // Only Administrator can access
       passwordInput.type = isPassword ? "text" : "password";
       toggleIcon.className = isPassword ? "bi bi-eye-slash-fill" : "bi bi-eye-fill";
     }
+  </script>
+  <script>
+    $(document).ready(function() {
+      var table = new DataTable('#userTable'); // initialize DataTable
+
+      // Filter by Rating dropdown
+      $('#roleFilter').on('change', function() {
+        var value = $(this).val(); // selected value
+        if (value) {
+          table.column(4).search('^' + value + '$', true, false).draw();
+        } else {
+          // Show all rows
+          table.column(4).search('').draw();
+        }
+      });
+    });
   </script>
 </body>
 

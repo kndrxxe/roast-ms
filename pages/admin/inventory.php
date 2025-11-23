@@ -50,7 +50,7 @@ checkRole(['Administrator']); // Only Administrator can access
             title: '',
             messageTop: 'INVENTORY - AXL ROSE CAFE',
             exportOptions: {
-              columns: [1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12]
+              columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
             }
           },
           {
@@ -58,7 +58,7 @@ checkRole(['Administrator']); // Only Administrator can access
             title: '',
             messageTop: 'INVENTORY - AXL ROSE CAFE',
             exportOptions: {
-              columns: [1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12]
+              columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
             }
           },
           {
@@ -76,7 +76,7 @@ checkRole(['Administrator']); // Only Administrator can access
                 .css('font-size', '14pt');
             },
             exportOptions: {
-              columns: [1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12]
+              columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
             }
           }
         ],
@@ -312,6 +312,16 @@ checkRole(['Administrator']); // Only Administrator can access
           </div>
           <div class="table-responsive">
             <div class="data_table">
+              <div class="mb-3 d-flex justify-content-end align-items-center gap-2">
+                <label for="statusFilter" class="form-label">Filter:</label>
+                <select id="statusFilter" class="form-select" style="width:150px; border: 1px solid #212529; box-shadow: none;">
+                  <option value="" selected disabled hidden>Status</option>
+                  <option value="">All Status</option>
+                  <option value="Available">Available</option>
+                  <option value="Low Stock">Low Stock</option>
+                  <option value="Out of Stock">Out of Stock</option>
+                </select>
+              </div>
               <table id="salesTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
                   <tr class="fs-6 text-center">
@@ -763,6 +773,22 @@ checkRole(['Administrator']); // Only Administrator can access
     $(document).ready(function() {
       $('.modal').on('hidden.bs.modal', function() {
         $(this).find('form')[0]?.reset();
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      var table = new DataTable('#salesTable'); // initialize DataTable
+
+      // Filter by Rating dropdown
+      $('#statusFilter').on('change', function() {
+        var value = $(this).val(); // selected value
+        if (value) {
+          table.column(11).search('^' + value + '$', true, false).draw();
+        } else {
+          // Show all rows
+          table.column(11).search('').draw();
+        }
       });
     });
   </script>

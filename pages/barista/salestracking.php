@@ -270,7 +270,7 @@ checkRole(['Barista']); // Only Barista can access
                                             </div>
                                             <div class="col-md-4">
                                                 <label class="fw-bold">Shift</label>
-                                                <select name="shift" class="form-control" required>
+                                                <select name="shift" class="form-select" required>
                                                     <option>Morning</option>
                                                     <option>Afternoon</option>
                                                     <option>Evening</option>
@@ -298,7 +298,7 @@ checkRole(['Barista']); // Only Barista can access
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <select name="product_id[]" class="form-control productSelect"
+                                                        <select name="product_id[]" class="form-select productSelect"
                                                             required>
                                                             <option value="">-- Select Product --</option>
                                                             <?php
@@ -381,7 +381,7 @@ checkRole(['Barista']); // Only Barista can access
                                             </div>
                                             <div class="col-md-4">
                                                 <label class="fw-bold">Shift</label>
-                                                <select name="shift" id="editShift" class="form-control" required>
+                                                <select name="shift" id="editShift" class="form-select" required>
                                                     <option>Morning</option>
                                                     <option>Afternoon</option>
                                                     <option>Evening</option>
@@ -734,7 +734,7 @@ checkRole(['Barista']); // Only Barista can access
                     const row = document.createElement("tr");
                     row.innerHTML = `
           <td>
-            <select name="product_id[]" class="form-control productSelect" required>
+            <select name="product_id[]" class="form-select productSelect" required>
               <option value="">-- Select Product --</option>
               <?php
                 $result = $conn->query("SELECT id, category, name, size, price FROM products ORDER BY category, name, size");
