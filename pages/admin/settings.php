@@ -129,7 +129,7 @@ checkRole(['Administrator']);
                                         </div>
                                         <div class="col-auto">
                                             <button type="button" class="btn btn-dark editbtn" data-bs-toggle="modal"
-                                                data-bs-target="#editUsernameModal">
+                                                data-bs-target="#editNameModal">
                                                 <i class="bi bi-pencil-fill"></i> Edit
                                             </button>
                                         </div>
@@ -177,6 +177,116 @@ checkRole(['Administrator']);
                                 </div>
                             </div>
                         </div>
+                        <!-- Change Name Modal -->
+                        <div class="modal fade" id="editNameModal" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Change Name
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="/roast-ms/pages/admin/api/update_user" method="POST" class="needs-validation" novalidate>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="update_id" id="update_id">
+                                            <div class="form-floating mb-2">
+                                                <input type="text" name="name" id="name" value="<?php echo getFullname() ?>"
+                                                    class="form-control" required>
+                                                <label for="name" class="form-label">Name</label>
+                                                <div class="invalid-feedback">
+                                                    Please enter your name.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-dark">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Change Username Modal -->
+                        <div class="modal fade" id="editUsernameModal" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Change Username
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="/roast-ms/pages/admin/api/update_user" method="POST" class="needs-validation" novalidate>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="update_id" id="update_id" value="<?php echo userID() ?>">
+                                            <div class="form-floating mb-2">
+                                                <input type="text" name="username" id="userName"
+                                                    class="form-control" value="<?php echo getUsername()?>" required>
+                                                <label for="username" class="form-label">Username</label>
+                                                <div class="invalid-feedback">
+                                                    Please enter your username.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-dark">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Change Password Modal -->
+                        <div class="modal fade" id="editPasswordModal" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Change Password
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="/roast-ms/pages/admin/api/update_user" method="POST" class="needs-validation" novalidate>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="update_id" id="update_id">
+                                            <div class="form-floating mb-3 position-relative">
+                                                <input id="editpassword"
+                                                    type="password"
+                                                    name="password"
+                                                    onkeypress="return noSpace(event)"
+                                                    class="form-control form-control-md rounded-3 mt-2"
+                                                    placeholder="Password" />
+                                                <label for="editpassword">Password</label>
+                                                <div class="invalid-feedback">Please enter your password.</div>
+
+                                                <!-- Eye Icon -->
+                                                <span class="position-absolute top-50 end-0 translate-middle-y me-3"
+                                                    onclick="toggleEditShowPassword()" style="cursor: pointer;">
+                                                    <i id="toggleeditIcon" class="bi bi-eye-fill"></i>
+                                                </span>
+                                            </div>     
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-dark">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -221,6 +331,25 @@ checkRole(['Administrator']);
             }
         });
     </script>
+      <script>
+    function toggleshowPassword() {
+      const passwordInput = document.getElementById("password");
+      const toggleIcon = document.getElementById("toggleIcon");
+      const isPassword = passwordInput.type === "password";
+
+      passwordInput.type = isPassword ? "text" : "password";
+      toggleIcon.className = isPassword ? "bi bi-eye-slash-fill" : "bi bi-eye-fill";
+    }
+
+    function toggleEditShowPassword() {
+      const passwordInput = document.getElementById("editpassword");
+      const toggleIcon = document.getElementById("toggleeditIcon");
+      const isPassword = passwordInput.type === "password";
+
+      passwordInput.type = isPassword ? "text" : "password";
+      toggleIcon.className = isPassword ? "bi bi-eye-slash-fill" : "bi bi-eye-fill";
+    }
+  </script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
         integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
     <script src="/roast-ms/assets/js/main.js"></script>
