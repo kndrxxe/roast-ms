@@ -136,6 +136,7 @@ checkRole(['Administrator']); // Only Administrator can access
                 <p>Sales Tracking and Forecasting</p>
               </a>
             </li>
+            <li class="nav-header">FEEDBACK</li>
             <li class="nav-item">
               <a class="nav-link active">
                 <i class="nav-icon bi bi-chat-left-quote"></i>

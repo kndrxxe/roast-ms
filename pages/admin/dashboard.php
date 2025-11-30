@@ -110,6 +110,7 @@ checkRole(['Administrator']);
                 <p>Sales Tracking and Forecasting</p>
               </a>
             </li>
+            <li class="nav-header">FEEDBACK</li>
             <li class="nav-item">
               <a href="feedback.php" class="nav-link">
                 <i class="nav-icon bi bi-chat-left-quote"></i>
