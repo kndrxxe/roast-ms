@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2025 at 06:08 PM
+-- Generation Time: Dec 02, 2025 at 03:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,7 +48,12 @@ INSERT INTO `audit_trail` (`id`, `user_id`, `username`, `action`, `table_name`, 
 (1, 2147483647, 'Barista One', 'Clocked in', 'dtr_logs', 4, NULL, '2025-11-24 00:43:26', '::1', '2025-11-23 16:43:26'),
 (2, 2147483647, 'Barista One', 'Clocked out', 'dtr_logs', 4, '2025-11-24 00:43:26', '2025-11-24 00:43:36', '::1', '2025-11-23 16:43:36'),
 (3, NULL, 'Barista One', 'Updated sale #46', 'sales & sales_items', 46, '{\"sale\":{\"id\":\"46\",\"sale_date\":\"2023-01-15\",\"shift\":\"Morning\",\"barista\":\"Barista One\",\"total_quantity\":\"8\",\"total_amount\":\"880.00\",\"created_at\":\"2025-11-21 00:31:32\"},\"items\":[{\"id\":\"125\",\"sale_id\":\"46\",\"product_id\":\"10\",\"quantity\":\"8\",\"unit_price\":\"110.00\",\"total\":\"880.00\"}]}', '{\"sale\":{\"sale_date\":\"2023-01-15\",\"shift\":\"Morning\",\"barista\":\"Barista One\",\"total_quantity\":10,\"total_amount\":1100},\"items\":[{\"product_id\":\"10\",\"quantity\":10,\"unit_price\":110,\"total\":1100}]}', '::1', '2025-11-23 16:45:37'),
-(4, 2147483647, 'Barista One', 'Updated profile picture', 'users', 2147483647, '/roast-ms/uploads/profile_97e360af-b535-4ab1-974d-968e2056179b_1763916458.png', '/roast-ms/uploads/profile_97e360af-b535-4ab1-974d-968e2056179b_1763916582.png', '::1', '2025-11-23 16:49:42');
+(4, 2147483647, 'Barista One', 'Updated profile picture', 'users', 2147483647, '/roast-ms/uploads/profile_97e360af-b535-4ab1-974d-968e2056179b_1763916458.png', '/roast-ms/uploads/profile_97e360af-b535-4ab1-974d-968e2056179b_1763916582.png', '::1', '2025-11-23 16:49:42'),
+(5, 0, 'Barista Two', 'Clocked in', 'dtr_logs', 5, NULL, '2025-11-30 10:42:52', '::1', '2025-11-30 02:42:52'),
+(6, NULL, 'Barista One', 'Updated sale #46', 'sales & sales_items', 46, '{\"sale\":{\"id\":\"46\",\"sale_date\":\"2023-01-15\",\"shift\":\"Morning\",\"barista\":\"Barista One\",\"total_quantity\":\"77\",\"total_amount\":\"7790.00\",\"created_at\":\"2025-11-21 00:31:32\"},\"items\":[{\"id\":\"132\",\"sale_id\":\"46\",\"product_id\":\"10\",\"quantity\":\"10\",\"unit_price\":\"110.00\",\"total\":\"1100.00\"},{\"id\":\"133\",\"sale_id\":\"46\",\"product_id\":\"37\",\"quantity\":\"10\",\"unit_price\":\"110.00\",\"total\":\"1100.00\"},{\"id\":\"134\",\"sale_id\":\"46\",\"product_id\":\"16\",\"quantity\":\"5\",\"unit_price\":\"110.00\",\"total\":\"550.00\"},{\"id\":\"135\",\"sale_id\":\"46\",\"product_id\":\"24\",\"quantity\":\"8\",\"unit_price\":\"110.00\",\"total\":\"880.00\"},{\"id\":\"136\",\"sale_id\":\"46\",\"product_id\":\"21\",\"quantity\":\"8\",\"unit_price\":\"90.00\",\"total\":\"720.00\"},{\"id\":\"137\",\"sale_id\":\"46\",\"product_id\":\"45\",\"quantity\":\"4\",\"unit_price\":\"100.00\",\"total\":\"400.00\"},{\"id\":\"138\",\"sale_id\":\"46\",\"product_id\":\"14\",\"quantity\":\"8\",\"unit_price\":\"110.00\",\"total\":\"880.00\"},{\"id\":\"139\",\"sale_id\":\"46\",\"product_id\":\"19\",\"quantity\":\"15\",\"unit_price\":\"90.00\",\"total\":\"1350.00\"},{\"id\":\"140\",\"sale_id\":\"46\",\"product_id\":\"3\",\"quantity\":\"9\",\"unit_price\":\"90.00\",\"total\":\"810.00\"}]}', '{\"sale\":{\"sale_date\":\"2023-01-15\",\"shift\":\"Morning\",\"barista\":\"Barista One\",\"total_quantity\":76,\"total_amount\":7700},\"items\":[{\"product_id\":\"10\",\"quantity\":10,\"unit_price\":110,\"total\":1100},{\"product_id\":\"37\",\"quantity\":10,\"unit_price\":110,\"total\":1100},{\"product_id\":\"16\",\"quantity\":5,\"unit_price\":110,\"total\":550},{\"product_id\":\"24\",\"quantity\":8,\"unit_price\":110,\"total\":880},{\"product_id\":\"21\",\"quantity\":8,\"unit_price\":90,\"total\":720},{\"product_id\":\"45\",\"quantity\":4,\"unit_price\":100,\"total\":400},{\"product_id\":\"14\",\"quantity\":8,\"unit_price\":110,\"total\":880},{\"product_id\":\"19\",\"quantity\":15,\"unit_price\":90,\"total\":1350},{\"product_id\":\"3\",\"quantity\":8,\"unit_price\":90,\"total\":720}]}', '::1', '2025-11-30 03:20:48'),
+(7, 0, 'Barista Two', 'Clocked out', 'dtr_logs', 5, '2025-11-30 10:42:52', '2025-12-02 22:00:36', '::1', '2025-12-02 14:00:36'),
+(8, 0, 'Barista Two', 'Clocked in', 'dtr_logs', 6, NULL, '2025-12-02 22:00:49', '::1', '2025-12-02 14:00:49'),
+(9, 0, 'Barista Two', 'Clocked out', 'dtr_logs', 6, '2025-12-02 22:00:49', '2025-12-02 22:00:51', '::1', '2025-12-02 14:00:51');
 
 -- --------------------------------------------------------
 
@@ -74,7 +79,9 @@ INSERT INTO `dtr_logs` (`id`, `user_id`, `name`, `time_in`, `time_out`, `total_h
 (1, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-11-11 20:53:45', '2025-11-11 22:35:05', 1.69, '2025-11-11'),
 (2, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-11-12 00:28:25', '2025-11-12 00:28:28', 0.00, '2025-11-12'),
 (3, 'a7c77dfd-7e24-4ea0-8946-785c4c7ae58a', 'Barista Two', '2025-11-21 00:59:31', '2025-11-21 00:59:33', 0.00, '2025-11-21'),
-(4, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-11-24 00:43:26', '2025-11-24 00:43:36', 0.00, '2025-11-24');
+(4, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', '2025-11-24 00:43:26', '2025-11-24 00:43:36', 0.00, '2025-11-24'),
+(5, '0', 'Barista Two', '2025-11-30 10:42:52', '2025-12-02 22:00:36', 11.30, '2025-11-30'),
+(6, '0', 'Barista Two', '2025-12-02 22:00:49', '2025-12-02 22:00:51', 0.00, '2025-12-02');
 
 -- --------------------------------------------------------
 
@@ -96,10 +103,10 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`id`, `rating`, `name`, `email`, `comment`, `created_at`) VALUES
-(5, 1, 'Kendrix Brosas', 'brosaskndrx05@gmail.com', 'Masarap', '2025-11-20 05:42:34'),
-(6, 5, 'Kendrix Brosas', 'brosaskndrx05@gmail.com', 'hindi siya masarap.', '2025-11-20 05:44:06'),
-(7, 4, 'Kendrix Brosas', 'brosaskndrx05@gmail.com', 'masarap', '2025-11-20 06:19:36'),
-(8, 1, 'Kendrix Brosas', 'brosaskndrx05@gmail.com', 'hindi masarap', '2025-11-23 15:44:43');
+(5, 1, 'Juana Dela Cruz', 'juanadelacruz@gmail.com', 'Masarap', '2025-11-20 05:42:34'),
+(6, 5, 'Antonio Reyes', 'reyesantonio@gmail.com', 'hindi siya masarap.', '2025-11-20 05:44:06'),
+(7, 4, 'Kimberly San Jose', 'sanjosekim@gmail.com', 'masarap', '2025-11-20 06:19:36'),
+(8, 1, 'Jolina Santillan', 'santillanjolly@gmail.com', 'hindi masarap', '2025-11-23 15:44:43');
 
 -- --------------------------------------------------------
 
@@ -334,7 +341,7 @@ INSERT INTO `sales` (`id`, `sale_date`, `shift`, `barista`, `total_quantity`, `t
 (35, '2024-03-17', 'Afternoon', 'Barista Two', 5, 450.00, '2025-11-20 16:31:32'),
 (36, '2025-12-01', 'Evening', 'Barista Three', 6, 660.00, '2025-11-20 16:31:32'),
 (37, '2023-06-09', 'Morning', 'Barista One', 5, 450.00, '2025-11-20 16:31:32'),
-(38, '2024-09-27', 'Afternoon', 'Barista Two', 6, 540.00, '2025-11-20 16:31:32'),
+(38, '2024-09-27', 'Afternoon', 'Barista Two', 44, 4640.00, '2025-11-20 16:31:32'),
 (39, '2025-01-11', 'Evening', 'Barista Three', 7, 630.00, '2025-11-20 16:31:32'),
 (40, '2023-08-30', 'Morning', 'Barista One', 4, 360.00, '2025-11-20 16:31:32'),
 (41, '2024-05-05', 'Afternoon', 'Barista Two', 5, 450.00, '2025-11-20 16:31:32'),
@@ -342,7 +349,7 @@ INSERT INTO `sales` (`id`, `sale_date`, `shift`, `barista`, `total_quantity`, `t
 (43, '2023-11-21', 'Morning', 'Barista One', 7, 630.00, '2025-11-20 16:31:32'),
 (44, '2024-12-25', 'Afternoon', 'Barista Two', 5, 450.00, '2025-11-20 16:31:32'),
 (45, '2025-06-30', 'Evening', 'Barista Three', 6, 540.00, '2025-11-20 16:31:32'),
-(46, '2023-01-15', 'Morning', 'Barista One', 10, 1100.00, '2025-11-20 16:31:32'),
+(46, '2023-01-15', 'Morning', 'Barista One', 76, 7700.00, '2025-11-20 16:31:32'),
 (47, '2024-04-28', 'Afternoon', 'Barista Two', 5, 450.00, '2025-11-20 16:31:32'),
 (48, '2025-09-05', 'Evening', 'Barista Three', 6, 540.00, '2025-11-20 16:31:32'),
 (49, '2023-03-07', 'Morning', 'Barista One', 6, 660.00, '2025-11-20 16:31:32'),
@@ -526,7 +533,20 @@ INSERT INTO `sales_items` (`id`, `sale_id`, `product_id`, `quantity`, `unit_pric
 (121, 59, 30, 1, 110.00, 110.00),
 (122, 49, 24, 6, 110.00, 660.00),
 (124, 34, 17, 10, 90.00, 900.00),
-(126, 46, 10, 10, 110.00, 1100.00);
+(127, 38, 22, 6, 110.00, 660.00),
+(128, 38, 16, 9, 110.00, 990.00),
+(129, 38, 4, 8, 110.00, 880.00),
+(130, 38, 26, 11, 110.00, 1210.00),
+(131, 38, 9, 10, 90.00, 900.00),
+(141, 46, 10, 10, 110.00, 1100.00),
+(142, 46, 37, 10, 110.00, 1100.00),
+(143, 46, 16, 5, 110.00, 550.00),
+(144, 46, 24, 8, 110.00, 880.00),
+(145, 46, 21, 8, 90.00, 720.00),
+(146, 46, 45, 4, 100.00, 400.00),
+(147, 46, 14, 8, 110.00, 880.00),
+(148, 46, 19, 15, 90.00, 1350.00),
+(149, 46, 3, 8, 90.00, 720.00);
 
 -- --------------------------------------------------------
 
@@ -578,7 +598,28 @@ INSERT INTO `users` (`id`, `user_id`, `name`, `username`, `password`, `role`, `c
 (2, '97e360af-b535-4ab1-974d-968e2056179b', 'Barista One', 'barista', '$2y$10$y1GeEfjSMyf.5vlowkaicu4/MhQhNXsaHWsKgj.K3ZV0SOZofuo4q', 'Barista', '2025-02-25 03:42:52', '/roast-ms/uploads/profile_97e360af-b535-4ab1-974d-968e2056179b_1763916582.png'),
 (5, 'a09601b7-e0b8-4281-829b-04040f40e099', 'Manager', 'manager', '$2y$10$9sYaX2aclWsZL/YjVeJraOKI1hU89b8VCCVYPleVm7jeHfSVSZMkK', 'Manager', '2025-11-11 13:51:13', '/roast-ms/assets/images/default-150x150.png'),
 (6, 'a7c77dfd-7e24-4ea0-8946-785c4c7ae58a', 'Barista Two', 'baristatwo', '$2y$10$/yg5iHCgJvey/DgdoI0hsuyi0gbnrLjifmJKxZ6wmUQPDwqVsjWh2', 'Barista', '2025-11-20 16:58:10', '/roast-ms/assets/images/default-150x150.png'),
-(7, '4c49a036-d4b8-4349-866e-1fe48ed92239', 'Barista Three', 'baristathree', '$2y$10$GiNKFOQnqxcxftuSOGyUd.X4pLm70JnWmDdJHAcuTL6dRaExaXqTa', 'Barista', '2025-11-20 16:58:38', '/roast-ms/assets/images/default-150x150.png');
+(7, '4c49a036-d4b8-4349-866e-1fe48ed92239', 'Barista Three', 'baristathree', '$2y$10$GiNKFOQnqxcxftuSOGyUd.X4pLm70JnWmDdJHAcuTL6dRaExaXqTa', 'Barista', '2025-11-20 16:58:38', '/roast-ms/assets/images/default-150x150.png'),
+(13, 'a4c92ee1-e4d1-4a68-991a-71adabd00922', 'Francis Diaz', 'francis.manager', '$2y$10$AadilYHVwt9sXTCUX/Q5neIXUTum/y/gCKt1r8SE8OLP/yg6lGBZS', 'Manager', '2024-02-01 01:13:55', '/roast-ms/assets/images/default-150x150.png'),
+(14, '57e92dc9-1087-4e57-a59d-2d8e52010bdf', 'Grace Lim', 'grace.manager', '$2y$10$IPDBcWVWzxxBclg6dFGsRebm7ebw7IjtUI4hwQc4pfWnpE9gvaaVy', 'Manager', '2024-02-02 04:31:14', '/roast-ms/assets/images/default-150x150.png'),
+(15, 'e3b42f88-8576-45f9-965d-3c0b3fb20a45', 'Henry Morris', 'henry.manager', '$2y$10$7gselZkCesT2.8QXSp7m9.G7pl7IUD782F69.z1QXwBFw3m.AYhXq', 'Manager', '2024-02-03 07:11:40', '/roast-ms/assets/images/default-150x150.png'),
+(16, 'd209c062-d85e-4cd9-a697-6744b95bc90e', 'Isabella Wright', 'isabella.manager', '$2y$10$X0I9tSesod0DhQk0/zNnuOh5OL9EpVMaVA34wZtyAktUVK9xIQjYy', 'Manager', '2024-02-04 02:04:00', '/roast-ms/assets/images/default-150x150.png'),
+(17, 'f98acbe0-60b4-4b0c-8257-1c987c7b2cff', 'John Rivera', 'john.manager', '$2y$10$J3mTAlfJYNtjD2NvXuoMJ.EHQcfIj1jx.v4ELgaAPkKadyEjkgs4a', 'Manager', '2024-02-05 10:50:39', '/roast-ms/assets/images/default-150x150.png'),
+(18, 'c5e9f25a-1d1f-4f2f-9f5b-ac0f4b12dc29', 'Karen Lopez', 'karen.barista', '$2y$10$9c7/DJ19eKEHPZ8PiCpYDuB4bFwUt18Rb4UeQbpvxVY8.aFBtZaOS', 'Barista', '2024-03-01 01:15:22', '/roast-ms/assets/images/default-150x150.png'),
+(19, 'ff218d56-13b1-41b4-9e16-4fadb59e4873', 'Leo Turner', 'leo.barista', '$2y$10$Lc903xI0YjcFLUEUVT4q.ulT7j4MEdZYuszwYzsRH3nKFc03XHZMW', 'Barista', '2024-03-01 01:20:11', '/roast-ms/assets/images/default-150x150.png'),
+(20, '4acba865-98c5-441c-b55b-1733bb22fe68', 'Mia Castro', 'mia.barista', '$2y$10$B7Z6nYgukxaeTT2ufPWV/ezKXB5opzmjFdRO/O7b4.Ml/pDkzxF3u', 'Barista', '2024-03-01 01:25:55', '/roast-ms/assets/images/default-150x150.png'),
+(21, 'a07ce9bb-d63c-4e88-a9f4-ecb5e9a05e21', 'Nate Cruz', 'nate.barista', '$2y$10$Zf1.hIaL.5yR.bTH0Fyrf.fea7zfrZaqYbNiUTOLdokA7Z62SX4cK', 'Barista', '2024-03-01 01:30:13', '/roast-ms/assets/images/default-150x150.png'),
+(22, '0fb529c5-80e3-43ac-9fcd-3d4a4ff2f267', 'Olivia Ramos', 'olivia.barista', '$2y$10$NjSfCfYGa/u3D9OSeQuItOhBK5NQ/JLqqy7/FnyVZ0BTcH0oCjeom', 'Barista', '2024-03-01 01:35:49', '/roast-ms/assets/images/default-150x150.png'),
+(23, '38e15e3e-49c6-4cf3-a9f7-0524fa819e3c', 'Paul Santos', 'paul.barista', '$2y$10$4oZzQIMKP8vustaxIqka6eDWWkbqjRp7wGtWn3Wlf0x8250oMVR4y', 'Barista', '2024-03-01 01:40:20', '/roast-ms/assets/images/default-150x150.png'),
+(24, 'df45ffe2-c85f-4e7d-86d9-f4179b4c6155', 'Quinn Morales', 'quinn.barista', '$2y$10$J4UlelMGl6l.fU7wJeWtAO.3uuyEYsVaCr3vZfsm6qOW9AI819A2O', 'Barista', '2024-03-01 01:45:02', '/roast-ms/assets/images/default-150x150.png'),
+(25, '3bbaa6a3-bd97-4725-8ec0-6ea6dcd8b20a', 'Rita Dy', 'rita.barista', '$2y$10$HIKBhXFmHkhi1G2dfxdxDeYPZRO0nfHvMM6SvWR.GQHWCF2CCcF0S', 'Barista', '2024-03-01 01:50:28', '/roast-ms/assets/images/default-150x150.png'),
+(26, 'e354cbb4-77ab-4cd3-a483-f0c021108e0c', 'Sam Uy', 'sam.barista', '$2y$10$jeVCyjX7qRAN/vPsDL1ALOZLltOnDi7LROyxXr30eBYTpSOLdhtGu', 'Barista', '2024-03-01 01:55:41', '/roast-ms/assets/images/default-150x150.png'),
+(27, 'cc587a10-a25d-4c39 afb3-9789ae330579', 'Tina Velasquez', 'tina.barista', '$2y$10$Vl4K.ga3RQchegJ4sVt1kuw3GJQClJUQah3wjUpV1q9ihbobx3rkq', 'Barista', '2024-03-01 02:00:03', '/roast-ms/assets/images/default-150x150.png'),
+(28, 'ba17b849-f2bb-4b82-bc56-e5f146a1a677', 'Ulysses Brown', 'ulysses.barista', '$2y$10$gr6kcLhxeVFO9fO01VNz5OB7hZn4f1jYfdllnxg7P1rhzf0j16O1S', 'Barista', '2024-03-01 02:05:51', '/roast-ms/assets/images/default-150x150.png'),
+(29, 'a55fd86c-9aa0-4b6a-991a-025c72f040f1', 'Vera Kim', 'vera.barista', '$2y$10$r5mYmF/bZQ/8XmjPX9v3ZeT2hVbhXIQwXZCUAWGS0FdT98pJtSx.y', 'Barista', '2024-03-01 02:10:22', '/roast-ms/assets/images/default-150x150.png'),
+(30, '5bc20e00-7399-4c5b-8718-a5132679333f', 'Will Tan', 'will.barista', '$2y$10$WHh/vTuH83a4XJM4Isf9jekxDMP6W6UWEOrlVqF6tDdZHURlI738q', 'Barista', '2024-03-01 02:15:40', '/roast-ms/assets/images/default-150x150.png'),
+(31, 'f736b8de-5797-47fd-8e48-7641d0928ec8', 'Xena Gatchalian', 'xena.barista', '$2y$10$FG6B2.OwN9uewyqtfcciQe4Bn8XuvnTCrHJRqF9z.UUL9/TXes0RC', 'Barista', '2024-03-01 02:20:56', '/roast-ms/assets/images/default-150x150.png'),
+(32, '5daec995-5491-4a88-bb0a-d9fb0e6bdc62', 'Yuri Gomez', 'yuri.barista', '$2y$10$5tWlmr9ma58LBtk13UjHkuNVsWNK02ysChiwo4kMZILTDKsgbtGsa', 'Barista', '2024-03-01 02:25:31', '/roast-ms/assets/images/default-150x150.png'),
+(33, '87e5f98b-e8a3-4ff8-b21f-4a3132f0949d', 'Zara Bautista', 'zara.barista', '$2y$10$yi4ajnOx07ffgcyf2xkehOKC14DDeoxtXQM27OKCHxQ4yxBrQMfk2', 'Barista', '2024-03-01 02:30:10', '/roast-ms/assets/images/default-150x150.png');
 
 --
 -- Indexes for dumped tables
@@ -663,13 +704,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `dtr_logs`
 --
 ALTER TABLE `dtr_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `feedback`
@@ -711,7 +752,7 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `sales_items`
 --
 ALTER TABLE `sales_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
@@ -723,7 +764,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Constraints for dumped tables
