@@ -557,27 +557,31 @@ checkRole(['Administrator']); // Only Administrator can access
       });
     });
   </script>
-  <script>
-    $(document).ready(function() {
+<script>
+  $(document).ready(function() {
 
-      $('.editbtn').on('click', function() {
+    // Use event delegation so clicks work on all pages
+    $(document).on('click', '.editbtn', function () {
 
-        $tr = $(this).closest('tr');
+      let $tr = $(this).closest('tr');
 
-        var data = $tr.children("td").map(function() {
-          return $(this).text().trim();
-        }).get();
+      let data = $tr.children("td").map(function() {
+        return $(this).text().trim();
+      }).get();
 
-        console.log(data);
+      console.log(data);
 
-        $('#update_id').val(data[0]);
-        $('#name').val(data[2]);
-        $('#userName').val(data[3]);
-        $('#Role').val(data[4]);
-        $('#editmodal').modal('show');
-      });
+      $('#update_id').val(data[0]);
+      $('#name').val(data[2]);
+      $('#userName').val(data[3]);
+      $('#Role').val(data[4]);
+
+      $('#editmodal').modal('show');
     });
-  </script>
+
+  });
+</script>
+
   <script>
     function toggleshowPassword() {
       const passwordInput = document.getElementById("password");
