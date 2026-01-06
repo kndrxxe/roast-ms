@@ -122,43 +122,141 @@ fetch("/roast-ms/pages/admin/api/get_sales_per_category.php")
 fetch('/roast-ms/pages/admin/api/get_sales_per_month.php')
   .then(res => res.json())
   .then(data => {
-    console.log('Monthly sales data:', data); // Debug
 
-    if (!data || !data.length) return;
+    if (!data || !data.length) {
+      console.warn('No sales data available');
+      return;
+    }
 
-    const categories = data.map(item => {
-      const year = Number(item.year);
-      const month = Number(item.month) - 1;
-      const date = new Date(year, month);
-      return date.toLocaleString('default', { month: 'short', year: 'numeric' });
+    // ----------------------------
+    // PREPARE DATA
+    // ----------------------------
+    const categories = [];
+    const salesData = [];
+
+    data.forEach(item => {
+      const date = new Date(item.year, item.month - 1);
+      categories.push(
+        date.toLocaleString('default', { month: 'short', year: 'numeric' })
+      );
+      salesData.push(Number(item.total_sales));
     });
 
-    const salesData = data.map(item => Number(item.total_sales));
+    // ----------------------------
+    // WEIGHTED MOVING AVERAGE
+    // ----------------------------
+    function weightedMovingAverage(data, weights = [0.2, 0.3, 0.5]) {
+      if (data.length < weights.length) return data[data.length - 1];
 
+      return weights.reduce((sum, weight, i) => {
+        return sum + data[data.length - weights.length + i] * weight;
+      }, 0);
+    }
+
+    // ----------------------------
+    // TREND CALCULATION
+    // ----------------------------
+    function calculateTrend(data) {
+      if (data.length < 2) return 0;
+      return data[data.length - 1] - data[data.length - 2];
+    }
+
+    // ----------------------------
+    // PREDICTIVE MODEL
+    // ----------------------------
+    function predictSales(data, months = 6) {
+      const predictions = [];
+      let tempData = [...data];
+
+      for (let i = 0; i < months; i++) {
+        const base = weightedMovingAverage(tempData);
+        const trend = calculateTrend(tempData);
+        const next = Math.max(0, Math.round(base + trend * 0.6));
+
+        predictions.push(next);
+        tempData.push(next);
+      }
+      return predictions;
+    }
+
+    const forecastMonths = 6;
+    const forecastData = predictSales(salesData, forecastMonths);
+
+    // ----------------------------
+    // ADD FUTURE MONTH LABELS
+    // ----------------------------
+    const lastDate = new Date(
+      data[data.length - 1].year,
+      data[data.length - 1].month - 1
+    );
+
+    for (let i = 1; i <= forecastMonths; i++) {
+      const next = new Date(lastDate);
+      next.setMonth(lastDate.getMonth() + i);
+      categories.push(
+        next.toLocaleString('default', { month: 'short', year: 'numeric' })
+      );
+    }
+
+    // ----------------------------
+    // APEXCHARTS CONFIG
+    // ----------------------------
     const options = {
-      chart: { height: 350, type: "line" },
-      series: [{ name: "Monthly Sales", data: salesData }],
-      xaxis: { categories: categories },
-      yaxis: { title: { text: "Sales Amount (₱)" } },
-      stroke: { width: 4 },
-      colors: ["#247BA0"],
-      dataLabels: { enabled: false },
+      chart: {
+        height: 350,
+        type: "line",
+        toolbar: { show: true }
+      },
+      series: [
+        {
+          name: "Actual Sales",
+          data: salesData.concat(Array(forecastMonths).fill(null))
+        },
+        {
+          name: "Predicted Sales",
+          data: Array(salesData.length).fill(null).concat(forecastData)
+        }
+      ],
+      xaxis: {
+        categories
+      },
+      yaxis: {
+        title: {
+          text: "Sales Amount (₱)"
+        }
+      },
+      stroke: {
+        width: 4,
+        dashArray: [0, 6]
+      },
+      colors: ["#247BA0", "#F6AE2D"],
+      dataLabels: {
+        enabled: false
+      },
       tooltip: {
         shared: true,
-        intersect: false,
-        y: { formatter: val => "₱" + val.toLocaleString() }
+        y: {
+          formatter: val => val ? "₱" + val.toLocaleString() : ""
+        }
       },
-      legend: { horizontalAlign: "left", offsetX: 40 }
+      legend: {
+        position: "top",
+        horizontalAlign: "left"
+      }
     };
 
+    // ----------------------------
+    // RENDER CHART
+    // ----------------------------
     const chartEl = document.querySelector("#charte");
     if (chartEl) {
       new ApexCharts(chartEl, options).render();
     } else {
-      console.warn('Chart container "#charte" not found.');
+      console.error('Chart container #charte not found');
     }
+
   })
-  .catch(err => console.error('Error fetching sales per month:', err));
+  .catch(err => console.error('Sales prediction error:', err));
 //-----------------------
 // - END Sales per Month CHART -
 //----
