@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2026 at 05:59 PM
+-- Generation Time: Jan 27, 2026 at 11:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -126,7 +126,7 @@ CREATE TABLE `holidays` (
 --
 
 INSERT INTO `holidays` (`id`, `holiday_date`, `holiday_name`, `holiday_type`) VALUES
-(1, '2025-01-01', 'New Year\'s Day', 'Regular'),
+(1, '2026-01-01', 'New Year\'s Day', 'Regular'),
 (2, '2025-04-01', 'Eid\'l Fitr', 'Regular'),
 (3, '2025-04-09', 'Araw ng Kagitingan', 'Regular'),
 (4, '2025-04-17', 'Maundy Thursday', 'Regular'),
@@ -137,12 +137,12 @@ INSERT INTO `holidays` (`id`, `holiday_date`, `holiday_name`, `holiday_type`) VA
 (9, '2025-08-25', 'National Heroes Day', 'Regular'),
 (10, '2025-11-30', 'Bonifacio Day', 'Regular'),
 (11, '2025-12-25', 'Christmas Day', 'Regular'),
-(12, '2025-12-30', 'Rizal Day', 'Regular'),
+(12, '2026-12-30', 'Rizal Day', 'Regular'),
 (13, '2025-08-21', 'Ninoy Aquino Day', 'Special'),
 (14, '2025-11-01', 'All Saints\' Day', 'Special'),
 (15, '2025-12-08', 'Feast of the Immaculate Conception of Mary', 'Special'),
-(16, '2025-12-31', 'Last Day of the Year', 'Special'),
-(17, '2025-01-29', 'Chinese New Year', 'Special'),
+(16, '2026-12-31', 'Last Day of the Year', 'Special'),
+(17, '2026-02-17', 'Chinese New Year', 'Special'),
 (18, '2025-04-19', 'Black Saturday', 'Special'),
 (19, '2025-05-12', 'National and Local Elections', 'Special'),
 (20, '2025-12-24', 'Christmas Eve', 'Special'),
